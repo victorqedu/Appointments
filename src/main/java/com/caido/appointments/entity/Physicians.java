@@ -29,16 +29,20 @@ import javax.persistence.Table;
 public class Physicians implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @Column(name = "stencil_no")
     private String stencilNo;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPhysicians")
     private Collection<Appointments> appointmentsCollection;
+    
     @JoinColumn(name = "id_personnel", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Personnel idPersonnel;
