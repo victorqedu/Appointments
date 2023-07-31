@@ -2,19 +2,19 @@ package com.caido.appointments.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  *
@@ -29,23 +29,27 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Physicianspecialities.findByValidfrom", query = "SELECT p FROM Physicianspecialities p WHERE p.validfrom = :validfrom"),
     @NamedQuery(name = "Physicianspecialities.findByValidto", query = "SELECT p FROM Physicianspecialities p WHERE p.validto = :validto")})
 public class Physicianspecialities implements Serializable {
-
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @Column(name = "idphysician")
     private int idphysician;
+    
     @Basic(optional = false)
     @Column(name = "validfrom")
     @Temporal(TemporalType.DATE)
     private Date validfrom;
+    
     @Column(name = "validto")
     @Temporal(TemporalType.DATE)
     private Date validto;
+    
     @JoinColumn(name = "idspeciality", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Specialities idspeciality;

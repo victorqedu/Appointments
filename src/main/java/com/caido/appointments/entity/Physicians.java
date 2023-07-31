@@ -1,25 +1,21 @@
 package com.caido.appointments.entity;
 
+import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-/**
- *
- * @author victor
- */
 @Entity
 @Table(name = "physicians")
 @NamedQueries({
@@ -40,8 +36,8 @@ public class Physicians implements Serializable {
     @Column(name = "stencil_no")
     private String stencilNo;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPhysicians")
-    private Collection<Appointments> appointmentsCollection;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPhysicians")
+//    private Collection<Appointments> appointmentsCollection;
     
     @JoinColumn(name = "id_personnel", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -75,13 +71,13 @@ public class Physicians implements Serializable {
         this.stencilNo = stencilNo;
     }
 
-    public Collection<Appointments> getAppointmentsCollection() {
-        return appointmentsCollection;
-    }
-
-    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
-        this.appointmentsCollection = appointmentsCollection;
-    }
+//    public Collection<Appointments> getAppointmentsCollection() {
+//        return appointmentsCollection;
+//    }
+//
+//    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
+//        this.appointmentsCollection = appointmentsCollection;
+//    }
 
     public Personnel getIdPersonnel() {
         return idPersonnel;

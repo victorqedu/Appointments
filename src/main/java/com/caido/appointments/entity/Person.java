@@ -1,22 +1,23 @@
 package com.caido.appointments.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  *
@@ -47,40 +48,62 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
+    @JsonIgnore
     @Basic(optional = false)
     @Column(name = "cnp")
     private String cnp;
+    
+    @JsonIgnore
     @Column(name = "biserial")
     private String biserial;
+    
+    @JsonIgnore
     @Column(name = "binumber")
     private String binumber;
+    
+    @JsonIgnore
     @Column(name = "cnnumber")
     private String cnnumber;
+    
+    @JsonIgnore
     @Column(name = "cnserial")
     private String cnserial;
+    
     @Column(name = "name")
     private String name;
+    
     @Column(name = "surname")
     private String surname;
+    
+    @JsonIgnore
     @Basic(optional = false)
     @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
     private Date birthdate;
+    
+    @JsonIgnore
     @Column(name = "cid")
     private String cid;
+    
     @Column(name = "decease_date")
     @Temporal(TemporalType.DATE)
     private Date deceaseDate;
+    
+    @JsonIgnore
     @Column(name = "cod_strain")
     private String codStrain;
+    
     @Column(name = "email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private Collection<Appointments> appointmentsCollection;
+    
     @OneToMany(mappedBy = "idpersoana")
     private Collection<Phone> phoneCollection;
+    
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idperson")
     private Personnel personnel;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private Collection<Email> emailCollection;
 
@@ -199,14 +222,6 @@ public class Person implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Collection<Appointments> getAppointmentsCollection() {
-        return appointmentsCollection;
-    }
-
-    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
-        this.appointmentsCollection = appointmentsCollection;
     }
 
     public Collection<Phone> getPhoneCollection() {

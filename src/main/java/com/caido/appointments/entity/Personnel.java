@@ -3,22 +3,22 @@ package com.caido.appointments.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  *
@@ -31,7 +31,6 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Personnel.findById", query = "SELECT p FROM Personnel p WHERE p.id = :id"),
     @NamedQuery(name = "Personnel.findByValidfrom", query = "SELECT p FROM Personnel p WHERE p.validfrom = :validfrom"),
     @NamedQuery(name = "Personnel.findByValidto", query = "SELECT p FROM Personnel p WHERE p.validto = :validto"),
-    @NamedQuery(name = "Personnel.findByIdConnectedUser", query = "SELECT p FROM Personnel p WHERE p.idConnectedUser = :idConnectedUser"),
     @NamedQuery(name = "Personnel.findByImagineBase64", query = "SELECT p FROM Personnel p WHERE p.imagineBase64 = :imagineBase64"),
     @NamedQuery(name = "Personnel.findByEmail", query = "SELECT p FROM Personnel p WHERE p.email = :email"),
     @NamedQuery(name = "Personnel.findByTelefon", query = "SELECT p FROM Personnel p WHERE p.telefon = :telefon"),
@@ -54,9 +53,6 @@ public class Personnel implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date validto;
     
-    @Column(name = "id_connected_user")
-    private Integer idConnectedUser;
-    
     @Basic(optional = false)
     @Lob
     @Column(name = "uid")
@@ -64,7 +60,7 @@ public class Personnel implements Serializable {
     
     @Column(name = "imagine_base64")
     private String imagineBase64;
-    
+
     @Column(name = "email")
     private String email;
     
@@ -74,18 +70,9 @@ public class Personnel implements Serializable {
     @Column(name = "imagine_angajat")
     private String imagineAngajat;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonnel")
-    private Collection<Appointments> appointmentsCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonnel")
-    private Collection<Physicians> physiciansCollection;
-    
     @JoinColumn(name = "idperson", referencedColumnName = "id")
     @OneToOne(optional = false)
     private Person idperson;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersonnel")
-    private Collection<PhysiciansWorkingSchedule> physiciansWorkingScheduleCollection;
 
     public Personnel() {
     }
@@ -122,14 +109,6 @@ public class Personnel implements Serializable {
 
     public void setValidto(Date validto) {
         this.validto = validto;
-    }
-
-    public Integer getIdConnectedUser() {
-        return idConnectedUser;
-    }
-
-    public void setIdConnectedUser(Integer idConnectedUser) {
-        this.idConnectedUser = idConnectedUser;
     }
 
     public Object getUid() {
@@ -172,21 +151,6 @@ public class Personnel implements Serializable {
         this.imagineAngajat = imagineAngajat;
     }
 
-    public Collection<Appointments> getAppointmentsCollection() {
-        return appointmentsCollection;
-    }
-
-    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
-        this.appointmentsCollection = appointmentsCollection;
-    }
-
-    public Collection<Physicians> getPhysiciansCollection() {
-        return physiciansCollection;
-    }
-
-    public void setPhysiciansCollection(Collection<Physicians> physiciansCollection) {
-        this.physiciansCollection = physiciansCollection;
-    }
 
     public Person getIdperson() {
         return idperson;
@@ -194,14 +158,6 @@ public class Personnel implements Serializable {
 
     public void setIdperson(Person idperson) {
         this.idperson = idperson;
-    }
-
-    public Collection<PhysiciansWorkingSchedule> getPhysiciansWorkingScheduleCollection() {
-        return physiciansWorkingScheduleCollection;
-    }
-
-    public void setPhysiciansWorkingScheduleCollection(Collection<PhysiciansWorkingSchedule> physiciansWorkingScheduleCollection) {
-        this.physiciansWorkingScheduleCollection = physiciansWorkingScheduleCollection;
     }
 
     @Override

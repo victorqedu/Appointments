@@ -2,17 +2,17 @@ package com.caido.appointments.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 /**
  *
@@ -28,21 +28,27 @@ import javax.persistence.Table;
 public class Specialities implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Column(name = "name")
     private String name;
+    
     @Column(name = "code")
     private String code;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSpeciality")
-    private Collection<Appointments> appointmentsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSpeciality")
-    private Collection<PhysiciansWorkingSchedule> physiciansWorkingScheduleCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idspeciality")
-    private Collection<Physicianspecialities> physicianspecialitiesCollection;
+    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSpeciality")
+//    private Collection<Appointments> appointmentsCollection;
+//    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSpeciality")
+//    private Collection<PhysiciansWorkingSchedule> physiciansWorkingScheduleCollection;
+//    
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idspeciality")
+//    private Collection<Physicianspecialities> physicianspecialitiesCollection;
 
     public Specialities() {
     }
@@ -75,29 +81,29 @@ public class Specialities implements Serializable {
         this.code = code;
     }
 
-    public Collection<Appointments> getAppointmentsCollection() {
-        return appointmentsCollection;
-    }
-
-    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
-        this.appointmentsCollection = appointmentsCollection;
-    }
-
-    public Collection<PhysiciansWorkingSchedule> getPhysiciansWorkingScheduleCollection() {
-        return physiciansWorkingScheduleCollection;
-    }
-
-    public void setPhysiciansWorkingScheduleCollection(Collection<PhysiciansWorkingSchedule> physiciansWorkingScheduleCollection) {
-        this.physiciansWorkingScheduleCollection = physiciansWorkingScheduleCollection;
-    }
-
-    public Collection<Physicianspecialities> getPhysicianspecialitiesCollection() {
-        return physicianspecialitiesCollection;
-    }
-
-    public void setPhysicianspecialitiesCollection(Collection<Physicianspecialities> physicianspecialitiesCollection) {
-        this.physicianspecialitiesCollection = physicianspecialitiesCollection;
-    }
+//    public Collection<Appointments> getAppointmentsCollection() {
+//        return appointmentsCollection;
+//    }
+//
+//    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
+//        this.appointmentsCollection = appointmentsCollection;
+//    }
+//
+//    public Collection<PhysiciansWorkingSchedule> getPhysiciansWorkingScheduleCollection() {
+//        return physiciansWorkingScheduleCollection;
+//    }
+//
+//    public void setPhysiciansWorkingScheduleCollection(Collection<PhysiciansWorkingSchedule> physiciansWorkingScheduleCollection) {
+//        this.physiciansWorkingScheduleCollection = physiciansWorkingScheduleCollection;
+//    }
+//
+//    public Collection<Physicianspecialities> getPhysicianspecialitiesCollection() {
+//        return physicianspecialitiesCollection;
+//    }
+//
+//    public void setPhysicianspecialitiesCollection(Collection<Physicianspecialities> physicianspecialitiesCollection) {
+//        this.physicianspecialitiesCollection = physicianspecialitiesCollection;
+//    }
 
     @Override
     public int hashCode() {
