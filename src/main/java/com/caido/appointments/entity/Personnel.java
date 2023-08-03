@@ -1,10 +1,7 @@
 package com.caido.appointments.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +11,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 
 /**
  *
@@ -47,11 +44,11 @@ public class Personnel implements Serializable {
     @Basic(optional = false)
     @Column(name = "validfrom")
     @Temporal(TemporalType.DATE)
-    private Date validfrom;
+    private LocalDate validfrom;
     
     @Column(name = "validto")
     @Temporal(TemporalType.DATE)
-    private Date validto;
+    private LocalDate validto;
     
     @Basic(optional = false)
     @Lob
@@ -81,7 +78,7 @@ public class Personnel implements Serializable {
         this.id = id;
     }
 
-    public Personnel(Integer id, Date validfrom, Object uid) {
+    public Personnel(Integer id, LocalDate validfrom, Object uid) {
         this.id = id;
         this.validfrom = validfrom;
         this.uid = uid;
@@ -95,19 +92,19 @@ public class Personnel implements Serializable {
         this.id = id;
     }
 
-    public Date getValidfrom() {
+    public LocalDate getValidfrom() {
         return validfrom;
     }
 
-    public void setValidfrom(Date validfrom) {
+    public void setValidfrom(LocalDate validfrom) {
         this.validfrom = validfrom;
     }
 
-    public Date getValidto() {
+    public LocalDate getValidto() {
         return validto;
     }
 
-    public void setValidto(Date validto) {
+    public void setValidto(LocalDate validto) {
         this.validto = validto;
     }
 

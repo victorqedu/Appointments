@@ -7,7 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 
 
 public interface PersonRepository extends JpaRepository<Person, Integer> {
-    @Query("SELECT c FROM Person c ORDER BY c.id DESC")
-    @Override
-    List<Person> findAll();
 }

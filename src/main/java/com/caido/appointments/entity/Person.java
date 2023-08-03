@@ -3,7 +3,6 @@ package com.caido.appointments.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,6 +17,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 
 /**
  *
@@ -80,7 +80,7 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
-    private Date birthdate;
+    private LocalDate birthdate;
     
     @JsonIgnore
     @Column(name = "cid")
@@ -88,7 +88,7 @@ public class Person implements Serializable {
     
     @Column(name = "decease_date")
     @Temporal(TemporalType.DATE)
-    private Date deceaseDate;
+    private LocalDate deceaseDate;
     
     @JsonIgnore
     @Column(name = "cod_strain")
@@ -114,7 +114,7 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public Person(Integer id, String cnp, Date birthdate) {
+    public Person(Integer id, String cnp, LocalDate birthdate) {
         this.id = id;
         this.cnp = cnp;
         this.birthdate = birthdate;
@@ -184,11 +184,11 @@ public class Person implements Serializable {
         this.surname = surname;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -200,11 +200,11 @@ public class Person implements Serializable {
         this.cid = cid;
     }
 
-    public Date getDeceaseDate() {
+    public LocalDate getDeceaseDate() {
         return deceaseDate;
     }
 
-    public void setDeceaseDate(Date deceaseDate) {
+    public void setDeceaseDate(LocalDate deceaseDate) {
         this.deceaseDate = deceaseDate;
     }
 

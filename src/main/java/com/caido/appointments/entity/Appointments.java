@@ -1,7 +1,6 @@
 package com.caido.appointments.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,21 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "appointments")
-@NamedQueries({
-    @NamedQuery(name = "Appointments.findAll", query = "SELECT a FROM Appointments a"),
-    @NamedQuery(name = "Appointments.findById", query = "SELECT a FROM Appointments a WHERE a.id = :id"),
-    @NamedQuery(name = "Appointments.findByOraProgramare", query = "SELECT a FROM Appointments a WHERE a.oraProgramare = :oraProgramare"),
-    @NamedQuery(name = "Appointments.findByMinuteEstimate", query = "SELECT a FROM Appointments a WHERE a.minuteEstimate = :minuteEstimate"),
-    @NamedQuery(name = "Appointments.findByOraConfirmare", query = "SELECT a FROM Appointments a WHERE a.oraConfirmare = :oraConfirmare"),
-    @NamedQuery(name = "Appointments.findByComments", query = "SELECT a FROM Appointments a WHERE a.comments = :comments")})
 public class Appointments implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +28,7 @@ public class Appointments implements Serializable {
     @Basic(optional = false)
     @Column(name = "ora_programare")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date oraProgramare;
+    private LocalDateTime oraProgramare;
     
     @Basic(optional = false)
     @Column(name = "minute_estimate")
@@ -45,7 +36,7 @@ public class Appointments implements Serializable {
     
     @Column(name = "ora_confirmare")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date oraConfirmare;
+    private LocalDateTime oraConfirmare;
     
     @Column(name = "comments")
     private String comments;
@@ -70,17 +61,15 @@ public class Appointments implements Serializable {
     @ManyToOne(optional = false)
     private Specialities idSpeciality;
 
+    @JoinColumn(name = "id_lab_tests_groups", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private LabTestsGroups idLabTestsGroups;
+
     public Appointments() {
     }
 
     public Appointments(Integer id) {
         this.id = id;
-    }
-
-    public Appointments(Integer id, Date oraProgramare, int minuteEstimate) {
-        this.id = id;
-        this.oraProgramare = oraProgramare;
-        this.minuteEstimate = minuteEstimate;
     }
 
     public Integer getId() {
@@ -91,11 +80,11 @@ public class Appointments implements Serializable {
         this.id = id;
     }
 
-    public Date getOraProgramare() {
+    public LocalDateTime getOraProgramare() {
         return oraProgramare;
     }
 
-    public void setOraProgramare(Date oraProgramare) {
+    public void setOraProgramare(LocalDateTime oraProgramare) {
         this.oraProgramare = oraProgramare;
     }
 
@@ -107,11 +96,11 @@ public class Appointments implements Serializable {
         this.minuteEstimate = minuteEstimate;
     }
 
-    public Date getOraConfirmare() {
+    public LocalDateTime getOraConfirmare() {
         return oraConfirmare;
     }
 
-    public void setOraConfirmare(Date oraConfirmare) {
+    public void setOraConfirmare(LocalDateTime oraConfirmare) {
         this.oraConfirmare = oraConfirmare;
     }
 
@@ -163,6 +152,14 @@ public class Appointments implements Serializable {
         this.idSpeciality = idSpeciality;
     }
 
+    public LabTestsGroups getIdLabTestsGroups() {
+        return idLabTestsGroups;
+    }
+
+    public void setIdLabTestsGroups(LabTestsGroups idLabTestsGroups) {
+        this.idLabTestsGroups = idLabTestsGroups;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -185,7 +182,7 @@ public class Appointments implements Serializable {
 
     @Override
     public String toString() {
-        return "com.caido.appointments.entity.Appointments[ id=" + id + " ]";
+        return "Appointments{" + "id=" + id + ", oraProgramare=" + oraProgramare + ", minuteEstimate=" + minuteEstimate + ", oraConfirmare=" + oraConfirmare + ", comments=" + comments + ", idAppointmentsTypes=" + idAppointmentsTypes + ", idPerson=" + idPerson + ", idPersonnel=" + idPersonnel + ", idPhysicians=" + idPhysicians + ", idSpeciality=" + idSpeciality + ", idLabTestsGroups=" + idLabTestsGroups + '}';
     }
-    
+        
 }

@@ -1,7 +1,6 @@
 package com.caido.appointments.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +14,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 
 /**
  *
@@ -44,11 +44,11 @@ public class Physicianspecialities implements Serializable {
     @Basic(optional = false)
     @Column(name = "validfrom")
     @Temporal(TemporalType.DATE)
-    private Date validfrom;
+    private LocalDate validfrom;
     
     @Column(name = "validto")
     @Temporal(TemporalType.DATE)
-    private Date validto;
+    private LocalDate validto;
     
     @JoinColumn(name = "idspeciality", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -59,12 +59,6 @@ public class Physicianspecialities implements Serializable {
 
     public Physicianspecialities(Integer id) {
         this.id = id;
-    }
-
-    public Physicianspecialities(Integer id, int idphysician, Date validfrom) {
-        this.id = id;
-        this.idphysician = idphysician;
-        this.validfrom = validfrom;
     }
 
     public Integer getId() {
@@ -83,19 +77,19 @@ public class Physicianspecialities implements Serializable {
         this.idphysician = idphysician;
     }
 
-    public Date getValidfrom() {
+    public LocalDate getValidfrom() {
         return validfrom;
     }
 
-    public void setValidfrom(Date validfrom) {
+    public void setValidfrom(LocalDate validfrom) {
         this.validfrom = validfrom;
     }
 
-    public Date getValidto() {
+    public LocalDate getValidto() {
         return validto;
     }
 
-    public void setValidto(Date validto) {
+    public void setValidto(LocalDate validto) {
         this.validto = validto;
     }
 
