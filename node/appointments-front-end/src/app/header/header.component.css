@@ -1,0 +1,45 @@
+* {
+  font-family: Tahoma !important;
+}
+
+.navbar-custom {
+  background-color: #4479D9;
+}
+
+.dropdown-menu {
+  background-color: #4479D9;
+  border:2px solid #000;
+}
+.navbar-custom .navbar-text {
+  color: #FAFAFA;
+}
+
+.navbar  {
+  border-bottom:2px solid #000;
+}
+
+a.navbar-brand:link, a.nav-link:link {
+  text-decoration: none;
+}
+
+a.navbar-brand:visited, a.nav-link:visited {
+  text-decoration: none;
+  color: #fff;
+}
+
+a.navbar-brand, a.nav-link {
+  color:#fff;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+a.navbar-brand:hover, a.nav-link:hover {
+  color: #fdec6e;
+  text-shadow:0px 0px 15px #fdec6e;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
