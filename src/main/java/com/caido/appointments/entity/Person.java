@@ -1,5 +1,9 @@
 package com.caido.appointments.entity;
 
+import static com.caido.appointments.Util.CNPStuff.checkCNP;
+import static com.caido.appointments.Util.CNPStuff.getBirthDate;
+import static com.caido.appointments.Util.CNPStuff.getSex;
+import static com.caido.appointments.Util.Functions.checkEmail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,8 +14,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -19,27 +21,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 
-/**
- *
- * @author victor
- */
 @Entity
 @Table(name = "person")
-@NamedQueries({
-    @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
-    @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
-    @NamedQuery(name = "Person.findByCnp", query = "SELECT p FROM Person p WHERE p.cnp = :cnp"),
-    @NamedQuery(name = "Person.findByBiserial", query = "SELECT p FROM Person p WHERE p.biserial = :biserial"),
-    @NamedQuery(name = "Person.findByBinumber", query = "SELECT p FROM Person p WHERE p.binumber = :binumber"),
-    @NamedQuery(name = "Person.findByCnnumber", query = "SELECT p FROM Person p WHERE p.cnnumber = :cnnumber"),
-    @NamedQuery(name = "Person.findByCnserial", query = "SELECT p FROM Person p WHERE p.cnserial = :cnserial"),
-    @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
-    @NamedQuery(name = "Person.findBySurname", query = "SELECT p FROM Person p WHERE p.surname = :surname"),
-    @NamedQuery(name = "Person.findByBirthdate", query = "SELECT p FROM Person p WHERE p.birthdate = :birthdate"),
-    @NamedQuery(name = "Person.findByCid", query = "SELECT p FROM Person p WHERE p.cid = :cid"),
-    @NamedQuery(name = "Person.findByDeceaseDate", query = "SELECT p FROM Person p WHERE p.deceaseDate = :deceaseDate"),
-    @NamedQuery(name = "Person.findByCodStrain", query = "SELECT p FROM Person p WHERE p.codStrain = :codStrain"),
-    @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email")})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,22 +36,6 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "cnp")
     private String cnp;
-    
-    @JsonIgnore
-    @Column(name = "biserial")
-    private String biserial;
-    
-    @JsonIgnore
-    @Column(name = "binumber")
-    private String binumber;
-    
-    @JsonIgnore
-    @Column(name = "cnnumber")
-    private String cnnumber;
-    
-    @JsonIgnore
-    @Column(name = "cnserial")
-    private String cnserial;
     
     @Column(name = "name")
     private String name;
@@ -86,10 +53,6 @@ public class Person implements Serializable {
     @Column(name = "cid")
     private String cid;
     
-    @Column(name = "decease_date")
-    @Temporal(TemporalType.DATE)
-    private LocalDate deceaseDate;
-    
     @JsonIgnore
     @Column(name = "cod_strain")
     private String codStrain;
@@ -104,20 +67,45 @@ public class Person implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "idperson")
     private Personnel personnel;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private Collection<Email> emailCollection;
+   @Column(name = "online_password")
+    private String onlinePassword;
+    public String getOnlinePassword() {
+        return onlinePassword;
+    }
+
+    public void setOnlinePassword(String onlinePassword) {
+        this.onlinePassword = onlinePassword;
+    }
+    
+    @Column(name = "idsex")
+    private Integer idsex;
+    public Integer getIdsex() {
+        return idsex;
+    }
+
+    public void setIdsex(Integer idsex) {
+        this.idsex = idsex;
+    }
+
+    @Column(name = "auth_email")
+    private String authEmail;
+    public String getAuthEmail() {
+        return authEmail;
+    }
+
+    public void setAuthEmail(String authEmail) {
+        if(checkEmail(authEmail)) {
+            this.authEmail = authEmail;
+        } else {
+            throw new RuntimeException("Email invalid "+authEmail);
+        }
+    }
 
     public Person() {
     }
 
     public Person(Integer id) {
         this.id = id;
-    }
-
-    public Person(Integer id, String cnp, LocalDate birthdate) {
-        this.id = id;
-        this.cnp = cnp;
-        this.birthdate = birthdate;
     }
 
     public Integer getId() {
@@ -133,39 +121,11 @@ public class Person implements Serializable {
     }
 
     public void setCnp(String cnp) {
-        this.cnp = cnp;
-    }
-
-    public String getBiserial() {
-        return biserial;
-    }
-
-    public void setBiserial(String biserial) {
-        this.biserial = biserial;
-    }
-
-    public String getBinumber() {
-        return binumber;
-    }
-
-    public void setBinumber(String binumber) {
-        this.binumber = binumber;
-    }
-
-    public String getCnnumber() {
-        return cnnumber;
-    }
-
-    public void setCnnumber(String cnnumber) {
-        this.cnnumber = cnnumber;
-    }
-
-    public String getCnserial() {
-        return cnserial;
-    }
-
-    public void setCnserial(String cnserial) {
-        this.cnserial = cnserial;
+        if(!cnp.equals("0000000000000") && checkCNP(cnp)) {
+            this.cnp = cnp;
+            this.setBirthdate(getBirthDate(cnp));
+            this.setIdsex(getSex(cnp));
+        }
     }
 
     public String getName() {
@@ -200,14 +160,6 @@ public class Person implements Serializable {
         this.cid = cid;
     }
 
-    public LocalDate getDeceaseDate() {
-        return deceaseDate;
-    }
-
-    public void setDeceaseDate(LocalDate deceaseDate) {
-        this.deceaseDate = deceaseDate;
-    }
-
     public String getCodStrain() {
         return codStrain;
     }
@@ -238,14 +190,6 @@ public class Person implements Serializable {
 
     public void setPersonnel(Personnel personnel) {
         this.personnel = personnel;
-    }
-
-    public Collection<Email> getEmailCollection() {
-        return emailCollection;
-    }
-
-    public void setEmailCollection(Collection<Email> emailCollection) {
-        this.emailCollection = emailCollection;
     }
 
     @Override

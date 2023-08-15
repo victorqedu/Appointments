@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+.bg_adn {
+  background-image: url('/assets/images/bg_adn.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
+.bg_lock {
+  background-image: url('/assets/images/bg_lock.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
+.bgerrimage {
+  background-image: url('/assets/images/err.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}

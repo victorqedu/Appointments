@@ -1,5 +1,6 @@
 package com.caido.appointments.config;
 
+import com.caido.appointments.repositories.PersonRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -19,8 +20,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
+    PersonRepository pr;
 
- @Override
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         System.out.println("Start JWTTokenGeneratorFilter");
@@ -29,6 +31,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
             String jwt = Jwts.builder().setIssuer(SecurityConstants.JWT_SUBJECT).setSubject("JWT Token")
                     .claim("username", authentication.getName())
+                    .claim("id", pr.findByEmail(authentication.getName()))
                     .claim("authorities", populateAuthorities(authentication.getAuthorities()))
                     .setIssuedAt(new Date())
                     .setExpiration(new Date((new Date()).getTime() + 30000000))
@@ -53,5 +56,5 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         }
         return String.join(",", authoritiesSet);
     }
-    
+
 }

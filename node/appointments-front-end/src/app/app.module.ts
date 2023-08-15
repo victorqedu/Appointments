@@ -5,10 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { BodyComponent } from './body/body.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FirstPageComponent } from './first-page/first-page.component';
 import { ContactComponent } from './contact/contact.component';
 import {ContactService} from "./contact/contact.service";
+import { CustomErrorComponent } from './custom-error/custom-error.component';
+import {GenericHttpInterceptor} from "./GenericHttpInterceptor";
+import {CustomErrorService} from "./custom-error/custom-error.service";
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +21,21 @@ import {ContactService} from "./contact/contact.service";
     HeaderComponent,
     BodyComponent,
     FirstPageComponent,
-    ContactComponent
+    ContactComponent,
+    CustomErrorComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ContactService],
+  providers: [{
+    provide : HTTP_INTERCEPTORS,
+    useClass : GenericHttpInterceptor,
+    multi : true
+  },ContactService, CustomErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
