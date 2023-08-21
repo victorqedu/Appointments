@@ -4,6 +4,7 @@ import static com.caido.appointments.Util.CNPStuff.checkCNP;
 import static com.caido.appointments.Util.CNPStuff.getBirthDate;
 import static com.caido.appointments.Util.CNPStuff.getSex;
 import static com.caido.appointments.Util.Functions.checkEmail;
+import static com.caido.appointments.Util.Functions.empty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
@@ -32,33 +33,24 @@ public class Person implements Serializable {
     @Column(name = "id")
     private Integer id;
     
-    @JsonIgnore
     @Basic(optional = false)
-    @Column(name = "cnp")
+    @Column(name = "cnp",nullable = false)
     private String cnp;
     
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     private String name;
     
-    @Column(name = "surname")
+    @Column(name = "surname",nullable = false)
     private String surname;
     
-    @JsonIgnore
     @Basic(optional = false)
-    @Column(name = "birthdate")
-    @Temporal(TemporalType.DATE)
+    @Column(name = "birthdate",nullable = false)
+    //@Temporal(TemporalType.DATE)
     private LocalDate birthdate;
     
     @JsonIgnore
     @Column(name = "cid")
     private String cid;
-    
-    @JsonIgnore
-    @Column(name = "cod_strain")
-    private String codStrain;
-    
-    @Column(name = "email")
-    private String email;
     
     @OneToMany(mappedBy = "idpersoana")
     private Collection<Phone> phoneCollection;
@@ -77,7 +69,7 @@ public class Person implements Serializable {
         this.onlinePassword = onlinePassword;
     }
     
-    @Column(name = "idsex")
+    @Column(name = "idsex", nullable = false)
     private Integer idsex;
     public Integer getIdsex() {
         return idsex;
@@ -121,11 +113,11 @@ public class Person implements Serializable {
     }
 
     public void setCnp(String cnp) {
-        if(!cnp.equals("0000000000000") && checkCNP(cnp)) {
-            this.cnp = cnp;
-            this.setBirthdate(getBirthDate(cnp));
-            this.setIdsex(getSex(cnp));
+        System.out.println("Start set cnp "+cnp);
+        if(empty(cnp)) {
+            cnp = "0000000000000";
         }
+        this.cnp = cnp;
     }
 
     public String getName() {
@@ -158,22 +150,6 @@ public class Person implements Serializable {
 
     public void setCid(String cid) {
         this.cid = cid;
-    }
-
-    public String getCodStrain() {
-        return codStrain;
-    }
-
-    public void setCodStrain(String codStrain) {
-        this.codStrain = codStrain;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Collection<Phone> getPhoneCollection() {
@@ -214,7 +190,26 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "com.caido.appointments.entity.Person[ id=" + id + " ]";
+        return "Person{" + "id=" + id + ", cnp=" + cnp + ", name=" + name + ", surname=" + surname + ", birthdate=" + birthdate + ", cid=" + cid + ", phoneCollection=" + phoneCollection + ", personnel=" + personnel + ", onlinePassword=" + onlinePassword + ", idsex=" + idsex + ", authEmail=" + authEmail + '}';
     }
-    
+
+    public boolean check() {
+        if(empty(getOnlinePassword())) {
+            throw new RuntimeException("Parola nu poate fi nula");
+        }
+        if(!empty(cnp) && !cnp.equals("0000000000000") && checkCNP(cnp)) {
+            this.setBirthdate(getBirthDate(cnp));
+            this.setIdsex(getSex(cnp));
+        } 
+        if(empty(getAuthEmail())) {
+            throw new RuntimeException("Trebuie sa specificati un email");
+        }
+        if(this.birthdate==null) {
+            throw new RuntimeException("Trebuie sa specificati data nasterii sau un cnp");
+        }
+        if(this.idsex==null) {
+            throw new RuntimeException("Trebuie sa specificati sexul sau un cnp");
+        }
+        return true;
+    }
 }

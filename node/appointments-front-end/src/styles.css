@@ -22,3 +22,18 @@
   height: auto;
   margin: 0;
 }
+
+input.ng-invalid.ng-touched {
+  border: #F34C51 1px solid;
+}
+
+/*input.ng-valid {
+  border: #8ce78c 2px solid;
+  !*background: url("/assets/images/check.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 0px 5px;
+  label {
+    opacity: 0;
+  }*!
+}*/

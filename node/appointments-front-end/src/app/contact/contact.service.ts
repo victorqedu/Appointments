@@ -17,5 +17,4 @@ export class ContactService {
     this.contact = contact;
     this.contactChanged.next(this.contact);
   }
-
 }

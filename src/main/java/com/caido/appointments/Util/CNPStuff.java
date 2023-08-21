@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 public class CNPStuff {
     public static boolean checkCNP(String cnp) {
+        System.out.println("Start check cnp "+cnp);
+
         if(cnp.equals("0000000000000")) {
             return true;
         }
@@ -57,6 +59,7 @@ public class CNPStuff {
         if(Objects.equals(rest, cn)) {
             return true;
         } else {
+            System.out.println("Check cnp "+cnp+"Cifra de control nu este corespunzatoare");
             throw new RuntimeException("Cifra de control nu este corespunzatoare "+rest+" != "+cn);
         }
     }

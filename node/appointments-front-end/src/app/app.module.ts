@@ -14,6 +14,8 @@ import {GenericHttpInterceptor} from "./GenericHttpInterceptor";
 import {CustomErrorService} from "./custom-error/custom-error.service";
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -27,9 +29,12 @@ import { SignupComponent } from './signup/signup.component';
     SignupComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [{
     provide : HTTP_INTERCEPTORS,

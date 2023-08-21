@@ -16,6 +16,9 @@ public class RootAdvice  {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleAllUncaughtException(Exception e, WebRequest request) {
         System.out.println("handlingRootException "+e);
+//        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+//                System.err.println(ste);
+//        }
         RootException re = new RootException(
                 e.getMessage()+"["+e.toString()+"]",
                 e,

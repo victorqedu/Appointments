@@ -20,8 +20,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
-    PersonRepository pr;
-
+    PersonRepository personRepository;
+    JWTTokenGeneratorFilter(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -31,7 +34,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
             String jwt = Jwts.builder().setIssuer(SecurityConstants.JWT_SUBJECT).setSubject("JWT Token")
                     .claim("username", authentication.getName())
-                    .claim("id", pr.findByEmail(authentication.getName()))
+                    .claim("id", personRepository.findByEmail(authentication.getName()).getId())
                     .claim("authorities", populateAuthorities(authentication.getAuthorities()))
                     .setIssuedAt(new Date())
                     .setExpiration(new Date((new Date()).getTime() + 30000000))

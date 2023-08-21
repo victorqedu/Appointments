@@ -10,47 +10,98 @@
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
-                  <form>
-
+                  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
                     <h5 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;">Creare cont</h5>
-                    <h6 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;"><i>Campurile marcate cu * sunt obligatorii</i></h6>
+                    <h6 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;"><i>Câmpurile marcate cu * sunt obligatorii</i></h6>
+                    <div class="row mb-3">
+                      <div class="col">
+                        <input type="text" id="name" class="form-control form-control-sg" [ngClass]="!signupForm.get('name')!.valid ? '' : 'is-valid'" formControlName="name"/>
+                        <label class="form-label" for="name">Nume*<br>
+                          <span *ngIf="!signupForm.get('name')!.valid && signupForm.get('name')!.touched" class="text-danger">Introduceți un nume</span>
+                        </label>
+                      </div>
 
-                    <div class="form-outline mb-3">
-                      <input type="email" id="nume" class="form-control form-control-lg" />
-                      <label class="form-label" for="nume">Nume*</label>
+                      <div class="col">
+                        <input type="text" id="surname" class="form-control form-control-sg" [ngClass]="!signupForm.get('surname')!.valid ? '' : 'is-valid'" formControlName="surname"/>
+                        <label class="form-label" for="surname">Prenume*<br>
+                          <span *ngIf="!signupForm.get('surname')!.valid && signupForm.get('surname')!.touched" class="text-danger">Introduceți un prenume</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col mb-3">
+                      <input type="text" id="cnp" class="form-control form-control-sg" [ngClass]="!signupForm.get('cnp')!.valid ? '' : 'is-valid'" formControlName="cnp" (ngModelChange)="setBirthDateAndSex($event)"/>
+                      <label class="form-label" for="cnp"> CNP(opțional, pentru afișarea istoricului pacientului)<br>
+                        <span *ngIf="!signupForm.get('cnp')!.valid && signupForm.get('cnp')!.touched" class="text-danger">
+                          <span *ngIf="signupForm.get('cnp')!.errors!['invalidCNP']" class="text-danger">{{signupForm.get('cnp')!.errors!['invalidCNP']}}</span>
+                        </span>
+                      </label>
+                    </div>
+
+                    <div class="row">
+                      <div class="col mb-3">
+                        <input type="date" id="birthDate" class="form-control form-control-sg" [ngClass]="!signupForm.get('birthDate')!.valid ? '' : 'is-valid'" formControlName="birthDate"/>
+                        <label class="form-label" for="birthDate">Data nașterii*<br>
+                          <label *ngIf="!signupForm.get('birthDate')!.valid && signupForm.get('birthDate')!.touched" class="text-danger">Introduceți data nasterii</label>
+                        </label>
+                      </div>
+                      <div class="col mb-3">
+                        <select id="sex" name="sex" class="form-control form-control-sg form-select" [ngClass]="!signupForm.get('sex')!.valid ? '' : 'is-valid'" formControlName="sex">
+                          <option></option>
+                          <option value="1">Masculin</option>
+                          <option value="2">Feminin</option>
+                        </select>
+                        <label class="form-label" for="sex"> Sex*<br>
+                          <label *ngIf="!signupForm.get('sex')!.valid && signupForm.get('sex')!.touched" class="text-danger">Completați sexul</label>
+                        </label>
+                      </div>
                     </div>
 
                     <div class="form-outline mb-3">
-                      <input type="email" id="prenume" class="form-control form-control-lg" />
-                      <label class="form-label" for="prenume">Prenume*</label>
+                      <input type="email" id="email" class="form-control form-control-sg" [ngClass]="!signupForm.get('email')!.valid ? '' : 'is-valid'" formControlName="email"/>
+                      <label class="form-label" for="email">Adresa email*<br>
+                        <label *ngIf="!signupForm.get('email')!.valid && signupForm.get('email')!.touched" class="text-danger">Introduceți căsuța poștală</label>
+                      </label>
                     </div>
 
                     <div class="form-outline mb-3">
-                      <input type="email" id="cnp" class="form-control form-control-lg" />
-                      <label class="form-label" for="cnp"> CNP(optional, pentru afisarea istoricului pacientului)</label>
+                      <input type="password" id="password" class="form-control form-control-sg" [ngClass]="!signupForm.get('password')!.valid ? '' : 'is-valid'" formControlName="password"/>
+                      <label class="form-label" for="password">Parola*<br>
+                        <span *ngIf="!signupForm.get('password')!.valid && signupForm.get('password')!.touched" class="text-danger">
+                          <span *ngIf="
+                            signupForm.get('password')!.hasOwnProperty('errors') &&
+                            signupForm.get('password')!.errors!==null &&
+                            signupForm.get('password')!.errors!.hasOwnProperty('invalidPassword') &&
+                            signupForm.get('password')!.errors!['invalidPassword']" class="text-danger">{{signupForm.get('password')!.errors!['invalidPassword']}}</span>
+                        </span>
+                      </label>
                     </div>
 
                     <div class="form-outline mb-3">
-                      <input type="email" id="form2Example17" class="form-control form-control-lg" />
-                      <label class="form-label" for="form2Example17">Adresa email*</label>
-                    </div>
-
-                    <div class="form-outline mb-3">
-                      <input type="password" id="password" class="form-control form-control-lg" />
-                      <label class="form-label" for="password">Parola*</label>
-                    </div>
-
-                    <div class="form-outline mb-3">
-                      <input type="password" id="passwordCheck" class="form-control form-control-lg" />
-                      <label class="form-label" for="passwordCheck">Verificare parola*</label>
+                      <input type="password" id="passwordCheck" class="form-control form-control-sg" [ngClass]="!signupForm.get('passwordCheck')!.valid ? '' : 'is-valid'" formControlName="passwordCheck"/>
+                      <label class="form-label" for="passwordCheck">Confirmare parolă*<br>
+                        <span *ngIf="!signupForm.get('passwordCheck')!.valid && signupForm.get('passwordCheck')!.touched" class="text-danger">
+                          <span *ngIf="
+                            signupForm.get('passwordCheck')!.hasOwnProperty('errors') &&
+                            signupForm.get('passwordCheck')!.errors!==null &&
+                            signupForm.get('passwordCheck')!.errors!.hasOwnProperty('invalidPassword') &&
+                            signupForm.get('passwordCheck')!.errors!['invalidPassword']" class="text-danger"><br>{{signupForm.get('passwordCheck')!.errors!['invalidPassword']}}</span>
+                        </span>
+                        <span *ngIf="
+                            signupForm!.hasOwnProperty('errors')
+                            && signupForm!.errors!==null
+                            && signupForm!.errors!.hasOwnProperty('passwordsDoNotMatch')"
+                            class="text-danger"><br>Parolele nu se potrivesc</span>
+                      </label>
                     </div>
 
                     <div class="pt-1 mb-4">
-                      <button class="btn btn-dark btn-lg btn-block" type="button">Conectare</button>
+                      <button class="btn btn-dark btn-lg btn-block" type="submit">Creare cont</button>
                     </div>
 
-                    <a href="#!" class="small text-muted">Termenii de utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="#!" class="small text-muted">Politica de confidențialitate</a>
+                    <a href="#!" class="small text-muted">Termeni utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#!" class="small text-muted">Politică confidențialitate</a>
+
                   </form>
                 </div>
               </div>
