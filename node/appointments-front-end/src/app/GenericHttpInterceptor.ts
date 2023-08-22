@@ -7,7 +7,6 @@ import {CustomError} from "./custom-error/custom-error.model";
 
 @Injectable()
 export class GenericHttpInterceptor implements HttpInterceptor {
-  //private errorService: any;
   private customErrorService: CustomErrorService;
   constructor(private router: Router, cs: CustomErrorService) {
     this.customErrorService = cs;

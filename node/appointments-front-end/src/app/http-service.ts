@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {Contact} from "./contact/contact.model";
 import {ContactService} from "./contact/contact.service";
 import {catchError, map, retry, tap, throwError} from "rxjs";
+import {Account} from "./models/account.model";
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -28,6 +29,9 @@ export class HttpService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }*/
 
+  /**
+   * Fetches the contact data for the current company
+   */
   getContact() {
     console.log("HttpService.getContact");
 
@@ -39,5 +43,17 @@ export class HttpService {
           }
         )
       );
+  }
+
+  storeSignup(account: Account) {
+    return this.http
+      .put(
+        this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/register",
+        account
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
+
   }
 }

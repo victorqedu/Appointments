@@ -2,7 +2,7 @@ import {CustomReturnType} from "../models/customReturnType";
 
 export class CommonFunctions {
   public static checkCNP(cnp: string):CustomReturnType {
-    console.log("start checkCNP for cnp "+cnp);
+    //console.log("start checkCNP for cnp "+cnp);
     if(cnp==="" || cnp===null) {
       return new CustomReturnType(true, '', '');
     }

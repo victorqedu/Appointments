@@ -1,3 +1,5 @@
+<app-modal-message (visibilityChanged)="setShowModal($event)" [show]="showModal" [title]="modalTitle" [description]="modalDescription">test</app-modal-message>
+
 <div class="bg_lock">
   <section>
     <div class="container py-5 h-100">
@@ -10,7 +12,7 @@
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
-                  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
                     <h5 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;">Creare cont</h5>
                     <h6 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;"><i>Câmpurile marcate cu * sunt obligatorii</i></h6>
                     <div class="row mb-3">
@@ -42,7 +44,7 @@
                       <div class="col mb-3">
                         <input type="date" id="birthDate" class="form-control form-control-sg" [ngClass]="!signupForm.get('birthDate')!.valid ? '' : 'is-valid'" formControlName="birthDate"/>
                         <label class="form-label" for="birthDate">Data nașterii*<br>
-                          <label *ngIf="!signupForm.get('birthDate')!.valid && signupForm.get('birthDate')!.touched" class="text-danger">Introduceți data nasterii</label>
+                          <label *ngIf="!signupForm.get('birthDate')!.valid && !signupForm.get('birthDate')!.disabled && signupForm.get('birthDate')!.touched" class="text-danger">Introduceți data nasterii</label>
                         </label>
                       </div>
                       <div class="col mb-3">
@@ -52,7 +54,7 @@
                           <option value="2">Feminin</option>
                         </select>
                         <label class="form-label" for="sex"> Sex*<br>
-                          <label *ngIf="!signupForm.get('sex')!.valid && signupForm.get('sex')!.touched" class="text-danger">Completați sexul</label>
+                          <label *ngIf="!signupForm.get('sex')!.valid && !signupForm.get('birthDate')!.disabled && signupForm.get('sex')!.touched" class="text-danger">Completați sexul</label>
                         </label>
                       </div>
                     </div>
@@ -98,9 +100,10 @@
                     <div class="pt-1 mb-4">
                       <button class="btn btn-dark btn-lg btn-block" type="submit">Creare cont</button>
                     </div>
-
+<!--
                     <a href="#!" class="small text-muted">Termeni utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="#!" class="small text-muted">Politică confidențialitate</a>
+-->
 
                   </form>
                 </div>

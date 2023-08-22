@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
+import { ModalMessageComponent } from './modal-message/modal-message.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {CommonModule} from "@angular/common";
     ContactComponent,
     CustomErrorComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ModalMessageComponent
   ],
   imports: [
     CommonModule,
