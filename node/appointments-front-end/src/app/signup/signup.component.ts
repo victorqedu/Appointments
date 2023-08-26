@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {CustomValidator, passwordValidator} from "../customValidators/customValidator";
 import {CommonFunctions} from "../commonFunctions/commonFunctions";
-import {HttpService} from "../http-service";
+import {HttpService} from "../services/http-service";
 import {Account} from "../models/account.model";
 
 @Component({

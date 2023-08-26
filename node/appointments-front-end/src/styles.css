@@ -18,7 +18,7 @@
   background-image: url('/assets/images/err.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 100vh;
+  /*min-height: 50vh;*/
   height: auto;
   margin: 0;
 }
@@ -37,3 +37,6 @@ input.ng-invalid.ng-touched {
     opacity: 0;
   }*!
 }*/
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

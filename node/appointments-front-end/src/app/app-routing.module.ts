@@ -2,7 +2,7 @@ import {inject, NgModule} from '@angular/core';
 import {ActivatedRouteSnapshot, ResolveFn, RouterModule, RouterStateSnapshot, Routes} from '@angular/router';
 import {FirstPageComponent} from "./first-page/first-page.component";
 import {ContactComponent} from "./contact/contact.component";
-import {HttpService} from "./http-service";
+import {HttpService} from "./services/http-service";
 import {ContactService} from "./contact/contact.service";
 import {CustomErrorComponent} from "./custom-error/custom-error.component";
 import {LoginComponent} from "./login/login.component";

@@ -1,5 +1,6 @@
-package com.caido.appointments.config;
+package com.caido.appointments.filters;
 
+import com.caido.appointments.config.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -23,10 +24,11 @@ public class JWTTokenValidatorFilter  extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String jwt = request.getHeader(SecurityConstants.JWT_HEADER).replaceFirst("Bearer ", "");
+        String jwt = request.getHeader(SecurityConstants.JWT_HEADER);
         System.out.println("JWTTokenValidatorFilter is "+jwt);
         if (null != jwt && !jwt.startsWith("Basic")) {
             try {
+                jwt = jwt.replaceFirst("Bearer ", "");
                 SecretKey key = Keys.hmacShaKeyFor(
                         SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
 

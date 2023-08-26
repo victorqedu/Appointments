@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ContactService} from "./contact.service";
 import {Contact} from "./contact.model";
-import {HttpService} from "../http-service";
+import {HttpService} from "../services/http-service";
 
 @Component({
   selector: 'app-contact',

@@ -1,15 +1,16 @@
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Contact} from "./contact/contact.model";
-import {ContactService} from "./contact/contact.service";
+import {Contact} from "../contact/contact.model";
+import {ContactService} from "../contact/contact.service";
 import {catchError, map, retry, tap, throwError} from "rxjs";
-import {Account} from "./models/account.model";
+import {Account} from "../models/account.model";
+import {Router} from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
   protected serverProtocol: string = "http";
   protected serverHost: string = "192.168.88.105";
-  protected serverPort: number = 8080;
+  protected serverPort: number = 8081;
   protected serverPrefix: string = "api";
 
   constructor(private http: HttpClient, private contactService: ContactService) {
@@ -47,13 +48,20 @@ export class HttpService {
 
   storeSignup(account: Account) {
     return this.http
-      .put(
+      .post(
         this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/register",
         account
       )
       .subscribe(response => {
         console.log(response);
       });
+  }
 
+  login(account: Account) {
+    sessionStorage.setItem("accountDetails",JSON.stringify(account));
+    let headers = new HttpHeaders();
+    headers = headers.append('Accept', 'application/json');
+    return this.http
+      .get(this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/login", { observe: 'response', headers});
   }
 }

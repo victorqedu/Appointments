@@ -1,7 +1,7 @@
 package com.caido.appointments.entity;
 
+import com.caido.appointments.Util.CNPStuff;
 import static com.caido.appointments.Util.CNPStuff.checkCNP;
-import static com.caido.appointments.Util.CNPStuff.getBirthDate;
 import static com.caido.appointments.Util.CNPStuff.getSex;
 import static com.caido.appointments.Util.Functions.checkEmail;
 import static com.caido.appointments.Util.Functions.empty;
@@ -18,8 +18,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 
 @Entity
@@ -46,7 +44,7 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "birthdate",nullable = false)
     //@Temporal(TemporalType.DATE)
-    private LocalDate birthdate;
+    private LocalDate birthDate;
     
     @JsonIgnore
     @Column(name = "cid")
@@ -70,13 +68,13 @@ public class Person implements Serializable {
     }
     
     @Column(name = "idsex", nullable = false)
-    private Integer idsex;
-    public Integer getIdsex() {
-        return idsex;
+    private Integer idSex;
+    public Integer getIdSex() {
+        return idSex;
     }
 
-    public void setIdsex(Integer idsex) {
-        this.idsex = idsex;
+    public void setIdSex(Integer idSex) {
+        this.idSex = idSex;
     }
 
     @Column(name = "auth_email")
@@ -136,12 +134,12 @@ public class Person implements Serializable {
         this.surname = surname;
     }
 
-    public LocalDate getBirthdate() {
-        return birthdate;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getCid() {
@@ -190,7 +188,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" + "id=" + id + ", cnp=" + cnp + ", name=" + name + ", surname=" + surname + ", birthdate=" + birthdate + ", cid=" + cid + ", phoneCollection=" + phoneCollection + ", personnel=" + personnel + ", onlinePassword=" + onlinePassword + ", idsex=" + idsex + ", authEmail=" + authEmail + '}';
+        return "Person{" + "id=" + id + ", cnp=" + cnp + ", name=" + name + ", surname=" + surname + ", birthdate=" + birthDate + ", cid=" + cid + ", phoneCollection=" + phoneCollection + ", personnel=" + personnel + ", onlinePassword=" + onlinePassword + ", idsex=" + idSex + ", authEmail=" + authEmail + '}';
     }
 
     public boolean check() {
@@ -198,16 +196,16 @@ public class Person implements Serializable {
             throw new RuntimeException("Parola nu poate fi nula");
         }
         if(!empty(cnp) && !cnp.equals("0000000000000") && checkCNP(cnp)) {
-            this.setBirthdate(getBirthDate(cnp));
-            this.setIdsex(getSex(cnp));
+            this.setBirthDate(CNPStuff.getBirthDate(cnp));
+            this.setIdSex(getSex(cnp));
         } 
         if(empty(getAuthEmail())) {
             throw new RuntimeException("Trebuie sa specificati un email");
         }
-        if(this.birthdate==null) {
+        if(this.birthDate==null) {
             throw new RuntimeException("Trebuie sa specificati data nasterii sau un cnp");
         }
-        if(this.idsex==null) {
+        if(this.idSex==null) {
             throw new RuntimeException("Trebuie sa specificati sexul sau un cnp");
         }
         return true;

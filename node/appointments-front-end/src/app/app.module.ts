@@ -17,6 +17,11 @@ import { SignupComponent } from './signup/signup.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import { ModalMessageComponent } from './modal-message/modal-message.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {ModalMessageService} from "./modal-message/modal-message-service";
+import {CommonService} from "./services/commonService";
 
 @NgModule({
   declarations: [
@@ -37,12 +42,15 @@ import { ModalMessageComponent } from './modal-message/modal-message.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatExpansionModule,
   ],
   providers: [{
     provide : HTTP_INTERCEPTORS,
     useClass : GenericHttpInterceptor,
     multi : true
-  },ContactService, CustomErrorService],
+  },ContactService, CustomErrorService, MatDialog,ModalMessageService,CommonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

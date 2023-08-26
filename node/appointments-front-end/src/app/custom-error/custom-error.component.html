@@ -1,6 +1,65 @@
-<div class="bgerrimage">
-<div class="alert alert-primary" role="alert"> <b>Titlu:</b> {{customError.title}}</div>
-<div class="alert alert-secondary" role="alert"> <b>Cod mesaj:</b> {{customError.code}}</div>
-<div class="alert alert-warning" role="alert"> <b>Descriere:</b> {{customError.description}}</div>
-<div class="alert alert-danger" role="alert"> <b>Date tehnice:</b> <pre id="json">{{customError.technicalData}}</pre></div>
-</div>
+      <mat-dialog-content>
+        <!--<div class="alert alert-warning" role="alert">-->
+          <mat-expansion-panel expanded class="warningMat">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Descriere
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            {{customError.description}}
+          </mat-expansion-panel>
+        <!--</div>-->
+        <p></p>
+
+        <!--<div class="alert alert-primary" role="alert">-->
+          <mat-expansion-panel class="primaryMat">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Titlu
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            {{customError.title}}
+          </mat-expansion-panel>
+        <!--</div>-->
+        <p></p>
+
+        <!--<div class="alert alert-secondary" role="alert">-->
+          <mat-expansion-panel class="secondaryMat">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Cod
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            {{customError.code}}
+          </mat-expansion-panel>
+        <!--</div>-->
+        <p></p>
+
+        <!--<div class="alert alert-danger" role="alert">-->
+          <mat-expansion-panel class="dangerMat">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Date tehnice
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <pre id="json">{{customError.technicalData}}</pre>
+          </mat-expansion-panel>
+        <!--</div>-->
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button class="btn btn-secondary"  mat-button mat-dialog-close>Închide fereastra</button>
+      </mat-dialog-actions>
+
+<!-- <div class="alert alert-warning" role="alert"> <b>Descriere:</b> {{customError.description}}</div>
+ <div class="alert alert-primary" role="alert"> <b>Titlu:</b> {{customError.title}}</div>
+ <div class="alert alert-secondary" role="alert"> <b>Cod mesaj:</b> {{customError.code}}</div>
+ <div class="alert alert-danger" role="alert"><pre id="json">{{customError.technicalData}}</pre></div>
+ -->

@@ -1,5 +1,6 @@
-package com.caido.appointments.config;
+package com.caido.appointments.filters;
 
+import com.caido.appointments.config.SecurityConstants;
 import com.caido.appointments.repositories.PersonRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     PersonRepository personRepository;
-    JWTTokenGeneratorFilter(PersonRepository personRepository) {
+    public JWTTokenGeneratorFilter(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
     

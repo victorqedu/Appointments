@@ -1,0 +1,18 @@
+.warningMat {
+  background: #FFF3CD;
+}
+.warningMatHeader {
+  background: #FFF3CD;
+}
+.primaryMat {
+  background: #CFE2FA;
+}
+.primaryMatHeader {
+  background: #0FE2F0;
+}
+.secondaryMat {
+  background: #E2E3E5;
+}
+.dangerMat {
+  background: #F8D7DA;
+}

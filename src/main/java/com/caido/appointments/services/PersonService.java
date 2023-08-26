@@ -5,6 +5,7 @@ import static com.caido.appointments.Util.Functions.empty;
 import com.caido.appointments.Util.JWT;
 import com.caido.appointments.entity.Person;
 import com.caido.appointments.repositories.PersonRepository;
+import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -94,5 +95,9 @@ public class PersonService {
 
     public Person findByEmail(String email) {
         return personRepository.findByEmail(email);
+    }
+
+    public Optional<Person> findById(Integer id) {
+        return personRepository.findById(id);
     }
 }

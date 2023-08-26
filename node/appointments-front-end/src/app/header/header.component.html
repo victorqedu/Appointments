@@ -26,17 +26,17 @@
         <li class="nav-item">
           <a class="nav-link fs-6" routerLink="/firstPage">{{"Acasă" | uppercase}}</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!commonService.isConnected()">
           <a class="nav-link fs-6" routerLink="/login">{{"Conectare" | uppercase}}</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!commonService.isConnected()">
           <a class="nav-link fs-6" routerLink="/signup">{{"Creare cont" | uppercase}}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link fs-6" aria-current="page" href="#">{{"Programare" | uppercase}}</a>
         </li>
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="commonService.isConnected()">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             CONTUL MEU
           </a>
@@ -44,7 +44,7 @@
             <a class="nav-link fs-6" aria-current="page" href="#">{{"Istoric" | uppercase}}</a>
             <a class="nav-link fs-6" aria-current="page" href="#">{{"Date cont" | uppercase}}</a>
             <div class="dropdown-divider"></div>
-            <a class="nav-link fs-6" aria-current="page" href="#">{{"Ieșire" | uppercase}}</a>
+            <a class="nav-link fs-6" aria-current="page" href="#" (click)="commonService.disconnect()">{{"Ieșire" | uppercase}}</a>
           </div>
         </li>
       </ul>
@@ -62,4 +62,3 @@
   </div>
 </nav>
 </span>
-

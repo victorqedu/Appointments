@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {CustomErrorService} from "./custom-error.service";
 import {Subscription} from "rxjs";
 import {CustomError} from "./custom-error.model";
@@ -11,6 +11,7 @@ import {CustomError} from "./custom-error.model";
 export class CustomErrorComponent  implements OnInit, OnDestroy {
   customError!: CustomError;
   subscription!: Subscription;
+
   constructor(private customErrorService: CustomErrorService) {}
 
   ngOnInit(): void {

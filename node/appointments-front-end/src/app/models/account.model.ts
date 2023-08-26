@@ -5,7 +5,7 @@ export class Account {
     public surname: string | null,
     public cnp: string | null,
     public birthDate: string | null,
-    public sex: number | null,
-    public email: string | null,
-    public password: string | null) {}
+    public idSex: number | null,
+    public authEmail: string | null,
+    public onlinePassword: string | null) {}
 }

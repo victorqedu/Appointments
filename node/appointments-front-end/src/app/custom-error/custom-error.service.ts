@@ -5,7 +5,7 @@ import {CustomError} from "./custom-error.model";
 @Injectable()
 export class CustomErrorService {
   customErrorChanged = new Subject<CustomError>();
-  private customError: CustomError = new CustomError("", "", "", "");
+  private customError: CustomError = new CustomError("", "", "", "",);
 
   getCustomError() {
     console.log("CustomErrorService.getCustomError");
