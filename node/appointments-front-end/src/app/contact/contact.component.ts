@@ -10,30 +10,34 @@ import {HttpService} from "../services/http-service";
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent  implements OnInit, OnDestroy {
-  subscription!: Subscription;
+  subscriptionData!: Subscription;
+  subscriptionIsFetching!: Subscription;
   contact!: Contact;
+  isFetching:boolean=false;
 
-  private dataStorageService: HttpService;
-
-  constructor(private contactService: ContactService, dataStorageService: HttpService) {
-    this.dataStorageService = dataStorageService;
+  constructor(private contactService: ContactService) {
     console.log("ContactComponent.constructor");
   }
 
   ngOnInit(): void {
     console.log("ContactComponent.ngOnInit");
-    this.subscription = this.contactService.contactChanged.subscribe(
+    this.subscriptionData = this.contactService.contactChanged.subscribe(
       (contact: Contact) => {
         this.contact = contact;
       }
     );
-    this.contact = this.contactService.getContact();
+    this.subscriptionIsFetching = this.contactService.isFetchingChanged.subscribe(
+      (isFetchingChanged: boolean) => {
+        this.isFetching = isFetchingChanged;
+      }
+    );
+    this.contactService.fetchContact();
   }
 
   ngOnDestroy(): void {
     console.log("ContactComponent.ngOnDestroy");
-    this.subscription.unsubscribe();
+    this.subscriptionData.unsubscribe();
+    this.subscriptionIsFetching.unsubscribe();
   }
-
 
 }

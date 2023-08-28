@@ -2,6 +2,8 @@ package com.caido.appointments.rest;
 
 import com.caido.appointments.entity.Companies;
 import com.caido.appointments.repositories.CompaniesRepository;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -25,6 +27,11 @@ public class CompaniesController {
     @GetMapping("/localcompany")
     EntityModel<Companies> getLocalCompany() {
         Companies c = repository.getLocalOrgUnit();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CompaniesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return assembler.toModel(c);
     }
 

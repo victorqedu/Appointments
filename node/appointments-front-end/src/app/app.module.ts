@@ -21,7 +21,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ModalMessageService} from "./modal-message/modal-message-service";
-import {CommonService} from "./services/commonService";
+import {AccountService} from "./services/accountService";
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { PolicyOfConfidentialityComponent } from './policy-of-confidentiality/policy-of-confidentiality.component';
+import { WaitingForDataComponent } from './waiting-for-data/waiting-for-data.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import {CommonService} from "./services/commonService";
     CustomErrorComponent,
     LoginComponent,
     SignupComponent,
-    ModalMessageComponent
+    ModalMessageComponent,
+    TermsAndConditionsComponent,
+    PolicyOfConfidentialityComponent,
+    WaitingForDataComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +56,7 @@ import {CommonService} from "./services/commonService";
     provide : HTTP_INTERCEPTORS,
     useClass : GenericHttpInterceptor,
     multi : true
-  },ContactService, CustomErrorService, MatDialog,ModalMessageService,CommonService],
+  },ContactService, CustomErrorService, MatDialog,ModalMessageService,AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

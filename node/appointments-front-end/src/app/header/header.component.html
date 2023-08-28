@@ -26,17 +26,17 @@
         <li class="nav-item">
           <a class="nav-link fs-6" routerLink="/firstPage">{{"Acasă" | uppercase}}</a>
         </li>
-        <li class="nav-item" *ngIf="!commonService.isConnected()">
+        <li class="nav-item" *ngIf="!accountService.isConnected()">
           <a class="nav-link fs-6" routerLink="/login">{{"Conectare" | uppercase}}</a>
         </li>
-        <li class="nav-item" *ngIf="!commonService.isConnected()">
+        <li class="nav-item" *ngIf="!accountService.isConnected()">
           <a class="nav-link fs-6" routerLink="/signup">{{"Creare cont" | uppercase}}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link fs-6" aria-current="page" href="#">{{"Programare" | uppercase}}</a>
         </li>
 
-        <li class="nav-item dropdown" *ngIf="commonService.isConnected()">
+        <li class="nav-item dropdown" *ngIf="accountService.isConnected()">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             CONTUL MEU
           </a>
@@ -44,14 +44,14 @@
             <a class="nav-link fs-6" aria-current="page" href="#">{{"Istoric" | uppercase}}</a>
             <a class="nav-link fs-6" aria-current="page" href="#">{{"Date cont" | uppercase}}</a>
             <div class="dropdown-divider"></div>
-            <a class="nav-link fs-6" aria-current="page" href="#" (click)="commonService.disconnect()">{{"Ieșire" | uppercase}}</a>
+            <a class="nav-link fs-6" aria-current="page" href="#" (click)="accountService.disconnect()">{{"Ieșire" | uppercase}}</a>
           </div>
         </li>
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="navbar-brand nav-link" routerLink="/contact">
+          <a class="navbar-brand nav-link" routerLink="/contact" (click)="contactService.fetchContact()">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
               <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
             </svg>

@@ -1,4 +1,4 @@
-package com.caido.appointments.rest;
+package com.caido.appointments.config;
 
 import com.caido.appointments.Util.Exceptions.InvalidCredentialsException;
 import com.caido.appointments.entity.Person;

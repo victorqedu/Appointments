@@ -53,7 +53,7 @@ public class SecurityConfig {
                     }))
                 .authorizeHttpRequests(
                     (requests)->requests
-                        .requestMatchers("/api/localcompany", "/api/register", "/api/login").permitAll()
+                        .requestMatchers("/api/localcompany", "/api/register", "/api/login", "/api/termsAndConditions", "/api/policyOfConfidentiality").permitAll()
                         .anyRequest().authenticated()
                 )
                 

@@ -5,13 +5,13 @@ import {Account} from "../models/account.model";
 import {HttpService} from "./http-service";
 
 @Injectable()
-export class CommonService {
+export class AccountService {
   private account!:Account;
   connectedChanged = new Subject<Account>();
 
   constructor(private router: Router, public httpService: HttpService) {
     let accountDetails = sessionStorage.getItem("accountDetails");
-    console.log("CommonService.init "+accountDetails)
+    console.log("AccountService.init "+accountDetails)
     if (accountDetails) {
       this.account = JSON.parse(accountDetails) as Account;
       this.connectedChanged.next(this.account);
@@ -49,7 +49,7 @@ export class CommonService {
   }
 
   getAccount() {
-    console.log("CommonService.getAccount "+JSON.stringify(this.account)+ " accountDetails "+sessionStorage.getItem("accountDetails"));
+    console.log("AccountService.getAccount "+JSON.stringify(this.account)+ " accountDetails "+sessionStorage.getItem("accountDetails"));
     return this.account;
   }
 

@@ -8,7 +8,7 @@ import {CustomErrorComponent} from "./custom-error/custom-error.component";
 import {LoginComponent} from "./login/login.component";
 import {SignupComponent} from "./signup/signup.component";
 
-const getContact: ResolveFn<any> =
+/*const getContact: ResolveFn<any> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     if(inject(ContactService).getContact() === undefined) {
       console.log("contact is undefined");
@@ -17,12 +17,13 @@ const getContact: ResolveFn<any> =
       console.log("contact is defined");
       return;
     }
-  };
+  };*/
 
 const routes: Routes = [
   { path: '', redirectTo: '/firstPage', pathMatch: 'full'  },
   { path: 'firstPage', component: FirstPageComponent },
-  { path: 'contact', component: ContactComponent, resolve: {data: getContact} },
+//  { path: 'contact', component: ContactComponent, resolve: {data: getContact} },
+  { path: 'contact', component: ContactComponent },
   { path: 'error', component: CustomErrorComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },

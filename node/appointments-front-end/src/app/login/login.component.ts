@@ -6,7 +6,7 @@ import {Account} from "../models/account.model";
 import {ModalMessageService} from "../modal-message/modal-message-service";
 import {ModalMessage} from "../modal-message/modal-message-model";
 import {Router} from "@angular/router";
-import {CommonService} from "../services/commonService";
+import {AccountService} from "../services/accountService";
 import {Contact} from "../contact/contact.model";
 import {Subscription} from "rxjs";
 
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private modalMessageService: ModalMessageService,
-              public commonService: CommonService) {}
+              public commonService: AccountService) {}
 
   /**
    * Check if the for is valid, if the data is ready to be sent to the backend
