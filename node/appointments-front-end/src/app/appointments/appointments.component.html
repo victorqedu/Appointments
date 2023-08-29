@@ -1,0 +1,5 @@
+<app-specialities *ngIf="accountService.isConnected()"></app-specialities>
+<div class="text-center" *ngIf="!accountService.isConnected()">
+  <br><br><br>
+  <h2>Trebuie să vă conectați pentru a face o programare</h2>
+</div>

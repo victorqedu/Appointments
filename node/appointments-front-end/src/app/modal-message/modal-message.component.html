@@ -1,14 +1,23 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" [ngStyle]="{'display': show ? 'block' : 'none', 'opacity': 1}">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{title}}</h5>
+        <h2 class="modal-title" id="title1" *ngIf="!modalMessage.showCloseUpAndDown">{{title}}</h2>
+        <div class="container" *ngIf="modalMessage.showCloseUpAndDown">
+          <div class="row">
+            <div class="col-md-10"><h2 class="modal-title" id="title2">{{title}}</h2></div>
+            <div class="col-md-2"><button type="button" class="btn btn-secondary" data-dismiss="modal" (click)=openModal(false)>Închide</button></div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        {{description}}
+      <div class="modal-body" *ngIf="modalMessage.isFetching">
+        <app-waiting-for-data></app-waiting-for-data>
+      </div>
+      <div class="modal-body" *ngIf="!modalMessage.isFetching">
+        <span [innerHTML]="description"></span>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)=openModal(false)>Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)=openModal(false)>Închide</button>
       </div>
     </div>
   </div>

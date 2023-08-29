@@ -6,6 +6,15 @@
   height: auto;
   margin: 0;
 }
+.bg_doctor {
+  background-image: url('/assets/images/bg_doctor.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
+
 .bg_lock {
   background-image: url('/assets/images/bg_lock.jpg');
   background-size: cover;

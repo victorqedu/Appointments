@@ -13,12 +13,14 @@ import {ModalMessageService} from "./modal-message-service";
 export class ModalMessageComponent implements OnInit, OnDestroy {
   /**
    * the next 4 fields are optional, I should use just the modalMessage property
+   * I've just kept them here to remind myself of the old way of transferring data between components
    */
   @Input() title:string = "";
   @Input() description: string = "";
   @Input() show : boolean = false;
   @Output() visibilityChanged = new EventEmitter<boolean>();
-  modalMessage!: ModalMessage;
+
+  modalMessage: ModalMessage = new ModalMessage('', '', false, false, false);
   subscription!: Subscription;
 
   constructor(private modalMessageService: ModalMessageService, private dataStorageService: HttpService) {}
@@ -35,7 +37,7 @@ export class ModalMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    //console.log("start ngOnInit - startsubscription");
+    //console.log("start ngOnInit - start subscription");
     this.subscription = this.modalMessageService.modalMessageChanged.subscribe(
       (mm: ModalMessage) => {
         console.log("New Modal Message t: "+mm.title+" d: "+mm.description);

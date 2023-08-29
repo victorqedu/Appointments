@@ -1,0 +1,25 @@
+.fixed-button {
+  width: 150px;
+  height: 60px;
+  margin: 0px 5px 5px 5px;
+}
+
+.fixed-button:hover {
+  background-color: #FFAAAA !important;
+  border-color: #FFAAAA !important;
+}
+
+input {
+  text-align: center;
+}
+
+.input::placeholder {
+  color: grey; /* Set the placeholder text color */
+}
+.custom-input {
+  color: black; /* Set the default text color */
+}
+
+.custom-input::placeholder {
+  color: grey; /* Set the placeholder text color */
+}

@@ -9,18 +9,18 @@
               <div class="col-md-6 col-lg-5 d-none d-md-block">
                 <img src="/assets/images/login.jpg" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
               </div>
-              <div class="col-md-6 col-lg-7 d-flex align-items-center" *ngIf="commonService.isConnected()">
+              <div class="col-md-6 col-lg-7 d-flex align-items-center" *ngIf="accountService.isConnected()">
                 <div class="card-body p-4 p-lg-5 text-black">
                   <div class="pt-1 mb-4">
                     Conectare cu succes pentru clientul {{account.name}} {{account.surname}}
                   </div>
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" (click)="commonService.disconnect()">Deconectare</button>
+                    <button class="btn btn-dark btn-lg btn-block" (click)="accountService.disconnect()">Deconectare</button>
                   </div>
                 </div>
               </div>
 
-              <div class="col-md-6 col-lg-7 d-flex align-items-center" *ngIf="!commonService.isConnected()">
+              <div class="col-md-6 col-lg-7 d-flex align-items-center" *ngIf="!accountService.isConnected()">
                 <div class="card-body p-4 p-lg-5 text-black">
                   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                     <div class="d-flex align-items-center mb-3 pb-1">
@@ -56,8 +56,8 @@
 
                     <a class="small text-muted" href="#!">Ați uitat parola?</a>
                     <p class="mb-5 pb-lg-2" style="color: #393f81;">Nu aveți un cont?  <a href="#!" routerLink="/signup">Crează cont nou</a></p>
-                    <a href="#!" class="small text-muted">Termenii de utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="#!" class="small text-muted">Politica de confidențialitate</a>
+                    <a class="small text-muted" (click)="accountService.showTermsAndConditions()">Termeni utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="small text-muted" (click)="accountService.showPolicyOfConfidentiality()">Politica de confidențialitate</a>
                   </form>
                 </div>
               </div>

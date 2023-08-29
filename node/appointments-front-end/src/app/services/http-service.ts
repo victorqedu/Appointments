@@ -1,9 +1,10 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Contact} from "../contact/contact.model";
+import {Contact} from "../models/contact.model";
 import {ContactService} from "../contact/contact.service";
-import {tap} from "rxjs";
+import {map, tap} from "rxjs";
 import {Account} from "../models/account.model";
+import {Speciality} from "../models/speciality.model";
 
 /**
  * In this class I have many observers and I will not use any error handling, this will happen in a single common place, in the GenericHttpInterceptors
@@ -31,7 +32,11 @@ export class HttpService {
   }
 
   getTermsAndConditions() {
+    return this.http.get(this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/termsAndConditions");
+  }
 
+  getPolicyOfConfidentiality() {
+    return this.http.get(this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/policyOfConfidentiality");
   }
 
   storeSignup(account: Account) {
@@ -54,6 +59,9 @@ export class HttpService {
   }
 
   getAllAvailableSpecialities() {
-
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/specialities")
+      .pipe(
+        map(response => response._embedded.specialitiesList), // Extract the array from the response
+      );
   }
 }

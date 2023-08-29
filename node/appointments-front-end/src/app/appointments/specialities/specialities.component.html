@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br>
+      <h3>{{"Pasul 1: Selectați specialitatea" | uppercase}}</h3>
+    </div>
+  </div>
+  <div class="col-md-12 text-center">
+    <div class="input-group input-group-lg">
+      <input
+        type="text"
+        class="form-control custom-input"
+        aria-label="Small"
+        aria-describedby="inputGroup-sizing-sm"
+        placeholder={{placehoderSearch}}
+        [(ngModel)]="searchText"
+        (focus)="clearSearchText()"
+        (input)="performSearch()">
+    </div>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-md-3 text-center" *ngFor="let s of specialitiesSearched">
+        <button class="btn btn-primary fixed-button">{{s.name | uppercase}}</button>
+    </div>
+  </div>
+</div>

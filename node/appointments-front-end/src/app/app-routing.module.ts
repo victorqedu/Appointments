@@ -7,6 +7,7 @@ import {ContactService} from "./contact/contact.service";
 import {CustomErrorComponent} from "./custom-error/custom-error.component";
 import {LoginComponent} from "./login/login.component";
 import {SignupComponent} from "./signup/signup.component";
+import {AppointmentsComponent} from "./appointments/appointments.component";
 
 /*const getContact: ResolveFn<any> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'error', component: CustomErrorComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'appointments', component: AppointmentsComponent },
 ];
 
 @NgModule({

@@ -12,7 +12,7 @@ public interface SpecialitiesRepository extends JpaRepository<Specialities, Inte
             + "JOIN Physicianspecialities ps ON (ps.idphysician = p.id AND ps.validfrom <= NOW() AND (ps.validto >= NOW() OR ps.validto IS NULL)) "
             + "JOIN Specialities s ON (s.id = ps.idspeciality.id) "
             + "WHERE e.validfrom <= NOW() AND (e.validto >= NOW() OR e.validto IS NULL) "
-            + "ORDER BY s.id DESC")
+            + "ORDER BY s.name ASC")
     @Override
     List<Specialities> findAll();    
 }

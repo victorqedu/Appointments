@@ -2,6 +2,8 @@ package com.caido.appointments.rest;
 
 import com.caido.appointments.entity.Config;
 import com.caido.appointments.repositories.ConfigRepository;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

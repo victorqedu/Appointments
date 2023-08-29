@@ -1,8 +1,8 @@
 export class Config {
   constructor(
-    public id: number | null,
-    public nume: string | null,
-    public valoare: string | null,
-    public limba: string | null,
-    public explicatii: string | null) {}
+    public id: number ,
+    public nume: string ,
+    public valoare: string ,
+    public limba: string ,
+    public explicatii: string) {}
 }

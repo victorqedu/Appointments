@@ -22,9 +22,11 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ModalMessageService} from "./modal-message/modal-message-service";
 import {AccountService} from "./services/accountService";
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
-import { PolicyOfConfidentialityComponent } from './policy-of-confidentiality/policy-of-confidentiality.component';
 import { WaitingForDataComponent } from './waiting-for-data/waiting-for-data.component';
+import { AppointmentsComponent } from './appointments/appointments.component';
+import { SpecialitiesComponent } from './appointments/specialities/specialities.component';
+import { PhysiciansComponent } from './appointments/physicians/physicians.component';
+import {SpecialitiesService} from "./appointments/specialities/specialities.service";
 
 @NgModule({
   declarations: [
@@ -37,9 +39,10 @@ import { WaitingForDataComponent } from './waiting-for-data/waiting-for-data.com
     LoginComponent,
     SignupComponent,
     ModalMessageComponent,
-    TermsAndConditionsComponent,
-    PolicyOfConfidentialityComponent,
-    WaitingForDataComponent
+    WaitingForDataComponent,
+    AppointmentsComponent,
+    SpecialitiesComponent,
+    PhysiciansComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +59,7 @@ import { WaitingForDataComponent } from './waiting-for-data/waiting-for-data.com
     provide : HTTP_INTERCEPTORS,
     useClass : GenericHttpInterceptor,
     multi : true
-  },ContactService, CustomErrorService, MatDialog,ModalMessageService,AccountService],
+  },ContactService, CustomErrorService, MatDialog,ModalMessageService,AccountService,SpecialitiesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -33,7 +33,7 @@
           <a class="nav-link fs-6" routerLink="/signup">{{"Creare cont" | uppercase}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fs-6" aria-current="page" href="#">{{"Programare" | uppercase}}</a>
+          <a class="nav-link fs-6" routerLink="/appointments">{{"Programare" | uppercase}}</a>
         </li>
 
         <li class="nav-item dropdown" *ngIf="accountService.isConnected()">

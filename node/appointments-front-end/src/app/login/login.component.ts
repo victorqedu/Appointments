@@ -7,8 +7,9 @@ import {ModalMessageService} from "../modal-message/modal-message-service";
 import {ModalMessage} from "../modal-message/modal-message-model";
 import {Router} from "@angular/router";
 import {AccountService} from "../services/accountService";
-import {Contact} from "../contact/contact.model";
+import {Contact} from "../models/contact.model";
 import {Subscription} from "rxjs";
+import {Config} from "../models/config";
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private httpService: HttpService,
               private modalMessageService: ModalMessageService,
-              public commonService: AccountService) {}
+              public accountService: AccountService) {}
 
   /**
    * Check if the for is valid, if the data is ready to be sent to the backend
@@ -48,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     console.warn(this.loginForm);
     if(this.checkAllFieldsAreValid()) {
       console.log("All fields are valid");
-      this.commonService.login(new Account(
+      this.accountService.login(new Account(
           null,
           null,
           null,
@@ -60,21 +61,28 @@ export class LoginComponent implements OnInit, OnDestroy {
       );
     } else {
       console.log("Some error");
-      this.modalMessageService.setModalMessage(new ModalMessage("Date incorecte", "Completati emailul si parola, corectati campurile greșite.", true));
+      this.modalMessageService.setModalMessage(
+        new ModalMessage(
+          "Date incorecte",
+          "Completati emailul si parola, corectati campurile greșite.",
+          true,
+          false,
+          false));
     }
   }
 
   ngOnInit(): void {
     console.log("ContactComponent.ngOnInit");
-    this.subscription = this.commonService.connectedChanged.subscribe(
+    this.subscription = this.accountService.connectedChanged.subscribe(
       (account: Account) => {
         this.account = account;
       }
     );
-    this.account = this.commonService.getAccount();
+    this.account = this.accountService.getAccount();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
 }

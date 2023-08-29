@@ -4,6 +4,7 @@ import {CustomValidator, passwordValidator} from "../customValidators/customVali
 import {CommonFunctions} from "../commonFunctions/commonFunctions";
 import {HttpService} from "../services/http-service";
 import {Account} from "../models/account.model";
+import {AccountService} from "../services/accountService";
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,6 @@ import {Account} from "../models/account.model";
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-
   signupForm = new FormGroup({
       name : new FormControl('', [Validators.required]),
       surname : new FormControl('', [Validators.required]),
@@ -28,7 +28,8 @@ export class SignupComponent {
   modalTitle: string = "";
   modalDescription: string = "";
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService,
+              public accountService: AccountService) {}
 
   /**
    * Check if the for is valid, if the data is ready to be sent to the backend
