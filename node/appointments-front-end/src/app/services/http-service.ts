@@ -64,4 +64,39 @@ export class HttpService {
         map(response => response._embedded.specialitiesList), // Extract the array from the response
       );
   }
+
+  findLabTestsGroupsBySpeciality(idSpeciality: number) {
+    console.log("Start findLabTestsGroupsBySpeciality");
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/specialitiesLabTestsGroups/"+idSpeciality)
+      .pipe(
+        map(response => {
+          if(response.hasOwnProperty("_embedded") && response._embedded.hasOwnProperty("labTestsGroupsList")) {
+            return response._embedded.labTestsGroupsList;
+          } else {
+            return [];
+          }
+        }), // Extract the array from the response
+        tap(response => {
+          console.log("findLabTestsGroupsBySpeciality "+response);
+        })
+      );
+  }
+
+  getPhysiciansBySpecialityAndDate(idSpeciality: number, date: string) {
+    console.log("Start getAvailablePhysiciansBySpecialityAndDate");
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/physicians/"+idSpeciality+"/"+date)
+      .pipe(
+        map(response => {
+          if(response.hasOwnProperty("_embedded") && response._embedded.hasOwnProperty("simplePhysicianDTOList")) {
+            return response._embedded.simplePhysicianDTOList;
+          } else {
+            return [];
+          }
+        }), // Extract the array from the response
+        tap(response => {
+          console.log("getAvailablePhysiciansBySpecialityAndDate "+response);
+        })
+      );
+  }
+
 }

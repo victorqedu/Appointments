@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12 text-center">
       <br>
-      <h3>{{"Pasul 1: Selectați specialitatea" | uppercase}}</h3>
+      <h3>{{"Pasul 2: Selectați specialitatea" | uppercase}}</h3>
     </div>
   </div>
   <div class="col-md-12 text-center">
@@ -21,7 +21,12 @@
   </div>
   <div class="row">
     <div class="col-md-3 text-center" *ngFor="let s of specialitiesSearched">
-        <button class="btn btn-primary fixed-button">{{s.name | uppercase}}</button>
+        <button class="btn btn-primary fixed-button" id="speciality{{s.id}}" (click)="setCurrentSpeciality(s!.id, s!.name!.toUpperCase())">{{s.name | uppercase}}</button>
     </div>
   </div>
+  <form [formGroup]="form">
+    <input    type="hidden"    id="specialityId"    formControlName="specialityId">
+    <input    type="hidden"    id="specialityName"  formControlName="specialityName">
+  </form>
+
 </div>

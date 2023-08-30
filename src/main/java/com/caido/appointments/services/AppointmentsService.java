@@ -4,6 +4,7 @@ import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.Util.LocalDateTimeInterval;
 import com.caido.appointments.entity.Appointments;
 import com.caido.appointments.entity.AppointmentsTypes;
+import com.caido.appointments.entity.DTO.RequestAppointmentDTO;
 import com.caido.appointments.entity.LabTestsGroups;
 import com.caido.appointments.entity.Physicians;
 import com.caido.appointments.entity.PhysiciansWorkingSchedule;
@@ -20,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.stereotype.Service;
@@ -43,12 +45,13 @@ public class AppointmentsService {
         return appointmentsRepository;
     }
     
-    public List<Appointments> calculateAppointments (
-            LocalDate localDateStartIV, 
-            LocalDate localDateStopIV,
-            Specialities speciality, 
-            Integer idLabTestsGroups, 
-            Physicians physician) {
+
+    public List<Appointments> calculateAppointments (RequestAppointmentDTO request) {
+            LocalDate localDateStartIV = request.getLocalDateStartIV();
+            LocalDate localDateStopIV = request.getLocalDateStopIV();
+            Specialities speciality = request.getIdSpeciality();
+            Physicians physician = request.getIdPhysician();
+            
             DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-M-d");
             DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("yyyy-M-d HH:mm:ss");
             ArrayList<LocalDateTimeInterval> workingIntersections = new ArrayList(); // the working program of the medic in the requested period (localDateStartIV to localDateStopIV)
@@ -179,8 +182,19 @@ public class AppointmentsService {
 
             // <-- START of part III - calculate next appointment
             List<Appointments> returnAppointments = new ArrayList();
-            LabTestsGroups ltg = this.labTestsGroupsRepository.findById(idLabTestsGroups).orElseThrow(() -> new RootExceptionHandler("Serviciul cu id-ul "+idLabTestsGroups+" nu a fost gasit in baza de date"));
-            Integer necessaryMinutes = ltg.getMinuteEstimate();
+            
+            // Start calculating the number of minutes necessary using the selected services
+            Integer necessaryMinutes = 0;
+            
+            Iterator<LabTestsGroups> iterator = request.getLabTestsGroups().iterator();
+
+            while (iterator.hasNext()) {
+                LabTestsGroups ltg = iterator.next();
+                System.out.println("value= " + ltg);
+                necessaryMinutes+=ltg.getMinuteEstimate();
+            }
+            //necessaryMinutes = request.getLabTestsGroups().stream().map(ltg -> ltg.getMinuteEstimate()).reduce(necessaryMinutes, Integer::sum);            
+            
             for(LocalDateTimeInterval ldti:freeIntervals) {
                 if(ldti!=null) {
                     //System.err.println("Free interval start "+ldti.getStart()+" stop "+ldti.getStop()+" period "+period.toMinutes()+" minute necesare "+minute_necesare);
@@ -189,7 +203,7 @@ public class AppointmentsService {
                         if(period.toMinutes() >= necessaryMinutes) {
                             Appointments a = new Appointments();
                             a.setIdAppointmentsTypes(at);
-                            a.setIdLabTestsGroups(ltg);
+                            //a.setIdLabTestsGroups(ltg);
                             //a.setIdPersonnel(physician.getIdPersonnel());
                             //a.setIdPhysicians(physician);
                             //a.setIdSpeciality(speciality);

@@ -13,7 +13,7 @@ export class AccountService {
   connectedChanged = new Subject<Account>();
 
   /**
-   * Every time I instantiate this service I will read the current connected account from the sessionStorage
+   * Every time I instantiate this service.model.ts I will read the current connected account from the sessionStorage
    * @param router
    * @param modalMessageService
    * @param httpService
@@ -89,7 +89,7 @@ export class AccountService {
 
   /**
    * This functions can be called only in components that contain a <app-modal-message></app-modal-message> because the scope is to show the terms and conditions
-   * in a popup modal that must be defined in the component that calls this service and this function
+   * in a popup modal that must be defined in the component that calls this service.model.ts and this function
    */
   showTermsAndConditions() {
     this.modalMessageService.setModalMessage(
@@ -114,7 +114,7 @@ export class AccountService {
 
   /**
    * This functions can be called only in components that contain a <app-modal-message></app-modal-message> because the scope is to show the policy of confidentiality
-   * in a popup modal that must be defined in the component that calls this service and this function
+   * in a popup modal that must be defined in the component that calls this service.model.ts and this function
    */
   showPolicyOfConfidentiality() {
     this.modalMessageService.setModalMessage(

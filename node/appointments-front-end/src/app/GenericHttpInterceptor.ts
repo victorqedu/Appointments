@@ -7,11 +7,12 @@ import {CustomError} from "./custom-error/custom-error.model";
 import {MatDialog} from "@angular/material/dialog";
 import {CustomErrorComponent} from "./custom-error/custom-error.component";
 import {Account} from "./models/account.model";
+import {AccountService} from "./services/accountService";
 
 @Injectable()
 export class GenericHttpInterceptor implements HttpInterceptor {
   account!:Account;
-  constructor(private router: Router, private customErrorService: CustomErrorService, private dialog: MatDialog) {}
+  constructor(private router: Router, private customErrorService: CustomErrorService, private dialog: MatDialog, private accountService: AccountService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log("GenericHttpInterceptor.intercept");
@@ -48,7 +49,8 @@ export class GenericHttpInterceptor implements HttpInterceptor {
         }
         if(error.status===401 && errorSmall==="") {
           // In the rest API I cover all cases and when I cereive 401 it can be only the missed password
-          errorSmall = "Parolă incorectă.";
+          errorSmall = "Parolă incorectă sau sesiune expirată!";
+          this.accountService.disconnect();
         }
         this.customErrorService.setCustomError(new CustomError(error.name+"(textStatus : "+error.statusText+")", error.status, errorSmall, JSON.stringify(error, undefined, 2)));
         this.dialog.open(CustomErrorComponent);

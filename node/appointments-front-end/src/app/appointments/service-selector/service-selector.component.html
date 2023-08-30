@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br>
+      <h3>{{"Pasul 3: Selectați serviiciile programate" | uppercase}}</h3>
+    </div>
+  </div>
+  <div class="col-md-12 text-center">
+    <div class="input-group input-group-lg">
+      <input
+        type="text"
+        class="form-control custom-input"
+        aria-label="Small"
+        aria-describedby="inputGroup-sizing-sm"
+        placeholder={{placehoderSearch}}
+        [(ngModel)]="searchText"
+        (focus)="clearSearchText()"
+        (input)="performSearch()">
+    </div>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-md-3 text-center" *ngFor="let s of servicesSearched">
+      <button
+        class="btn btn-primary fixed-button"
+        id="service{{s.id}}"
+        [ngClass]="checkServiceIsSelected(s)>=0 ? 'selectedBG':''"
+        (click)="addOrRemoveService(s)">
+        {{s.name | uppercase}}
+      </button>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-md-12 d-flex justify-content-center align-items-center">
+      <button class="btn btn-dark btn-lg btn-block" type="submit" (click) = goToStep4() >Către pasul 4</button>
+    </div>
+  </div>
+
+</div>

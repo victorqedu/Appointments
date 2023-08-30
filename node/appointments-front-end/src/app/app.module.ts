@@ -24,9 +24,14 @@ import {ModalMessageService} from "./modal-message/modal-message-service";
 import {AccountService} from "./services/accountService";
 import { WaitingForDataComponent } from './waiting-for-data/waiting-for-data.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
-import { SpecialitiesComponent } from './appointments/specialities/specialities.component';
-import { PhysiciansComponent } from './appointments/physicians/physicians.component';
-import {SpecialitiesService} from "./appointments/specialities/specialities.service";
+import { SpecialitiesSelectorComponent } from './appointments/specialities-selector/specialities-selector.component';
+import { PhysiciansSelectorComponent } from './appointments/physicians-selector/physicians-selector.component';
+import {SpecialitiesService} from "./appointments/specialities-selector/specialities.service";
+import { DateSelectorComponent } from './appointments/date-selector/date-selector.component';
+import { ServiceSelectorComponent } from './appointments/service-selector/service-selector.component';
+import {ServicesService} from "./appointments/service-selector/services.service";
+import {PhysiciansService} from "./appointments/physicians-selector/physicians.service";
+import {ImageDisplayComponent} from "./image-display/image-display.component";
 
 @NgModule({
   declarations: [
@@ -41,8 +46,11 @@ import {SpecialitiesService} from "./appointments/specialities/specialities.serv
     ModalMessageComponent,
     WaitingForDataComponent,
     AppointmentsComponent,
-    SpecialitiesComponent,
-    PhysiciansComponent
+    SpecialitiesSelectorComponent,
+    PhysiciansSelectorComponent,
+    DateSelectorComponent,
+    ServiceSelectorComponent,
+    ImageDisplayComponent,
   ],
   imports: [
     CommonModule,
@@ -55,11 +63,21 @@ import {SpecialitiesService} from "./appointments/specialities/specialities.serv
     MatDialogModule,
     MatExpansionModule,
   ],
-  providers: [{
+  providers: [
+    {
     provide : HTTP_INTERCEPTORS,
     useClass : GenericHttpInterceptor,
     multi : true
-  },ContactService, CustomErrorService, MatDialog,ModalMessageService,AccountService,SpecialitiesService],
+    },
+    ContactService,
+    CustomErrorService,
+    MatDialog,
+    ModalMessageService,
+    AccountService,
+    SpecialitiesService,
+    ServicesService,
+    PhysiciansService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -61,9 +61,9 @@ public class Appointments implements Serializable {
     @ManyToOne(optional = false)
     private Specialities idSpeciality;
 
-    @JoinColumn(name = "id_lab_tests_groups", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private LabTestsGroups idLabTestsGroups;
+//    @JoinColumn(name = "id_lab_tests_groups", referencedColumnName = "id")
+//    @ManyToOne(optional = false)
+//    private LabTestsGroups idLabTestsGroups;
 
     public Appointments() {
     }
@@ -152,14 +152,14 @@ public class Appointments implements Serializable {
         this.idSpeciality = idSpeciality;
     }
 
-    public LabTestsGroups getIdLabTestsGroups() {
-        return idLabTestsGroups;
-    }
-
-    public void setIdLabTestsGroups(LabTestsGroups idLabTestsGroups) {
-        this.idLabTestsGroups = idLabTestsGroups;
-    }
-    
+//    public LabTestsGroups getIdLabTestsGroups() {
+//        return idLabTestsGroups;
+//    }
+//
+//    public void setIdLabTestsGroups(LabTestsGroups idLabTestsGroups) {
+//        this.idLabTestsGroups = idLabTestsGroups;
+//    }
+//    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -182,7 +182,7 @@ public class Appointments implements Serializable {
 
     @Override
     public String toString() {
-        return "Appointments{" + "id=" + id + ", oraProgramare=" + oraProgramare + ", minuteEstimate=" + minuteEstimate + ", oraConfirmare=" + oraConfirmare + ", comments=" + comments + ", idAppointmentsTypes=" + idAppointmentsTypes + ", idPerson=" + idPerson + ", idPersonnel=" + idPersonnel + ", idPhysicians=" + idPhysicians + ", idSpeciality=" + idSpeciality + ", idLabTestsGroups=" + idLabTestsGroups + '}';
+        return "Appointments{" + "id=" + id + ", oraProgramare=" + oraProgramare + ", minuteEstimate=" + minuteEstimate + ", oraConfirmare=" + oraConfirmare + ", comments=" + comments + ", idAppointmentsTypes=" + idAppointmentsTypes + ", idPerson=" + idPerson + ", idPersonnel=" + idPersonnel + ", idPhysicians=" + idPhysicians + ", idSpeciality=" + idSpeciality +'}';
     }
         
 }

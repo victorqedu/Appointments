@@ -1,0 +1,12 @@
+.left {
+  background-color: #FFFFFF;
+}
+
+.right {
+  background-color: #FFFFFF;
+}
+
+.parent {
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+}

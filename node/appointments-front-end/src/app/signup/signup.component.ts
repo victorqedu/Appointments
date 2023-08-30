@@ -112,7 +112,7 @@ export class SignupComponent {
   /**
    * function created only for communication with the @Output of the component app-modal-message,
    * it synchronizes the show attribute of app-modal-message with the showModal attribute of the signup component
-   * I should use a service, but I want to test the @Output functionality
+   * I should use a service.model.ts, but I want to test the @Output functionality
    * @param showModal
    */
   setShowModal(showModal: boolean) {

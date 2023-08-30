@@ -1,4 +1,93 @@
-<app-specialities *ngIf="accountService.isConnected()"></app-specialities>
+<div *ngIf="accountService.isConnected()" class="col parent vh-100">
+  <div class="row">
+    <div class="col-md-2 left vh-100  d-flex justify-content-center">
+
+      <div class="list-group col" style="margin-top: 100px;">
+        <a class="list-group-item list-group-item-action active" aria-current="true">
+          Progres
+        </a>
+        <a class="list-group-item list-group-item-action disabled">Data start
+          <div *ngIf="appointmentForm.get('appointmentSearchDateStart')!.valid">
+            {{appointmentForm.get('appointmentSearchDateStart')!.value}}
+          </div>
+          <div *ngIf="!appointmentForm.get('appointmentSearchDateStart')!.valid">
+            &nbsp;
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action disabled">Data stop
+          <div *ngIf="appointmentForm.get('appointmentSearchDateStop')!.valid">
+            {{appointmentForm.get('appointmentSearchDateStop')!.value}}
+          </div>
+          <div *ngIf="!appointmentForm.get('appointmentSearchDateStop')!.valid">
+            &nbsp;
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action disabled">Specialitatea
+          <div *ngIf="appointmentForm.get('specialityName')!.valid">
+            {{appointmentForm.get('specialityName')!.value}}
+          </div>
+          <div *ngIf="!appointmentForm.get('specialityName')!.valid">
+            &nbsp;
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action disabled">Servicii
+          <div *ngIf="appointmentForm.get('selectedServices')!.valid">
+            <div *ngFor="let serviceCtrl of selectedServices.controls; let i = index">
+              <label>
+                - {{serviceFromJSON(i).name}}
+              </label>
+            </div>
+          </div>
+          <div *ngIf="!appointmentForm.get('selectedServices')!.valid">
+            &nbsp;
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action disabled">Medicul
+          <div *ngIf="appointmentForm.get('physician')!.valid">
+            {{physicianToJSON.name}} {{physicianToJSON.surname}}
+          </div>
+          <div *ngIf="!appointmentForm.get('physician')!.valid">
+            &nbsp;
+          </div>
+        </a>
+        <a class="list-group-item list-group-item-action disabled">Data si ora
+          <div *ngIf="appointmentForm.get('appointmentHour')!.valid">
+            {{appointmentForm.get('appointmentHour')!.value}}
+          </div>
+          <div *ngIf="!appointmentForm.get('appointmentHour')!.valid">
+            &nbsp;
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-8 right">
+      <ng-container [formGroup]="appointmentForm">
+        <app-date-selector
+          (stepTwoRequiredByUser)="goToStep(2)"
+          *ngIf="currentStep===1">
+        </app-date-selector>
+
+        <app-specialities-selector
+          (stepThreeRequiredByUser)="goToStep(3)"
+          *ngIf="currentStep===2">
+        </app-specialities-selector>
+
+        <app-service-selector
+          (stepFourRequiredByUser)="goToStep(4)"
+          *ngIf="currentStep===3">
+        </app-service-selector>
+
+        <app-physicians-selector
+          (stepFiveRequiredByUser)="goToStep(5)"
+          *ngIf="currentStep===4">
+        </app-physicians-selector>
+      </ng-container>
+    </div>
+    <div class="col-md-2 left vh-100">
+    </div>
+  </div>
+</div>
+
 <div class="text-center" *ngIf="!accountService.isConnected()">
   <br><br><br>
   <h2>Trebuie să vă conectați pentru a face o programare</h2>

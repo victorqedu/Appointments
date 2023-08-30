@@ -1,0 +1,67 @@
+<div class="centered-div">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br>
+      <br>
+      <br>
+      <h5>{{"Pasul 1: Selectați perioada în care vom cauta programari disponibile" | uppercase}}</h5>
+      <br>
+    </div>
+  </div>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center align-items-center">
+        <div class="col mb-3">
+          <label class="form-label">
+            Data start
+          </label>
+
+          <input
+            type="date"
+            id="appointmentSearchDateStart"
+            class="form-control form-control-sg"
+            style="max-width: 60%;"
+            formControlName="appointmentSearchDateStart"
+            [ngClass]="form.get('appointmentSearchDateStart')!.valid? 'is-valid':''">
+
+          <label class="form-label">
+              <span *ngIf="!form.get('appointmentSearchDateStart')!.valid" class="text-danger">
+                <span *ngIf="form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']}}</span>
+                <span *ngIf="!form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">Completați data de început</span>
+              </span>
+          </label>
+
+        </div>
+
+        <div class="col mb-3">
+          <label class="form-label">
+            Data start
+          </label>
+
+          <input
+            type="date"
+            id="appointmentSearchDateStop"
+            class="form-control form-control-sg"
+            style="max-width: 60%;"
+            formControlName="appointmentSearchDateStop"
+            [ngClass]="form.get('appointmentSearchDateStop')!.valid ? 'is-valid':''">
+
+          <label class="form-label">
+              <span *ngIf="!form.get('appointmentSearchDateStop')!.valid" class="text-danger">
+                <span *ngIf="form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']}}</span>
+                <span *ngIf="!form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']" class="text-danger">Completați data de sfârșit</span>
+              </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <br>
+  <div class="row">
+    <div class="col-md-12 d-flex justify-content-center align-items-center">
+      <button class="btn btn-dark btn-lg btn-block" type="submit" (click) = goToStep2() >Către pasul 2</button>
+    </div>
+  </div>
+
+</div>

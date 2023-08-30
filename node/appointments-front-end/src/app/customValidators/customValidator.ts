@@ -39,4 +39,17 @@ export class CustomValidator {
       return {"invalidPassword": c.title};
     }
   }
+
+  public static checkDateIsInThePast(control: FormControl): {[s:string]:string} | null {
+    const givenDate = new Date(control.value);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to zero
+
+    console.log("givenDate.getDate() < currentDate.getDate() "+givenDate.getTime() +"<"+ currentDate.getTime() );
+    if (givenDate.getTime() < currentDate.getTime()) {
+      return {"dateIsInThePast": "Data nu poate fi in trecut"};
+    } else {
+      return null;
+    }
+  }
 }

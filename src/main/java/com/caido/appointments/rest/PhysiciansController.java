@@ -1,6 +1,7 @@
 package com.caido.appointments.rest;
 
 import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
+import com.caido.appointments.entity.DTO.SimplePhysicianDTO;
 import com.caido.appointments.entity.Physicians;
 import com.caido.appointments.entity.Specialities;
 import com.caido.appointments.repositories.PhysiciansRepository;
@@ -30,29 +31,29 @@ public class PhysiciansController {
         this.assembler = assembler;
     }
     @GetMapping("/physicians/{idSpeciality}/{date}")
-    CollectionModel<EntityModel<Physicians>> getAllByDateAndSpeciality(@PathVariable("idSpeciality") Integer idSpeciality, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    CollectionModel<EntityModel<SimplePhysicianDTO>> getAllByDateAndSpeciality(@PathVariable("idSpeciality") Integer idSpeciality, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         Specialities s = new Specialities();
         s.setId(idSpeciality);
-        List<EntityModel<Physicians>> c = repository.getAllByDateAndSpeciality(idSpeciality, date).stream() 
+        List<EntityModel<SimplePhysicianDTO>> c = repository.getAllByDateAndSpeciality(idSpeciality, date).stream() 
             .map(assembler::toModel) 
             .collect(Collectors.toList());
         return CollectionModel.of(c, linkTo(methodOn(PhysiciansController.class).getAllByDateAndSpeciality(idSpeciality, date)).withSelfRel());
     }
     
-    @GetMapping("/physicians/{id}")
-    EntityModel<Physicians> getOne(@PathVariable Integer id) {
-        System.out.println("Start getOne");
-        Physicians c = repository.findById(id).orElseThrow(() -> new RootExceptionHandler("Medicul cu id-ul "+id+" nu a fost gasit in baza de date"));
-        return assembler.toModel(c);
-    }
+//    @GetMapping("/physicians/{id}")
+//    EntityModel<SimplePhysicianDTO> getOne(@PathVariable Integer id) {
+//        System.out.println("Start getOne");
+//        Physicians c = repository.findById(id).orElseThrow(() -> new RootExceptionHandler("Medicul cu id-ul "+id+" nu a fost gasit in baza de date"));
+//        return assembler.toModel(c);
+//    }
 }
 
 @Component
-class PhysiciansModelAssembler implements RepresentationModelAssembler<Physicians, EntityModel<Physicians>> {
+class PhysiciansModelAssembler implements RepresentationModelAssembler<SimplePhysicianDTO, EntityModel<SimplePhysicianDTO>> {
   @Override
-  public EntityModel<Physicians> toModel(Physicians c) {
+  public EntityModel<SimplePhysicianDTO> toModel(SimplePhysicianDTO c) {
     return EntityModel.of(c, 
-        linkTo(methodOn(PhysiciansController.class).getOne(c.getId())).withSelfRel()
+        linkTo(methodOn(PhysiciansController.class).getAllByDateAndSpeciality(null, null)).withSelfRel()
     );
   }
 }
