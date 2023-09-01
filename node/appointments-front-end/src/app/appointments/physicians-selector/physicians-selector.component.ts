@@ -1,20 +1,20 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from "rxjs";
 import {Speciality} from "../../models/speciality.model";
-import {PhysiciansService} from "./physicians.service";
-import {FormGroup, FormGroupDirective} from "@angular/forms";
+import {FormArray, FormGroup, FormGroupDirective} from "@angular/forms";
 import {Physician} from "../../models/physician.model";
+import {AppointmentRequest} from "../../models/appointmentRequest.model";
+import {Service} from "../../models/service.model";
+import {HttpService} from "../../services/http-service";
 
 @Component({
   selector: 'app-physicians-selector',
   templateUrl: './physicians-selector.component.html',
   styleUrls: ['./physicians-selector.component.css']
 })
-export class PhysiciansSelectorComponent implements OnInit, OnDestroy {
+export class PhysiciansSelectorComponent implements OnInit {
   @Output() stepFiveRequiredByUser = new EventEmitter<boolean>(); // I use stepTwoRequiredByUser to inform the parent that I want to go to step 3 of the appointment
   form!: FormGroup; // The parent form will be read here on NgInit
-  subscriptionData!: Subscription; // the subscription I use in every component to communicate with the service.model.ts of the same component
-  subscriptionIsFetching!: Subscription; // the subscription I use in every component to communicate with the service.model.ts to check if the data is currently loading from the API
   public physicians!: Physician[]; // list of all specialities obtained from the API
   public physiciansSearched!: Physician[]; // list of specialities filtered using the search criteria
   isFetching:boolean=false; // if true data is currently retrieved from the API
@@ -25,33 +25,23 @@ export class PhysiciansSelectorComponent implements OnInit, OnDestroy {
    * I inject the FormGroupDirective because I need to access the parent form(the FormGroup), I will do this in ngInit
    * @param rootFormGroup
    */
-  constructor(private physiciansService: PhysiciansService, private rootFormGroup: FormGroupDirective) {
+  constructor(private httpService: HttpService, private rootFormGroup: FormGroupDirective) {
     console.log("ContactComponent.constructor");
   }
 
   ngOnInit(): void {
     console.log("PhysiciansSelectorComponent.ngOnInit");
     this.form = this.rootFormGroup.control;
-    this.subscriptionData = this.physiciansService.changed.subscribe(
-      (p: Physician[]) => {
-        console.log("PhysiciansSelectorComponent.ngOnInit changes to "+p);
-        this.physicians = p;
-        this.physiciansSearched = p;
-        console.log("PhysiciansSelectorComponent.ngOnInit size "+this.physicians.length);
-      }
-    );
-    this.subscriptionIsFetching = this.physiciansService.isFetchingChanged.subscribe(
-      (isFetchingChanged: boolean) => {
-        this.isFetching = isFetchingChanged;
-      }
-    );
-    this.physiciansService.fetch(this.form.get('specialityId')!.value, this.form.get('appointmentSearchDateStart')!.value);
-  }
-
-  ngOnDestroy(): void {
-    console.log("PhysiciansSelectorComponent.ngOnDestroy");
-    this.subscriptionData.unsubscribe();
-    this.subscriptionIsFetching.unsubscribe();
+    this.isFetching = true;
+    this.httpService.getPhysiciansBySpecialityAndDate(
+          JSON.parse(this.form.get('speciality')!.value).id,
+          this.form.get('appointmentSearchDateStart')!.value).subscribe(p => {
+      console.log("getPhysiciansBySpecialityAndDate ");
+      console.log(p);
+      this.physicians = p as Physician[];
+      this.physiciansSearched = p as Physician[];
+      this.isFetching = false;
+    });
   }
 
   clearSearchText() {
@@ -74,16 +64,20 @@ export class PhysiciansSelectorComponent implements OnInit, OnDestroy {
     console.log("Stop performSearch for "+this.physiciansSearched);
   }
 
-  /**
-   * When the user inserts a date and presses "Go to step 5" this function will be executed and the result the parent component will be informed
-   */
-  setPhysician(p: Physician) {
-    console.log(this.form);
-    this.form.get('physician')!.patchValue(JSON.stringify(p));
-
-  }
-
-  submit() {
-    this.stepFiveRequiredByUser.emit(true);
+  getAppointmentRequest(physician: Physician): AppointmentRequest {
+    let speciality: Speciality = JSON.parse(this.form.get('speciality')!.value);
+    let labTestsGroups: Service[] = [];
+    let fa = this.form.get('selectedServices') as FormArray
+    fa.controls.map(control => {
+      let tmp: Service = JSON.parse(control.value);
+      labTestsGroups.push(tmp);
+    });
+    return new AppointmentRequest(
+      this.form.get('appointmentSearchDateStart')!.value,
+      this.form.get('appointmentSearchDateStop')!.value,
+      speciality,
+      physician,
+      labTestsGroups
+    );
   }
 }

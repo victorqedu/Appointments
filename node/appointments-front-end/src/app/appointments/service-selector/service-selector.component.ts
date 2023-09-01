@@ -1,21 +1,16 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {Speciality} from "../../models/speciality.model";
 import {Service} from "../../models/service.model";
-import {ServicesService} from "./services.service";
-
+import {HttpService} from "../../services/http-service";
 
 @Component({
   selector: 'app-service-selector',
   templateUrl: './service-selector.component.html',
   styleUrls: ['./service-selector.component.css']
 })
-export class ServiceSelectorComponent  implements OnInit, OnDestroy {
+export class ServiceSelectorComponent  implements OnInit {
   @Output() stepFourRequiredByUser = new EventEmitter<boolean>(); // I use stepTwoRequiredByUser to inform the parent that I want to go to step 3 of the appointment
   form!: FormGroup; // The parent form will be read here on NgInit
-  subscriptionData!: Subscription; // the subscription I use in every component to communicate with the service.model.ts of the same component
-  subscriptionIsFetching!: Subscription; // the subscription I use in every component to communicate with the service.model.ts to check if the data is currently loading from the API
   public services!: Service[]; // list of all specialities obtained from the API
   public servicesSearched!: Service[]; // list of specialities filtered using the search criteria
   isFetching:boolean=false; // if true data is currently retrieved from the API
@@ -26,7 +21,7 @@ export class ServiceSelectorComponent  implements OnInit, OnDestroy {
    * I inject the FormGroupDirective because I need to access the parent form(the FormGroup), I will do this in ngInit
    * @param rootFormGroup
    */
-  constructor(private servicesService: ServicesService, private rootFormGroup: FormGroupDirective) {
+  constructor(private httpService: HttpService, private rootFormGroup: FormGroupDirective) {
     console.log("ServiceSelectorComponent.constructor");
   }
 
@@ -34,27 +29,15 @@ export class ServiceSelectorComponent  implements OnInit, OnDestroy {
     console.log("ServiceSelectorComponent.ngOnInit");
     this.form = this.rootFormGroup.control;
     console.log(this.form);
-    this.subscriptionData = this.servicesService.changed.subscribe(
-      (s: Service[]) => {
-        console.log("ServiceSelectorComponent.ngOnInit changes to "+s);
-        this.services = s;
-        this.servicesSearched = s;
-        console.log("SpecialitiesComponent.ngOnInit size "+this.services.length);
-      }
-    );
-    this.subscriptionIsFetching = this.servicesService.isFetchingChanged.subscribe(
-      (isFetchingChanged: boolean) => {
-        this.isFetching = isFetchingChanged;
-      }
-    );
-    this.servicesService.fetch(this.form.get('specialityId')!.value);
+    this.isFetching = true;
+    this.httpService.findLabTestsGroupsBySpeciality(JSON.parse(this.form.get('speciality')!.value).id).subscribe(s => {
+      console.log("findLabTestsGroupsBySpeciality ");
+      console.log(s);
+      this.services = s as Service[];
+      this.servicesSearched = s as Service[];
+      this.isFetching = false;
+    });
     console.log("ServiceSelectorComponent.ngOnInit end");
-  }
-
-  ngOnDestroy(): void {
-    console.log("ServiceSelectorComponent.ngOnDestroy");
-    this.subscriptionData.unsubscribe();
-    this.subscriptionIsFetching.unsubscribe();
   }
 
   clearSearchText() {

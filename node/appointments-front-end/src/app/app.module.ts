@@ -29,9 +29,9 @@ import { PhysiciansSelectorComponent } from './appointments/physicians-selector/
 import {SpecialitiesService} from "./appointments/specialities-selector/specialities.service";
 import { DateSelectorComponent } from './appointments/date-selector/date-selector.component';
 import { ServiceSelectorComponent } from './appointments/service-selector/service-selector.component';
-import {ServicesService} from "./appointments/service-selector/services.service";
-import {PhysiciansService} from "./appointments/physicians-selector/physicians.service";
 import {ImageDisplayComponent} from "./image-display/image-display.component";
+import { PhysicianAppointmentsComponent } from './appointments/physician-appointments/physician-appointments.component';
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -51,6 +51,7 @@ import {ImageDisplayComponent} from "./image-display/image-display.component";
     DateSelectorComponent,
     ServiceSelectorComponent,
     ImageDisplayComponent,
+    PhysicianAppointmentsComponent,
   ],
   imports: [
     CommonModule,
@@ -62,6 +63,7 @@ import {ImageDisplayComponent} from "./image-display/image-display.component";
     BrowserAnimationsModule,
     MatDialogModule,
     MatExpansionModule,
+    MatButtonModule,
   ],
   providers: [
     {
@@ -75,8 +77,6 @@ import {ImageDisplayComponent} from "./image-display/image-display.component";
     ModalMessageService,
     AccountService,
     SpecialitiesService,
-    ServicesService,
-    PhysiciansService
   ],
   bootstrap: [AppComponent]
 })

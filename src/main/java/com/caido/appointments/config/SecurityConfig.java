@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(corsCustomizer -> corsCustomizer.configurationSource((HttpServletRequest request) -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(Collections.singletonList("http://192.168.88.105:4200"));
+                    config.setAllowedOrigins(Arrays.asList("https://192.168.88.105:4200", "https://mail.caido.ro:4200", "https://localhost:4200", "http://192.168.88.105:4200", "http://mail.caido.ro:4200", "http://localhost:4200"));
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
                     config.setAllowedHeaders(Collections.singletonList("*"));

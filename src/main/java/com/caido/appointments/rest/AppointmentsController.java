@@ -10,6 +10,8 @@ import com.caido.appointments.repositories.SpecialitiesRepository;
 import com.caido.appointments.services.AppointmentsService;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -37,6 +39,11 @@ public class AppointmentsController {
     
     @PostMapping("/appointments")
     CollectionModel<EntityModel<Appointments>> calculateAppointments(@RequestBody RequestAppointmentDTO request) {
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(AppointmentsController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         List<Appointments> appointlemntsList = appointmentsService.calculateAppointments(request);
         appointlemntsList.stream().map(a -> a).forEach(System.out::println);
         List<EntityModel<Appointments>> c = appointlemntsList.stream()
@@ -51,6 +58,12 @@ public class AppointmentsController {
         Appointments c = appointmentsService.getAppointmentsRepository().findById(id).orElseThrow(() -> new RootExceptionHandler("Programarea cu id-ul "+id+" nu a fost gasita in baza de date"));
         return assembler.toModel(c);
     }
+
+    @PostMapping(value = "/saveAppointment", consumes = "application/json", produces = "application/json")
+    EntityModel<Appointments> saveAppointment(@RequestBody Appointments appointment) {
+        Appointments a = appointmentsService.saveAppointment(appointment);
+        return assembler.toModel(a);
+    }
 }
 
 @Component
@@ -60,7 +73,8 @@ class AppointmentsModelAssembler implements RepresentationModelAssembler<Appoint
   public EntityModel<Appointments> toModel(Appointments c) {
     return EntityModel.of(c, 
         linkTo(methodOn(AppointmentsController.class).getOne(c.getId())).withSelfRel(),
-        linkTo(methodOn(AppointmentsController.class).calculateAppointments(null)).withSelfRel()
+        linkTo(methodOn(AppointmentsController.class).calculateAppointments(null)).withSelfRel(),
+        linkTo(methodOn(AppointmentsController.class).saveAppointment(null)).withSelfRel()
     );
   }
 }

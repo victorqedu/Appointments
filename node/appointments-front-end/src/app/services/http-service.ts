@@ -5,14 +5,16 @@ import {ContactService} from "../contact/contact.service";
 import {map, tap} from "rxjs";
 import {Account} from "../models/account.model";
 import {Speciality} from "../models/speciality.model";
+import {AppointmentRequest} from "../models/appointmentRequest.model";
+import {Appointment} from "../models/appointment.model";
 
 /**
  * In this class I have many observers and I will not use any error handling, this will happen in a single common place, in the GenericHttpInterceptors
  */
 @Injectable({ providedIn: 'root' })
 export class HttpService {
-  protected serverProtocol: string = "http";
-  protected serverHost: string = "192.168.88.105";
+  protected serverProtocol: string = "https";
+  protected serverHost: string = "mail.caido.ro";
   protected serverPort: number = 8081;
   protected serverPrefix: string = "api";
 
@@ -95,6 +97,33 @@ export class HttpService {
         }), // Extract the array from the response
         tap(response => {
           console.log("getAvailablePhysiciansBySpecialityAndDate "+response);
+        })
+      );
+  }
+
+  getPhysiciansAvailableAppointments(ar: AppointmentRequest) {
+    console.log("Start getPhysiciansAvailableAppointments");
+    return this.http.post<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix+"/appointments" , JSON.stringify(ar))
+      .pipe(
+        map(response => {
+          if(response.hasOwnProperty("_embedded") && response._embedded.hasOwnProperty("appointmentsList")) {
+            return response._embedded.appointmentsList;
+          } else {
+            return [];
+          }
+        }), // Extract the array from the response
+        tap(response => {
+          //console.log(response);
+        })
+      );
+  }
+
+  saveAppointment(appointment: Appointment) {
+    return this.http.post<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix+"/saveAppointment" , JSON.stringify(appointment))
+      .pipe(
+        map(response => response), // Extract the array from the response
+        tap(response => {
+          //console.log(response);
         })
       );
   }

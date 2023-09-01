@@ -5,7 +5,7 @@ import {ModalMessage} from "./modal-message-model";
 @Injectable()
 export class ModalMessageService {
   modalMessageChanged = new Subject<ModalMessage>();
-  private modalMessage: ModalMessage = new ModalMessage('', '', false, false, false);
+  private modalMessage: ModalMessage = new ModalMessage('', '', false, false, false, false);
 
   getModalMessage() {
     console.log("getModalMessage "+this.modalMessage);

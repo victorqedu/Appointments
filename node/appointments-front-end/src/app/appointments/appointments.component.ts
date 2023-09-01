@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import {AccountService} from "../services/accountService";
 import {FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {CustomValidator} from "../customValidators/customValidator";
+import {appointmentsDatesValidator, CustomValidator, passwordValidator} from "../customValidators/customValidator";
 import {Service} from "../models/service.model";
 import {Physician} from "../models/physician.model";
+import {CommonFunctions} from "../commonFunctions/commonFunctions";
+import {Speciality} from "../models/speciality.model";
 
 @Component({
   selector: 'app-appointments',
@@ -21,14 +23,13 @@ export class AppointmentsComponent {
    */
   currentStep: number = 1;
   appointmentForm = new FormGroup({
-    appointmentSearchDateStart : new FormControl('', [Validators.required, CustomValidator.checkDateIsInThePast as ValidatorFn]),
-    appointmentSearchDateStop : new FormControl('', [Validators.required, CustomValidator.checkDateIsInThePast as ValidatorFn]),
-    specialityId : new FormControl('', [Validators.required]),
-    specialityName : new FormControl('', [Validators.required]),
+    appointmentSearchDateStart: new FormControl(CommonFunctions.formatDateToYYYYMMDD(new Date()), [Validators.required, CustomValidator.checkDateIsInThePast as ValidatorFn]),
+    appointmentSearchDateStop : new FormControl(CommonFunctions.formatDateToYYYYMMDD(new Date((new Date()).getTime()+(1000 * 60 * 60 * 24)*7)), [Validators.required, CustomValidator.checkDateIsInThePast as ValidatorFn]),
+    speciality : new FormControl('', [Validators.required]),
     selectedServices : new FormArray([], Validators.required),
     physician : new FormControl('', [Validators.required]),
     appointmentHour : new FormControl('', [Validators.required, CustomValidator.checkDateIsInThePast as ValidatorFn]),
-    }
+    }, { validators: appointmentsDatesValidator }
   );
 
   constructor(public accountService: AccountService) {}
@@ -37,9 +38,13 @@ export class AppointmentsComponent {
     return this.appointmentForm.get('selectedServices') as FormArray;
   }
 
-  serviceFromJSON(index: number): Service {
+  serviceJSONFromText(index: number): Service {
     const controlAtIndex = this.selectedServices.at(index);
     return JSON.parse(controlAtIndex.value);
+  }
+
+  specialityJSONFromText(specilityText: string): Speciality {
+    return JSON.parse(specilityText);
   }
 
   get physicianToJSON(): Physician {

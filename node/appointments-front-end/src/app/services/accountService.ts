@@ -98,6 +98,7 @@ export class AccountService {
         '',
         true,
         true,
+        false,
         false));
     this.httpService.getTermsAndConditions().subscribe(termsAndConditions => {
       console.log(termsAndConditions);
@@ -108,7 +109,8 @@ export class AccountService {
           tac.valoare,
           true,
           false,
-          true));
+          true,
+          false));
     });
   }
 
@@ -123,6 +125,7 @@ export class AccountService {
         '',
         true,
         true,
+        false,
         false));
     this.httpService.getPolicyOfConfidentiality().subscribe(poc => {
       console.log(poc);
@@ -133,7 +136,8 @@ export class AccountService {
           pol.valoare,
           true,
           false,
-          true));
+          true,
+          false));
     });
   }
 

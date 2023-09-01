@@ -1,29 +1,22 @@
 package com.caido.appointments.entity;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
 @Table(name = "physicians")
-@NamedQueries({
-    @NamedQuery(name = "Physicians.findAll", query = "SELECT p FROM Physicians p"),
-    @NamedQuery(name = "Physicians.findById", query = "SELECT p FROM Physicians p WHERE p.id = :id"),
-    @NamedQuery(name = "Physicians.findByStencilNo", query = "SELECT p FROM Physicians p WHERE p.stencilNo = :stencilNo")})
 public class Physicians implements Serializable {
-
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -36,23 +29,11 @@ public class Physicians implements Serializable {
     @Column(name = "stencil_no")
     private String stencilNo;
     
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPhysicians")
-//    private Collection<Appointments> appointmentsCollection;
-    
     @JoinColumn(name = "id_personnel", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Personnel idPersonnel;
 
     public Physicians() {
-    }
-
-    public Physicians(Integer id) {
-        this.id = id;
-    }
-
-    public Physicians(Integer id, String stencilNo) {
-        this.id = id;
-        this.stencilNo = stencilNo;
     }
 
     public Integer getId() {
@@ -70,14 +51,6 @@ public class Physicians implements Serializable {
     public void setStencilNo(String stencilNo) {
         this.stencilNo = stencilNo;
     }
-
-//    public Collection<Appointments> getAppointmentsCollection() {
-//        return appointmentsCollection;
-//    }
-//
-//    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
-//        this.appointmentsCollection = appointmentsCollection;
-//    }
 
     public Personnel getIdPersonnel() {
         return idPersonnel;
@@ -101,15 +74,6 @@ public class Physicians implements Serializable {
             return false;
         }
         Physicians other = (Physicians) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
-
-    @Override
-    public String toString() {
-        return "com.caido.appointments.entity.Physicians[ id=" + id + " ]";
-    }
-    
 }

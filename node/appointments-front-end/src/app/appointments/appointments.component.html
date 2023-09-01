@@ -23,18 +23,15 @@
           </div>
         </a>
         <a class="list-group-item list-group-item-action disabled">Specialitatea
-          <div *ngIf="appointmentForm.get('specialityName')!.valid">
-            {{appointmentForm.get('specialityName')!.value}}
-          </div>
-          <div *ngIf="!appointmentForm.get('specialityName')!.valid">
-            &nbsp;
+          <div *ngIf="appointmentForm.get('speciality')!.valid">
+            {{specialityJSONFromText(appointmentForm.get('speciality')!.value!).name}}
           </div>
         </a>
         <a class="list-group-item list-group-item-action disabled">Servicii
           <div *ngIf="appointmentForm.get('selectedServices')!.valid">
             <div *ngFor="let serviceCtrl of selectedServices.controls; let i = index">
               <label>
-                - {{serviceFromJSON(i).name}}
+                - {{serviceJSONFromText(i).name}}
               </label>
             </div>
           </div>

@@ -2,17 +2,21 @@ package com.caido.appointments.entity;
 
 import java.io.Serializable;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Table(name = "appointments")
@@ -24,6 +28,28 @@ public class Appointments implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
+    @Column(name = "id_city", nullable = false)
+    private Integer idCity;
+
+    public Integer getIdCity() {
+        return idCity;
+    }
+
+    public void setIdCity(Integer idCity) {
+        this.idCity = idCity;
+    }
+
+    @Column(name = "id_department", nullable = false)
+    private Integer idDepartment;
+
+    public Integer getIdDepartment() {
+        return idDepartment;
+    }
+
+    public void setIdDepartment(Integer idDepartment) {
+        this.idDepartment = idDepartment;
+    }
     
     @Basic(optional = false)
     @Column(name = "ora_programare")
@@ -61,6 +87,19 @@ public class Appointments implements Serializable {
     @ManyToOne(optional = false)
     private Specialities idSpeciality;
 
+    @ManyToMany
+    @JoinTable(name = "appointments_lab_tests_groups",
+               joinColumns = @JoinColumn(name = "id_appointments"),
+               inverseJoinColumns = @JoinColumn(name = "id_lab_tests_groups"))
+    private Collection<LabTestsGroups> labTestsGroups;
+
+    public Collection<LabTestsGroups> getLabTestsGroups() {
+        return labTestsGroups;
+    }
+
+    public void setLabTestsGroups(Collection<LabTestsGroups> labTestsGroups) {
+        this.labTestsGroups = labTestsGroups;
+    }
 //    @JoinColumn(name = "id_lab_tests_groups", referencedColumnName = "id")
 //    @ManyToOne(optional = false)
 //    private LabTestsGroups idLabTestsGroups;
@@ -152,14 +191,6 @@ public class Appointments implements Serializable {
         this.idSpeciality = idSpeciality;
     }
 
-//    public LabTestsGroups getIdLabTestsGroups() {
-//        return idLabTestsGroups;
-//    }
-//
-//    public void setIdLabTestsGroups(LabTestsGroups idLabTestsGroups) {
-//        this.idLabTestsGroups = idLabTestsGroups;
-//    }
-//    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -174,10 +205,7 @@ public class Appointments implements Serializable {
             return false;
         }
         Appointments other = (Appointments) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

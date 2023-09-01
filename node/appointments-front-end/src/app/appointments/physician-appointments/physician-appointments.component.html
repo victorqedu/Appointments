@@ -1,0 +1,12 @@
+<app-modal-message></app-modal-message>
+<div class="row d-flex justify-content-center align-items-center h-100" *ngIf="isFetching">
+  <app-waiting-for-data></app-waiting-for-data>
+</div>
+<div class="row d-flex justify-content-center align-items-center h-100" *ngIf="!isFetching">
+  <button class="col-md-12 text-center disabled" *ngFor="let day of daysAvailableSorted">
+    {{day}}
+    <button class="col-md-3 text-center btn btn-outline-warning btn-sm" *ngFor="let hour of daysAvailable.get(day)" (click)="submit(day, hour)">
+      {{hour}}
+    </button>
+  </button>
+</div>

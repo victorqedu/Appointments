@@ -1,8 +1,12 @@
-<div class="container">
+<div class="row d-flex justify-content-center align-items-center h-100" *ngIf="isFetching">
+  <app-waiting-for-data></app-waiting-for-data>
+</div>
+
+<div class="container" *ngIf="!isFetching">
   <div class="row">
     <div class="col-md-12 text-center">
       <br>
-      <h3>{{"Pasul 5: Selectați medicul si ora programării" | uppercase}}</h3>
+      <h3>{{"Pasul 5: Faceți click pe ora dorită pentru a înregistra programarea" | uppercase}}</h3>
     </div>
   </div>
   <div class="col-md-12 text-center">
@@ -15,25 +19,27 @@
         placeholder={{placehoderSearch}}
         [(ngModel)]="searchText"
         (focus)="clearSearchText()"
-        (input)="performSearch()">
+        (input)="performSearch()"/>
     </div>
     <br>
   </div>
   <div class="row">
-    <div class="col-md-3 text-center" *ngFor="let p of physiciansSearched">
-      <button class="btn btn-primary fixed-button" id="physician{{p.id}}" (click)="setPhysician(p)">
-        <app-image-display [base64Image]="p.imagineAngajat!" [width]="110" [height]="110" *ngIf="p.imagineAngajat">
-        </app-image-display>
+    <div class="col-md-12 text-center" *ngFor="let p of physiciansSearched">
+      <div class="btn btn-primary" id="physician{{p.id}}">
+        <app-image-display [base64Image]="p.imagineAngajat!" [width]="110" [height]="110" *ngIf="p.imagineAngajat"/>
+        <img src="/assets/images/shedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===2"/>
+        <img src="/assets/images/hedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===1"/>
         {{p.name+" "+p.surname | uppercase}}
-      </button>
+        <app-physician-appointments [appointmentRequest]="getAppointmentRequest(p)"/>
+      </div>
     </div>
   </div>
   <form [formGroup]="form">
     <input    type="hidden"    id="physician"    formControlName="physician">
   </form>
-  <div class="row">
+  <!--<div class="row">
     <div class="col-md-12 d-flex justify-content-center align-items-center">
       <button class="btn btn-dark btn-lg btn-block" type="submit" (click) = submit() >Salvează programarea</button>
     </div>
-  </div>
+  </div>-->
 </div>

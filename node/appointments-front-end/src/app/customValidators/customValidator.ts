@@ -18,6 +18,21 @@ export const passwordValidator: ValidatorFn = (control: AbstractControl): Valida
   }
 };
 
+export const appointmentsDatesValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const startDate = new Date(control.get('appointmentSearchDateStart')?.value);
+  const stopDate = new Date(control.get('appointmentSearchDateStop')?.value);
+  const oneDayMilliseconds = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+  const timeDifference = stopDate.getTime() - startDate.getTime();
+  const numberOfDays = Math.floor(timeDifference / oneDayMilliseconds);
+  if(numberOfDays>7) {
+    return { max7Days: "Puteți selecta un interval de maxim 7 zile" };
+  } else if (stopDate.getTime() < startDate.getTime()) {
+    return { stopBeforeStart: "Data de start nu poate fi după data de stop" };
+  } else {
+    return null;
+  }
+};
+
 export class CustomValidator {
   public static checkCNP(control: FormControl): {[s:string]:string} | null {
     //console.log("start check CNP validator");

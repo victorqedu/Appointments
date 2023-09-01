@@ -25,7 +25,7 @@
             [ngClass]="form.get('appointmentSearchDateStart')!.valid? 'is-valid':''">
 
           <label class="form-label">
-              <span *ngIf="!form.get('appointmentSearchDateStart')!.valid" class="text-danger">
+              <span *ngIf="!form.get('appointmentSearchDateStart')!.valid && form.get('appointmentSearchDateStart')!.touched" class="text-danger">
                 <span *ngIf="form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']}}</span>
                 <span *ngIf="!form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">Completați data de început</span>
               </span>
@@ -47,7 +47,7 @@
             [ngClass]="form.get('appointmentSearchDateStop')!.valid ? 'is-valid':''">
 
           <label class="form-label">
-              <span *ngIf="!form.get('appointmentSearchDateStop')!.valid" class="text-danger">
+              <span *ngIf="!form.get('appointmentSearchDateStop')!.valid && form.get('appointmentSearchDateStop')!.touched" class="text-danger">
                 <span *ngIf="form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']}}</span>
                 <span *ngIf="!form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']" class="text-danger">Completați data de sfârșit</span>
               </span>
@@ -55,6 +55,11 @@
         </div>
       </div>
     </div>
+
+    <label class="form-label">
+        <span *ngIf="form && form?.errors?.hasOwnProperty('max7Days')" class="text-danger">Puteți selecta un interval de maxim 7 zile</span>
+        <span *ngIf="form && form?.errors?.hasOwnProperty('stopBeforeStart')" class="text-danger">Data de start nu poate fi după data de stop</span>
+    </label>
   </form>
 
   <br>

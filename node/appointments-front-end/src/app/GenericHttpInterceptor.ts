@@ -16,7 +16,7 @@ export class GenericHttpInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log("GenericHttpInterceptor.intercept");
-    let httpHeaders = new HttpHeaders();
+    let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
     if(sessionStorage.getItem('accountDetails')) {
       this.account = JSON.parse(sessionStorage.getItem('accountDetails')!);
     }

@@ -4,18 +4,20 @@ import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
+import java.util.Collection;
 
 /**
  *
@@ -23,18 +25,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "personnel")
-@NamedQueries({
-    @NamedQuery(name = "Personnel.findAll", query = "SELECT p FROM Personnel p"),
-    @NamedQuery(name = "Personnel.findById", query = "SELECT p FROM Personnel p WHERE p.id = :id"),
-    @NamedQuery(name = "Personnel.findByValidfrom", query = "SELECT p FROM Personnel p WHERE p.validfrom = :validfrom"),
-    @NamedQuery(name = "Personnel.findByValidto", query = "SELECT p FROM Personnel p WHERE p.validto = :validto"),
-    @NamedQuery(name = "Personnel.findByImagineBase64", query = "SELECT p FROM Personnel p WHERE p.imagineBase64 = :imagineBase64"),
-    @NamedQuery(name = "Personnel.findByEmail", query = "SELECT p FROM Personnel p WHERE p.email = :email"),
-    @NamedQuery(name = "Personnel.findByTelefon", query = "SELECT p FROM Personnel p WHERE p.telefon = :telefon"),
-    @NamedQuery(name = "Personnel.findByImagineAngajat", query = "SELECT p FROM Personnel p WHERE p.imagineAngajat = :imagineAngajat")})
 public class Personnel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -155,6 +146,20 @@ public class Personnel implements Serializable {
 
     public void setIdperson(Person idperson) {
         this.idperson = idperson;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "personnel_department",
+               joinColumns = @JoinColumn(name = "id_personnel"),
+               inverseJoinColumns = @JoinColumn(name = "id_department"))
+    private Collection<Department> department;
+
+    public void setDepartment(Collection<Department> department) {
+        this.department = department;
+    }
+
+    public Collection<Department> getDepartment() {
+        return department;
     }
 
     @Override

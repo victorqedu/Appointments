@@ -1,11 +1,11 @@
 package com.caido.appointments.services;
 
-import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.Util.LocalDateTimeInterval;
 import com.caido.appointments.entity.Appointments;
 import com.caido.appointments.entity.AppointmentsTypes;
 import com.caido.appointments.entity.DTO.RequestAppointmentDTO;
 import com.caido.appointments.entity.LabTestsGroups;
+import com.caido.appointments.entity.Personnel;
 import com.caido.appointments.entity.Physicians;
 import com.caido.appointments.entity.PhysiciansWorkingSchedule;
 import com.caido.appointments.entity.Specialities;
@@ -31,7 +31,6 @@ public class AppointmentsService {
     AppointmentsRepository appointmentsRepository;
     PhysiciansWorkingScheduleRepository physiciansWorkingScheduleRepository;
     LabTestsGroupsRepository labTestsGroupsRepository;
-    
     AppointmentsTypes at = new AppointmentsTypes();
     
     public AppointmentsService(AppointmentsRepository ar, PhysiciansWorkingScheduleRepository pwsr, LabTestsGroupsRepository ltgr) {
@@ -45,6 +44,46 @@ public class AppointmentsService {
         return appointmentsRepository;
     }
     
+    public Appointments saveAppointment(Appointments appointment) {
+        // 1. Check required fields 
+        if(appointment.getIdAppointmentsTypes()==null) {
+            // the type of the appointment is a field I no longer use, the types are deducted from the list of services(lab_tests_groups) if necessary
+            AppointmentsTypes appointmentsTypes = new AppointmentsTypes();
+            appointmentsTypes.setId(1);
+            appointment.setIdAppointmentsTypes(appointmentsTypes);
+        }
+        if(appointment.getIdPerson()==null) {
+            throw new RuntimeException("Persoana este obligatorie pentru salvarea programarii");
+        }
+        if(appointment.getIdDepartment()==null) {
+            throw new RuntimeException("Sectia este obligatorie pentru salvarea programarii, asociati sectia cu o specialitate");
+        }
+        if(appointment.getIdPhysicians()==null) {
+            throw new RuntimeException("Medicul este obligatoriu pentru salvarea programarii");
+        } 
+        if(appointment.getIdPersonnel()==null) {
+            throw new RuntimeException("Persoana nagajata nu a fost identificata cu succes");
+        } 
+        if(appointment.getIdSpeciality()==null) {
+            throw new RuntimeException("Specialitatea este obligatorie pentru salvarea programarii");
+        }
+        if(appointment.getLabTestsGroups().isEmpty()) {
+            throw new RuntimeException("Programarea trebuie sa contina cel putin un serviciu");
+        } else {
+            appointment.setMinuteEstimate(0);
+            appointment.getLabTestsGroups().forEach(ltg -> {
+                appointment.setMinuteEstimate(appointment.getMinuteEstimate()+ltg.getMinuteEstimate());
+            });
+        }
+        if(appointment.getOraProgramare()==null) {
+            throw new RuntimeException("Data si ora programarii este obligatorie");
+        }
+        if(appointment.getIdCity()==null) {
+            appointment.setIdCity(85535); // harcoded a city, I should use the location of the department
+        }
+
+        return appointmentsRepository.save(appointment);
+    }
 
     public List<Appointments> calculateAppointments (RequestAppointmentDTO request) {
             LocalDate localDateStartIV = request.getLocalDateStartIV();
