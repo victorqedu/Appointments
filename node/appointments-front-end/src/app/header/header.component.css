@@ -13,14 +13,15 @@
 
 .dropdown-menu {
   background-color: #EF6C33 ;
-  border:2px solid #000;
+  padding: 10px;
+  border:1px solid #0C4A60 ;
 }
 .navbar-custom .navbar-text {
   color: #FFFFFF ;
 }
 
 .navbar  {
-  border-bottom:2px solid #EF6C33 ;
+  border-bottom:1px solid #EF6C33 ;
 }
 
 a.navbar-brand:link, a.nav-link:link {

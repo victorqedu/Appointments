@@ -1,11 +1,10 @@
 <span class="border-bottom">
 <nav class="navbar navbar-expand-sm navbar-collapse navbar-custom py-4">
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="toggleNavbarContent()">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="navbar-brand nav-link" routerLink="/firstPage">
@@ -17,32 +16,37 @@
           </a>
         </li>
       </ul>
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link fs-6" routerLink="/firstPage">{{"Acasă" | uppercase}}</a>
-        </li>
-        <li class="nav-item" *ngIf="!accountService.isConnected()">
-          <a class="nav-link fs-6" routerLink="/login">{{"Conectare" | uppercase}}</a>
-        </li>
-        <li class="nav-item" *ngIf="!accountService.isConnected()">
-          <a class="nav-link fs-6" routerLink="/signup">{{"Creare cont" | uppercase}}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link fs-6" routerLink="/appointments">{{"Programare" | uppercase}}</a>
-        </li>
+    </div>
+      <div [ngClass]="{'collapse': !isNavbarContentVisible, 'navbar-collapse': isNavbarContentVisible}" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link fs-6" routerLink="/firstPage" (click)="toggleNavbarContent()">{{"Acasă" | uppercase}}</a>
+          </li>
+          <li class="nav-item" *ngIf="!accountService.isConnected()">
+            <a class="nav-link fs-6" routerLink="/login" (click)="toggleNavbarContent()">{{"Conectare" | uppercase}}</a>
+          </li>
+          <li class="nav-item" *ngIf="!accountService.isConnected()">
+            <a class="nav-link fs-6" routerLink="/signup" (click)="toggleNavbarContent()">{{"Creare cont" | uppercase}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fs-6" routerLink="/appointments" (click)="toggleNavbarContent()">{{"Programare" | uppercase}}</a>
+          </li>
 
-        <li class="nav-item dropdown" *ngIf="accountService.isConnected()">
-          <a class="nav-link dropdown-toggle fs-6" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            CONTUL MEU
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="">
-            <a class="nav-link fs-6" aria-current="page">{{"Istoric" | uppercase}}</a>
-            <a class="nav-link fs-6" aria-current="page" routerLink="/signup">{{"Date cont" | uppercase}}</a>
-            <div class="dropdown-divider"></div>
-            <a class="nav-link fs-6" aria-current="page" (click)="accountService.disconnect()">{{"Ieșire" | uppercase}}</a>
-          </div>
-        </li>
-      </ul>
+          <li class="nav-item dropdown" *ngIf="accountService.isConnected()">
+            <a class="nav-link dropdown-toggle fs-6" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              CONTUL MEU
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"  style="">
+              <a class="nav-link fs-6" aria-current="page" (click)="toggleNavbarContent()">{{"Istoric" | uppercase}}</a>
+              <a class="nav-link fs-6" aria-current="page" routerLink="/signup" (click)="toggleNavbarContent()">{{"Date cont" | uppercase}}</a>
+              <div class="dropdown-divider"></div>
+              <a class="nav-link fs-6" aria-current="page" (click)="accountService.disconnect()">{{"Ieșire" | uppercase}}</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    <div class="collapse navbar-collapse">
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
@@ -56,10 +60,10 @@
     </div>
   </div>
 </nav>
-<!--<nav class="breadCrumb" style="&#45;&#45;bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadCrumb breadcrumb-item"><a routerLink="/firstPage">Acasă</a></li>
-    <li class="breadCrumb breadcrumb-item active" aria-current="page">Programări</li>
-  </ol>
-</nav>-->
+  <!--<nav class="breadCrumb" style="&#45;&#45;bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadCrumb breadcrumb-item"><a routerLink="/firstPage">Acasă</a></li>
+      <li class="breadCrumb breadcrumb-item active" aria-current="page">Programări</li>
+    </ol>
+  </nav>-->
 </span>

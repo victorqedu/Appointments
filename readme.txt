@@ -13,6 +13,12 @@
 *13. Implementare "responsive", sa vedem daca site-ul se icadreaza bine in telefoanle mobile.
 14. Manual si instruire
 
+Probleme de rezolvat:
+- validare telefon in backend
+- protectie in db/backend privind salvarea programarilor care se suprapun
+- sa nu permit 2 programari pt o persoan daca prima programare nu a fost inca onorata
+- sectiune de anulare programari in istoric
+- incadrare contact pe telefon, iese din ecran si nu face wrap
 
 ng serve --host 0.0.0.0 --ssl  --ssl-cert "C:\Users\victor\Documents\GitHub\Appointments\ssl\server.crt" --ssl-key "C:\Users\victor\Documents\GitHub\Appointments\ssl\server.key" --disable-host-check
 
