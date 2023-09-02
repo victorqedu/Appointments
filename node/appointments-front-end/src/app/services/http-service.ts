@@ -46,10 +46,15 @@ export class HttpService {
       .post(
         this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/register",
         account
-      )
-      .subscribe(response => {
-        console.log(response);
-      });
+      );
+  }
+
+  updateAccount(account: Account) {
+    return this.http
+      .put(
+        this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/updateAccount",
+        account
+      );
   }
 
   login(account: Account) {

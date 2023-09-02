@@ -1,12 +1,14 @@
 .fixed-button {
-  width: 150px;
+  width: 180px;
+  padding-right: 10px; /* Reserve space for the checkmark icon */
+  padding-left: 10px; /* Reserve space for the checkmark icon */
   height: 60px;
   margin: 0px 5px 5px 5px;
 }
 
 .fixed-button:hover {
-  background-color: #FFAAAA !important;
-  border-color: #FFAAAA !important;
+  background-color: #EF6C33 !important;
+  border-color: #EF6C33 !important;
 }
 
 input {
@@ -23,7 +25,28 @@ input {
 .custom-input::placeholder {
   color: grey; /* Set the placeholder text color */
 }
+/* Custom class to add a checkmark icon */
+.checkmark-button {
+  position: relative; /* Create a positioning context */
+  padding-right: 10px; /* Reserve space for the checkmark icon */
+  padding-left: 10px; /* Reserve space for the checkmark icon */
+  overflow: hidden; /* Hide any overflow of the checkmark icon */
+}
 
+.checkmark-button::before {
+  content: '\2713'; /* Unicode character for a checkmark */
+  font-family: Arial, sans-serif; /* Use a font that includes the checkmark symbol */
+  font-weight: bolder;
+  position: absolute; /* Position the checkmark absolutely */
+  top: 5px; /* Adjust the top position to place it in the corner */
+  right: 5px; /* Adjust the right position to place it in the corner */
+}
 .selectedBG, .selectedBG:hover, .selectedBG:active, .selectedBG:visited {
-  background-color: #00AA00 !important;
+  background-color: #00FC33 !important;
+  color: #000000 ;
+}
+
+.btn-primary {
+  background-color: #ABDFF1   ;
+  color: #000000 ;
 }

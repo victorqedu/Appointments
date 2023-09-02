@@ -23,11 +23,11 @@
     <br>
   </div>
   <div class="row">
-    <div class="col-md-3 text-center" *ngFor="let s of servicesSearched">
+    <div class="col-md-6 text-center" *ngFor="let s of servicesSearched">
       <button
         class="btn btn-primary fixed-button"
         id="service{{s.id}}"
-        [ngClass]="checkServiceIsSelected(s)>=0 ? 'selectedBG':''"
+        [ngClass]="checkServiceIsSelected(s)>=0 ? 'checkmark-button':''"
         (click)="addOrRemoveService(s)">
         {{s.name | uppercase}}
       </button>

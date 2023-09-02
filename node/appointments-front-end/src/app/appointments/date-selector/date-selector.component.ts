@@ -26,7 +26,11 @@ export class DateSelectorComponent implements OnInit {
    */
   goToStep2() {
     console.log(this.form);
-    if (this.form.controls['appointmentSearchDateStart'].valid && this.form.controls['appointmentSearchDateStop'].valid) {
+    if (this.form.controls['appointmentSearchDateStart'].valid &&
+        this.form.controls['appointmentSearchDateStop'].valid &&
+        !this.form?.errors?.hasOwnProperty('max7Days') &&
+        !this.form?.errors?.hasOwnProperty('stopBeforeStart') )
+    {
       this.stepTwoRequiredByUser.emit(true);
       this.error = false;
     } else {

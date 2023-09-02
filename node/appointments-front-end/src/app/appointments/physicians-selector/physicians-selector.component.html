@@ -23,23 +23,27 @@
     </div>
     <br>
   </div>
-  <div class="row">
-    <div class="col-md-12 text-center" *ngFor="let p of physiciansSearched">
-      <div class="btn btn-primary" id="physician{{p.id}}">
-        <app-image-display [base64Image]="p.imagineAngajat!" [width]="110" [height]="110" *ngIf="p.imagineAngajat"/>
-        <img src="/assets/images/shedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===2"/>
-        <img src="/assets/images/hedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===1"/>
-        {{p.name+" "+p.surname | uppercase}}
-        <app-physician-appointments [appointmentRequest]="getAppointmentRequest(p)"/>
+
+    <div *ngFor="let p of physiciansSearched">
+    <!--<div class="col-md-12 text-center" *ngFor="let p of physiciansSearched">-->
+      <div class="card" style="border-radius: 1rem;">
+        <div class="row">
+          <div class="col-md-1 text-center">
+            <app-image-display [base64Image]="p.imagineAngajat!" [width]="110" [height]="110" *ngIf="p.imagineAngajat" style="margin: 10px;"/>
+            <img src="/assets/images/shedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===2"/>
+            <img src="/assets/images/hedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===1"/>
+          </div>
+          <div class="col-md-11 text-center align-items-center justify-content-center">
+            {{p.name+" "+p.surname | uppercase}}
+          </div>
+        </div>
+        <div class="row">
+          <app-physician-appointments [appointmentRequest]="getAppointmentRequest(p)"/>
+        </div>
       </div>
     </div>
-  </div>
+
   <form [formGroup]="form">
     <input    type="hidden"    id="physician"    formControlName="physician">
   </form>
-  <!--<div class="row">
-    <div class="col-md-12 d-flex justify-content-center align-items-center">
-      <button class="btn btn-dark btn-lg btn-block" type="submit" (click) = submit() >Salvează programarea</button>
-    </div>
-  </div>-->
 </div>

@@ -2,11 +2,17 @@
 <div class="row d-flex justify-content-center align-items-center h-100" *ngIf="isFetching">
   <app-waiting-for-data></app-waiting-for-data>
 </div>
-<div class="row d-flex justify-content-center align-items-center h-100" *ngIf="!isFetching">
-  <button class="col-md-12 text-center disabled" *ngFor="let day of daysAvailableSorted">
-    {{day}}
-    <button class="col-md-3 text-center btn btn-outline-warning btn-sm" *ngFor="let hour of daysAvailable.get(day)" (click)="submit(day, hour)">
-      {{hour}}
-    </button>
-  </button>
+<div class="row d-flex justify-content-center align-items-center h-100" style="margin: 2px;" *ngIf="!isFetching">
+  <div class="btn btn-light row" *ngFor="let day of daysAvailableSorted">
+    <div class="col-md-12 text-center">
+      {{day}}
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <button class="col-md-2 text-center btn btn-warning btn-sm btn-outline-dark fixed-button" style="margin: 1px;" *ngFor="let hour of daysAvailable.get(day)" (click)="submit(day, hour)">
+          {{hour}}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -5,6 +5,9 @@ import {CommonFunctions} from "../commonFunctions/commonFunctions";
 import {HttpService} from "../services/http-service";
 import {Account} from "../models/account.model";
 import {AccountService} from "../services/accountService";
+import {ModalMessage} from "../modal-message/modal-message-model";
+import {ModalMessageService} from "../modal-message/modal-message-service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -13,23 +16,39 @@ import {AccountService} from "../services/accountService";
 })
 export class SignupComponent {
   signupForm = new FormGroup({
-      name : new FormControl('', [Validators.required]),
-      surname : new FormControl('', [Validators.required]),
+      name : new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z -]{1,}$")]),
+      surname : new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z -]{1,}$")]),
       cnp : new FormControl('', [CustomValidator.checkCNP as ValidatorFn]),
       birthDate : new FormControl('', [Validators.required]),
       sex : new FormControl('', [Validators.required]),
+      phone : new FormControl('', [Validators.required,Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(12)]),
       email : new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
       password : new FormControl('', [Validators.required, CustomValidator.checkPassword as ValidatorFn]),
       passwordCheck : new FormControl('', [Validators.required, CustomValidator.checkPassword as ValidatorFn]),
     }, { validators: passwordValidator }
   );
 
-  showModal: boolean = false;
-  modalTitle: string = "";
-  modalDescription: string = "";
-
   constructor(private httpService: HttpService,
-              public accountService: AccountService) {}
+              public accountService: AccountService,
+              private modalMessageService: ModalMessageService,
+              private router: Router) {
+    if(accountService.getAccount().id!=null) {
+      this.signupForm.setValue({
+        name: accountService.getAccount().name,
+        surname: accountService.getAccount().surname,
+        cnp: accountService.getAccount().cnp==="0000000000000"?"":accountService.getAccount().cnp,
+        birthDate: accountService.getAccount().birthDate,
+        sex: accountService.getAccount().idSex+"",
+        phone: accountService.getAccount().phone,
+        email: accountService.getAccount().authEmail,
+        password: "",
+        passwordCheck: "",
+      });
+    } else {
+      console.log("Accout is null");
+    }
+
+  }
 
   /**
    * Check if the for is valid, if the data is ready to be sent to the backend
@@ -55,31 +74,67 @@ export class SignupComponent {
   onSubmit() {
     console.warn(this.signupForm);
     if(this.checkAllFieldsAreValid()) {
-      let name = this.signupForm.get('name')!.value;
-      this.httpService.storeSignup(new Account(
-        null,
-        this.signupForm.get('name')!.value,
-        this.signupForm.get('surname')!.value,
-        this.signupForm.get('cnp')!.value,
-        this.signupForm.get('birthDate')!.value,
-        Number(this.signupForm.get('sex')!.value),
-        this.signupForm.get('email')!.value,
-        this.signupForm.get('password')!.value
-      ));
+      if(this.accountService.getAccount().id!=null) {
+        this.httpService.updateAccount(new Account(
+          this.accountService.getAccount().id,
+          this.signupForm.get('name')!.value,
+          this.signupForm.get('surname')!.value,
+          this.signupForm.get('cnp')!.value,
+          this.signupForm.get('birthDate')!.value,
+          Number(this.signupForm.get('sex')!.value),
+          this.signupForm.get('email')!.value,
+          this.signupForm.get('phone')!.value,
+          this.signupForm.get('password')!.value
+        )).subscribe(response => {
+          console.log(response);
+          this.modalMessageService.setModalMessage(
+            new ModalMessage(
+              "Cont modificat cu succes",
+              "Cont modificat cu succes",
+              true,
+              false,
+              false,
+              false));
+          this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+            this.router.navigate(['/firstPage']);
+          });
+        });
+      } else {
+        this.httpService.storeSignup(new Account(
+          null,
+          this.signupForm.get('name')!.value,
+          this.signupForm.get('surname')!.value,
+          this.signupForm.get('cnp')!.value,
+          this.signupForm.get('birthDate')!.value,
+          Number(this.signupForm.get('sex')!.value),
+          this.signupForm.get('email')!.value,
+          this.signupForm.get('phone')!.value,
+          this.signupForm.get('password')!.value
+        )).subscribe(response => {
+          console.log(response);
+          this.modalMessageService.setModalMessage(
+            new ModalMessage(
+              "Cont creat cu succes",
+              "Accesați seciunea de login pentru a vă conecta.",
+              true,
+              false,
+              false,
+              false));
+          this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+            this.router.navigate(['/login']);
+          });
+        });
+      }
     } else {
-      this.openModal("Date incorecte", "Completati câmpurile marcate ca incorecte / câmpurile obligatorii.");
+      this.modalMessageService.setModalMessage(
+        new ModalMessage(
+          "Date incorecte",
+          "Completati câmpurile marcate ca incorecte / câmpurile obligatorii.",
+          true,
+          false,
+          false,
+          false));
     }
-  }
-
-  /**
-   * Opens the modal message containing the component ModalMessageComponent
-   * @param title - title for the modal
-   * @param description - description for the modal
-   */
-  openModal(title: string, description: string) {
-    this.modalTitle = title;
-    this.modalDescription = description;
-    this.showModal = true;
   }
 
   /**
@@ -109,13 +164,4 @@ export class SignupComponent {
     }
   }
 
-  /**
-   * function created only for communication with the @Output of the component app-modal-message,
-   * it synchronizes the show attribute of app-modal-message with the showModal attribute of the signup component
-   * I should use a service.model.ts, but I want to test the @Output functionality
-   * @param showModal
-   */
-  setShowModal(showModal: boolean) {
-    this.showModal = showModal;
-  }
 }

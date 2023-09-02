@@ -7,5 +7,6 @@ export class Account {
     public birthDate: string | null,
     public idSex: number | null,
     public authEmail: string | null,
+    public phone: string | null,
     public onlinePassword: string | null) {}
 }

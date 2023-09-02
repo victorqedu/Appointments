@@ -24,6 +24,27 @@ import java.time.LocalDate;
 @Table(name = "person")
 public class Person implements Serializable {
 
+    @Column(name = "phone",nullable = false)
+    private String phone;
+
+    /**
+     * Get the value of phone
+     *
+     * @return the value of phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Set the value of phone
+     *
+     * @param phone new value of phone
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

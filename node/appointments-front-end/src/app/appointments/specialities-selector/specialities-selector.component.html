@@ -23,8 +23,8 @@
     <br>
   </div>
   <div class="row">
-    <div class="col-md-3 text-center" *ngFor="let s of specialitiesSearched">
-        <button class="btn btn-primary fixed-button" id="speciality{{s.id}}" (click)="setCurrentSpeciality(s)">{{s.name | uppercase}}</button>
+    <div class="col-md-6 text-center" *ngFor="let s of specialitiesSearched">
+        <button class="btn btn-primary fixed-button" id="speciality{{s.id}}" (click)="setCurrentSpeciality(s)">{{s.code | uppercase}}</button>
     </div>
   </div>
   <form [formGroup]="form">

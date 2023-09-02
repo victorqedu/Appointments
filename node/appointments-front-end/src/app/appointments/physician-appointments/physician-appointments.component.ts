@@ -12,6 +12,7 @@ import {Service} from "../../models/service.model";
 import {ModalMessageService} from "../../modal-message/modal-message-service";
 import {ModalMessage} from "../../modal-message/modal-message-model";
 import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-physician-appointments',
@@ -31,7 +32,7 @@ export class PhysicianAppointmentsComponent implements OnInit {
     private rootFormGroup: FormGroupDirective,
     private modalMessageService: ModalMessageService,
     private accountService: AccountService,
-    private confirmDialog: MatDialog
+    private router: Router,
     ) {}
 
   ngOnInit(): void {
@@ -77,7 +78,8 @@ export class PhysicianAppointmentsComponent implements OnInit {
   }
 
   submit(day:string, hour: string) {
-    console.log(this.form);
+    //console.log(this.form);
+    console.log("Start submit");
     this.form.get('physician')!.patchValue(JSON.stringify(this.appointmentRequest.idPhysician));
     this.form.get('appointmentHour')!.patchValue(day+"T"+hour+":00");
     let ss = this.form.get('selectedServices') as FormArray;
@@ -89,27 +91,50 @@ export class PhysicianAppointmentsComponent implements OnInit {
       let appointment = new Appointment(null, this.form.get('appointmentHour')?.value, null, null, null, new AppointmentTypes(1),
       this.accountService.getAccount(), this.appointmentRequest.idPhysician.idPersonnel, this.appointmentRequest.idPhysician, this.appointmentRequest.idSpeciality,
         labTestsGroups, this.appointmentRequest.idPhysician.idDepartment);
-      console.log(JSON.stringify(appointment));
-      console.log(appointment);
-      this.httpService.saveAppointment(appointment).subscribe(savedAppointment => {
-        console.log("Saved");
-        console.log(savedAppointment);
-        if(savedAppointment.id!=null) {
-          this.modalMessageService.setModalMessage(
-            new ModalMessage(
-              "Programare salvată cu succes",
-              "Programare salvată cu succes",
-              true,
-              false,
-              false,
-              false));
-        /*  const dialogRef = this.confirmDialog.open(AreYouSureDialogComponent);
+      //console.log(JSON.stringify(appointment));
+      //console.log(appointment);
 
-          dialogRef.afterClosed().subscribe(result => {
-            console.log(`Dialog result: ${result}`);
-          });*/
+      console.log("Start submit - subscribe to modalMessageAnswer");
+      this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+          console.log("Modal answer: "+answer);
+          this.modalMessageService.modalMessageAnswer.unsubscribe();
+          this.modalMessageService.reinitializeModalMessageAnswerSubject();
+          if(answer) { //Confirm has been hit
+            this.httpService.saveAppointment(appointment).subscribe(savedAppointment => {
+              console.log("Saved");
+              console.log(savedAppointment);
+              if(savedAppointment.id!=null) {
+                this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+                  this.modalMessageService.modalMessageAnswer.unsubscribe();
+                  this.modalMessageService.reinitializeModalMessageAnswerSubject();
+                  this.router.navigate(['/firstPage']);
+                });
+                this.modalMessageService.setModalMessage(
+                  new ModalMessage(
+                    "Programare salvată cu succes",
+                    "Programare salvată cu succes, puteți accesa 'Contul meu/Date cont' pentru a vizualiza istoricul programarilor si pentru a anula programarile",
+                    true,
+                    false,
+                    false,
+                    false));
+
+              }
+            });
+          } else { //cancel hit
+            //nothing to do
+          }
         }
-      });
+      );
+      this.modalMessageService.setModalMessage(
+        new ModalMessage(
+          "Cofirmați salvarea programării cu datele de mai jos?",
+          "Programare pentru specialitatea "+this.appointmentRequest.idSpeciality.name+" la medicul "+this.appointmentRequest.idPhysician.name+
+              " "+this.appointmentRequest.idPhysician.surname+" pentru data și ora "+day+" "+hour,
+          true,
+          false,
+          false,
+          true));
+
     }
   }
 }

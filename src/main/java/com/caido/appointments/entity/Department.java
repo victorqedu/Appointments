@@ -25,12 +25,24 @@ public class Department {
 
     @Column(name = "id_speciality")
     private Integer idSpeciality;
+    
+    @Column(name = "ambulatoriu")
+    private Integer ambulatoriu;
 
-    public Department(Integer id, String name, String code, Integer idSpeciality) {
+    public Integer getAmbulatoriu() {
+        return ambulatoriu;
+    }
+
+    public void setAmbulatoriu(Integer ambulatoriu) {
+        this.ambulatoriu = ambulatoriu;
+    }
+    
+    public Department(Integer id, String name, String code, Integer idSpeciality, Integer ambulatoriu) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.idSpeciality = idSpeciality;
+        this.ambulatoriu = ambulatoriu;
     }
 
     @Override

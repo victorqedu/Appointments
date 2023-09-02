@@ -1,53 +1,36 @@
-<div class="centered-div">
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <br>
-      <br>
-      <br>
-      <h5>{{"Pasul 1: Selectați perioada în care vom cauta programari disponibile" | uppercase}}</h5>
-      <br>
-    </div>
-  </div>
-  <form [formGroup]="form">
-    <div class="row">
-      <div class="col-md-12 d-flex justify-content-center align-items-center">
-        <div class="col mb-3">
-          <label class="form-label">
-            Data start
-          </label>
+<h3>{{"Pasul 1: Selectați perioada în care vom cauta programari disponibile" | uppercase}}</h3>
+<form [formGroup]="form">
+  <div class="row mb-3">
+    <div class="col-md-12">
 
+      <div class="row mb-3">
+        <div class="col mb-3">
           <input
             type="date"
             id="appointmentSearchDateStart"
             class="form-control form-control-sg"
-            style="max-width: 60%;"
             formControlName="appointmentSearchDateStart"
             [ngClass]="form.get('appointmentSearchDateStart')!.valid? 'is-valid':''">
-
-          <label class="form-label">
-              <span *ngIf="!form.get('appointmentSearchDateStart')!.valid && form.get('appointmentSearchDateStart')!.touched" class="text-danger">
-                <span *ngIf="form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']}}</span>
-                <span *ngIf="!form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">Completați data de început</span>
-              </span>
+          <label class="form-label" for="appointmentSearchDateStart"> Data start<br>
+            <span *ngIf="!form.get('appointmentSearchDateStart')!.valid && form.get('appointmentSearchDateStart')!.touched" class="text-danger">
+              <span *ngIf="form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']}}</span>
+              <span *ngIf="!form.get('appointmentSearchDateStart')!.errors!['dateIsInThePast']" class="text-danger">Completați data de început</span>
+            </span>
           </label>
-
         </div>
+      </div>
 
+      <div class="row mb-3">
         <div class="col mb-3">
-          <label class="form-label">
-            Data start
-          </label>
-
           <input
             type="date"
             id="appointmentSearchDateStop"
             class="form-control form-control-sg"
-            style="max-width: 60%;"
             formControlName="appointmentSearchDateStop"
             [ngClass]="form.get('appointmentSearchDateStop')!.valid ? 'is-valid':''">
 
-          <label class="form-label">
-              <span *ngIf="!form.get('appointmentSearchDateStop')!.valid && form.get('appointmentSearchDateStop')!.touched" class="text-danger">
+          <label class="form-label" for="appointmentSearchDateStop"> Data stop<br>
+            <span *ngIf="!form.get('appointmentSearchDateStop')!.valid && form.get('appointmentSearchDateStop')!.touched" class="text-danger">
                 <span *ngIf="form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']" class="text-danger">{{form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']}}</span>
                 <span *ngIf="!form.get('appointmentSearchDateStop')!.errors!['dateIsInThePast']" class="text-danger">Completați data de sfârșit</span>
               </span>
@@ -55,18 +38,18 @@
         </div>
       </div>
     </div>
-
-    <label class="form-label">
-        <span *ngIf="form && form?.errors?.hasOwnProperty('max7Days')" class="text-danger">Puteți selecta un interval de maxim 7 zile</span>
-        <span *ngIf="form && form?.errors?.hasOwnProperty('stopBeforeStart')" class="text-danger">Data de start nu poate fi după data de stop</span>
-    </label>
-  </form>
-
-  <br>
-  <div class="row">
-    <div class="col-md-12 d-flex justify-content-center align-items-center">
-      <button class="btn btn-dark btn-lg btn-block" type="submit" (click) = goToStep2() >Către pasul 2</button>
-    </div>
   </div>
 
+  <div class="row mb-3">
+    <div class="col mb-3">
+      <label class="form-label">
+        <span *ngIf="form && form?.errors?.hasOwnProperty('max7Days')" class="text-danger">Puteți selecta un interval de maxim 7 zile</span>
+        <span *ngIf="form && form?.errors?.hasOwnProperty('stopBeforeStart')" class="text-danger">Data de start nu poate fi după data de stop</span>
+      </label>
+    </div>
+  </div>
+</form>
+
+<div class="row mb-3">
+  <button class="btn btn-dark btn-lg btn-block" type="submit" (click) = goToStep2() >Către pasul 2</button>
 </div>

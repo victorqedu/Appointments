@@ -27,7 +27,7 @@ export class AccountService {
       this.account = JSON.parse(accountDetails) as Account;
       this.connectedChanged.next(this.account);
     } else {
-      this.account = new Account(null, null, null, null, null, null, null, null);
+      this.account = new Account(null, null, null, null, null, null, null, null, null);
       this.connectedChanged.next(this.account);
     }
   }
@@ -39,7 +39,7 @@ export class AccountService {
     console.log("start disconnect");
     sessionStorage.removeItem("accountDetails");
     sessionStorage.removeItem("Authorization");
-    this.account = new Account(null, null, null, null, null, null, null, null);
+    this.account = new Account(null, null, null, null, null, null, null, null, null);
     this.connectedChanged.next(this.account);
     this.router.navigate(['/firstPage']);
   }

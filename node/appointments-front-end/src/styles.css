@@ -14,7 +14,14 @@
   height: auto;
   margin: 0;
 }
-
+.bg_stetoscope {
+  background-image: url('/assets/images/bg_stetoscope_2000.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
 .bg_lock {
   background-image: url('/assets/images/bg_lock.jpg');
   background-size: cover;
@@ -48,4 +55,12 @@ input.ng-invalid.ng-touched {
 }*/
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+/*  font-family: Roboto, "Helvetica Neue", sans-serif;*/
+}
+* {
+  font-family: Raleway /* Replace with your custom font */, Helvetica !important;
+  font-size: medium;
+  /* Add !important to overwrite all elements */
+}

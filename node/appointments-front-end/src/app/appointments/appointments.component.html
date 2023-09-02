@@ -1,88 +1,126 @@
-<div *ngIf="accountService.isConnected()" class="col parent vh-100">
-  <div class="row">
-    <div class="col-md-2 left vh-100  d-flex justify-content-center">
+<div class="bg_stetoscope" *ngIf="accountService.isConnected()" >
+  <section>
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block align-items-center">
 
-      <div class="list-group col" style="margin-top: 100px;">
-        <a class="list-group-item list-group-item-action active" aria-current="true">
-          Progres
-        </a>
-        <a class="list-group-item list-group-item-action disabled">Data start
-          <div *ngIf="appointmentForm.get('appointmentSearchDateStart')!.valid">
-            {{appointmentForm.get('appointmentSearchDateStart')!.value}}
-          </div>
-          <div *ngIf="!appointmentForm.get('appointmentSearchDateStart')!.valid">
-            &nbsp;
-          </div>
-        </a>
-        <a class="list-group-item list-group-item-action disabled">Data stop
-          <div *ngIf="appointmentForm.get('appointmentSearchDateStop')!.valid">
-            {{appointmentForm.get('appointmentSearchDateStop')!.value}}
-          </div>
-          <div *ngIf="!appointmentForm.get('appointmentSearchDateStop')!.valid">
-            &nbsp;
-          </div>
-        </a>
-        <a class="list-group-item list-group-item-action disabled">Specialitatea
-          <div *ngIf="appointmentForm.get('speciality')!.valid">
-            {{specialityJSONFromText(appointmentForm.get('speciality')!.value!).name}}
-          </div>
-        </a>
-        <a class="list-group-item list-group-item-action disabled">Servicii
-          <div *ngIf="appointmentForm.get('selectedServices')!.valid">
-            <div *ngFor="let serviceCtrl of selectedServices.controls; let i = index">
-              <label>
-                - {{serviceJSONFromText(i).name}}
-              </label>
+                <table class="table" style="margin-top: 50px">
+                  <thead>
+                  <tr>
+                    <th scope="col" colspan="3" style="text-align: center">Progress</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Data start</td>
+                    <td>
+                      <div *ngIf="appointmentForm.get('appointmentSearchDateStart')!.valid">
+                        {{appointmentForm.get('appointmentSearchDateStart')!.value}}
+                      </div>
+                      <div *ngIf="!appointmentForm.get('appointmentSearchDateStart')!.valid">
+                        &nbsp;
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Data stop</td>
+                    <td>
+                      <div *ngIf="appointmentForm.get('appointmentSearchDateStop')!.valid">
+                        {{appointmentForm.get('appointmentSearchDateStop')!.value}}
+                      </div>
+                      <div *ngIf="!appointmentForm.get('appointmentSearchDateStop')!.valid">
+                        &nbsp;
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Specialitatea</td>
+                    <td>
+                      <div *ngIf="appointmentForm.get('speciality')!.valid">
+                        {{specialityJSONFromText(appointmentForm.get('speciality')!.value!).name}}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>Servicii</td>
+                    <td>
+                      <div *ngIf="appointmentForm.get('selectedServices')!.valid">
+                        <div *ngFor="let serviceCtrl of selectedServices.controls; let i = index">
+                          <label>
+                            - {{serviceJSONFromText(i).name}}
+                          </label>
+                        </div>
+                      </div>
+                      <div *ngIf="!appointmentForm.get('selectedServices')!.valid">
+                        &nbsp;
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td>Medicul</td>
+                    <td>
+                      <div *ngIf="appointmentForm.get('physician')!.valid">
+                        {{physicianToJSON.name}} {{physicianToJSON.surname}}
+                      </div>
+                      <div *ngIf="!appointmentForm.get('physician')!.valid">
+                        &nbsp;
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">6</th>
+                    <td>Data si ora</td>
+                    <td>
+                      <div *ngIf="appointmentForm.get('appointmentHour')!.valid">
+                        {{appointmentForm.get('appointmentHour')!.value}}
+                      </div>
+                      <div *ngIf="!appointmentForm.get('appointmentHour')!.valid">
+                        &nbsp;
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+                  <ng-container [formGroup]="appointmentForm">
+                    <app-date-selector
+                      (stepTwoRequiredByUser)="goToStep(2)"
+                      *ngIf="currentStep===1">
+                    </app-date-selector>
+
+                    <app-specialities-selector
+                      (stepThreeRequiredByUser)="goToStep(3)"
+                      *ngIf="currentStep===2">
+                    </app-specialities-selector>
+
+                    <app-service-selector
+                      (stepFourRequiredByUser)="goToStep(4)"
+                      *ngIf="currentStep===3">
+                    </app-service-selector>
+
+                    <app-physicians-selector
+                      (stepFiveRequiredByUser)="goToStep(5)"
+                      *ngIf="currentStep===4">
+                    </app-physicians-selector>
+                  </ng-container>
+                </div>
+              </div>
             </div>
           </div>
-          <div *ngIf="!appointmentForm.get('selectedServices')!.valid">
-            &nbsp;
-          </div>
-        </a>
-        <a class="list-group-item list-group-item-action disabled">Medicul
-          <div *ngIf="appointmentForm.get('physician')!.valid">
-            {{physicianToJSON.name}} {{physicianToJSON.surname}}
-          </div>
-          <div *ngIf="!appointmentForm.get('physician')!.valid">
-            &nbsp;
-          </div>
-        </a>
-        <a class="list-group-item list-group-item-action disabled">Data si ora
-          <div *ngIf="appointmentForm.get('appointmentHour')!.valid">
-            {{appointmentForm.get('appointmentHour')!.value}}
-          </div>
-          <div *ngIf="!appointmentForm.get('appointmentHour')!.valid">
-            &nbsp;
-          </div>
-        </a>
+        </div>
       </div>
     </div>
-    <div class="col-md-8 right">
-      <ng-container [formGroup]="appointmentForm">
-        <app-date-selector
-          (stepTwoRequiredByUser)="goToStep(2)"
-          *ngIf="currentStep===1">
-        </app-date-selector>
-
-        <app-specialities-selector
-          (stepThreeRequiredByUser)="goToStep(3)"
-          *ngIf="currentStep===2">
-        </app-specialities-selector>
-
-        <app-service-selector
-          (stepFourRequiredByUser)="goToStep(4)"
-          *ngIf="currentStep===3">
-        </app-service-selector>
-
-        <app-physicians-selector
-          (stepFiveRequiredByUser)="goToStep(5)"
-          *ngIf="currentStep===4">
-        </app-physicians-selector>
-      </ng-container>
-    </div>
-    <div class="col-md-2 left vh-100">
-    </div>
-  </div>
+  </section>
 </div>
 
 <div class="text-center" *ngIf="!accountService.isConnected()">

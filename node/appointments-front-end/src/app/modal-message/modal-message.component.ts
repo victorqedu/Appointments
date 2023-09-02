@@ -17,8 +17,13 @@ export class ModalMessageComponent implements OnInit, OnDestroy {
   constructor(private modalMessageService: ModalMessageService, private dataStorageService: HttpService) {}
 
   openModal(open : boolean) : void {
-    //console.log("openModal "+open);
     this.modalMessage.show = open;
+    this.modalMessageService.modalFeedback(true);
+  }
+
+  modalFeedback(status: boolean) : void {
+    this.modalMessageService.modalFeedback(status);
+    this.modalMessage.show = false;
   }
 
   ngOnDestroy(): void {
@@ -34,7 +39,6 @@ export class ModalMessageComponent implements OnInit, OnDestroy {
         this.modalMessage = mm;
       }
     );
-    this.modalMessage = this.modalMessageService.getModalMessage();
   }
 
 }

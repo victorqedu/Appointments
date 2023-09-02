@@ -27,3 +27,8 @@ input {
 .selectedBG, .selectedBG:hover, .selectedBG:active, .selectedBG:visited {
   background-color: #00AA00 !important;
 }
+
+.btn-primary {
+  background-color: #ABDFF1  ;
+  color: #0C4A60 ;
+}

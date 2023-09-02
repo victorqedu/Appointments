@@ -5,8 +5,8 @@
 }
 
 .fixed-button:hover {
-  background-color: #FFAAAA !important;
-  border-color: #FFAAAA !important;
+  background-color: #EF6C33  !important;
+  border-color: #EF6C33  !important;
 }
 
 input {
@@ -22,4 +22,12 @@ input {
 
 .custom-input::placeholder {
   color: grey; /* Set the placeholder text color */
+}
+.selectedBG, .selectedBG:hover, .selectedBG:active, .selectedBG:visited {
+  background-color: #EF6C33 !important;
+  color: #000000 ;
+}
+.btn-primary {
+  background-color: #ABDFF1  ;
+  color: #0C4A60 ;
 }

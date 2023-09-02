@@ -2,20 +2,25 @@
   font-family: Tahoma !important;
 }
 
-.navbar-custom {
-  background-color: #2c5169;
+.navbar-custom{
+  background-color: #EF6C33 ;
+}
+
+.breadCrumb {
+  background-color: #FFFFFF  ;
+  padding: 1px 15px !important;
 }
 
 .dropdown-menu {
-  background-color: #2c5169;
+  background-color: #EF6C33 ;
   border:2px solid #000;
 }
 .navbar-custom .navbar-text {
-  color: #FAFAFA;
+  color: #FFFFFF ;
 }
 
 .navbar  {
-  border-bottom:2px solid #000;
+  border-bottom:2px solid #EF6C33 ;
 }
 
 a.navbar-brand:link, a.nav-link:link {
@@ -24,11 +29,11 @@ a.navbar-brand:link, a.nav-link:link {
 
 a.navbar-brand:visited, a.nav-link:visited {
   text-decoration: none;
-  color: #fff;
+  color: #FFFFFF ;
 }
 
 a.navbar-brand, a.nav-link {
-  color:#fff;
+  color:#FFFFFF ;
   -moz-transition: all 0.2s ease-in;
   -o-transition: all 0.2s ease-in;
   -webkit-transition: all 0.2s ease-in;
@@ -36,8 +41,8 @@ a.navbar-brand, a.nav-link {
 }
 
 a.navbar-brand:hover, a.nav-link:hover {
-  color: #fdec6e;
-  text-shadow:0px 0px 15px #fdec6e;
+  color: #FFFFFF ;
+  text-shadow: 1px 1px 20px #FFFFFF, 0 0 1em #FFFFFF, 0 0 0.2em #FFFFFF;
   -moz-transition: all 0.2s ease-in;
   -o-transition: all 0.2s ease-in;
   -webkit-transition: all 0.2s ease-in;

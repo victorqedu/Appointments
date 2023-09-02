@@ -1,4 +1,4 @@
-<app-modal-message (visibilityChanged)="setShowModal($event)" [show]="showModal" [title]="modalTitle" [description]="modalDescription">test</app-modal-message>
+<app-modal-message>test</app-modal-message>
 
 <div class="bg_lock">
   <section>
@@ -13,20 +13,32 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
                   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
-                    <h5 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;">Creare cont</h5>
+                    <h2 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;">Creare cont</h2>
                     <h6 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;"><i>Câmpurile marcate cu * sunt obligatorii</i></h6>
                     <div class="row mb-3">
                       <div class="col">
-                        <input type="text" id="name" class="form-control form-control-sg" [ngClass]="!signupForm.get('name')!.valid ? '' : 'is-valid'" formControlName="name"/>
+                        <input
+                          type="text"
+                          id="name"
+                          class="form-control form-control-sg"
+                          [ngClass]="!signupForm.get('name')!.valid ? '' : 'is-valid'"
+                          formControlName="name"
+                          oninput="this.value = this.value.toUpperCase()"/>
                         <label class="form-label" for="name">Nume*<br>
-                          <span *ngIf="!signupForm.get('name')!.valid && signupForm.get('name')!.touched" class="text-danger">Introduceți un nume</span>
+                          <span *ngIf="!signupForm.get('name')!.valid && signupForm.get('name')!.touched" class="text-danger">Introduceți un nume format din litere, spatii si semnul -(minus)</span>
                         </label>
                       </div>
 
                       <div class="col">
-                        <input type="text" id="surname" class="form-control form-control-sg" [ngClass]="!signupForm.get('surname')!.valid ? '' : 'is-valid'" formControlName="surname"/>
+                        <input
+                          type="text"
+                          id="surname"
+                          class="form-control form-control-sg"
+                          [ngClass]="!signupForm.get('surname')!.valid ? '' : 'is-valid'"
+                          formControlName="surname"
+                          oninput="this.value = this.value.toUpperCase()"/>
                         <label class="form-label" for="surname">Prenume*<br>
-                          <span *ngIf="!signupForm.get('surname')!.valid && signupForm.get('surname')!.touched" class="text-danger">Introduceți un prenume</span>
+                          <span *ngIf="!signupForm.get('surname')!.valid && signupForm.get('surname')!.touched" class="text-danger">Introduceți un prenume format din litere, spatii si semnul -(minus)</span>
                         </label>
                       </div>
                     </div>
@@ -67,6 +79,18 @@
                     </div>
 
                     <div class="form-outline mb-3">
+                      <input type="text"
+                             id="phone"
+                             class="form-control form-control-sg"
+                             [ngClass]="!signupForm.get('phone')!.valid ? '' : 'is-valid'"
+                             formControlName="phone"
+                      />
+                      <label class="form-label" for="phone">Telefon*<br>
+                        <label *ngIf="!signupForm.get('phone')!.valid && signupForm.get('phone')!.touched" class="text-danger">Introduceți telefonul</label>
+                      </label>
+                    </div>
+
+                    <div class="form-outline mb-3">
                       <input type="password" id="password" class="form-control form-control-sg" [ngClass]="!signupForm.get('password')!.valid ? '' : 'is-valid'" formControlName="password"/>
                       <label class="form-label" for="password">Parola*<br>
                         <span *ngIf="!signupForm.get('password')!.valid && signupForm.get('password')!.touched" class="text-danger">
@@ -98,7 +122,8 @@
                     </div>
 
                     <div class="pt-1 mb-4">
-                      <button class="btn btn-dark btn-lg btn-block" type="submit">Creare cont</button>
+                      <button class="btn btn-dark btn-lg btn-block" type="submit" *ngIf="!this.accountService.getAccount().id">Creare cont</button>
+                      <button class="btn btn-dark btn-lg btn-block" type="submit" *ngIf="this.accountService.getAccount().id">Modificare cont</button>
                     </div>
                     <a class="small text-muted" (click)="accountService.showTermsAndConditions()">Termeni utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="small text-muted" (click)="accountService.showPolicyOfConfidentiality()">Politica de confidențialitate</a>
