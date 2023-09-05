@@ -26,6 +26,11 @@ public class CompaniesController {
 
     @GetMapping("/localcompany")
     EntityModel<Companies> getLocalCompany() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CompaniesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Companies c = repository.getLocalOrgUnit();
         return assembler.toModel(c);
     }

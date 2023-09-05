@@ -41,6 +41,14 @@ export class HttpService {
     return this.http.get(this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/policyOfConfidentiality");
   }
 
+  getBamCodImagineDreapta() {
+    return this.http.get(this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/bamCodImagineDreapta");
+  }
+
+  getImagineInCursDeAcreditare() {
+    return this.http.get(this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/imagineInCursDeAcreditare");
+  }
+
   storeSignup(account: Account) {
     return this.http
       .post(
@@ -107,7 +115,7 @@ export class HttpService {
   }
 
   getPhysiciansAvailableAppointments(ar: AppointmentRequest) {
-    console.log("Start getPhysiciansAvailableAppointments");
+    console.log("Start getPhysiciansAvailableAppointments HTTP");
     return this.http.post<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix+"/appointments" , JSON.stringify(ar))
       .pipe(
         map(response => {
@@ -133,4 +141,20 @@ export class HttpService {
       );
   }
 
+  getConsultationHistory(idPerson: number, limit: number, offset:number) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/consultatii/"+idPerson+"/"+limit+"/"+offset)
+      .pipe(
+        map(response => {
+          if(response.hasOwnProperty("_embedded") && response._embedded.hasOwnProperty("consultatiiDTOList")) {
+            return response._embedded.consultatiiDTOList;
+          } else {
+            return [];
+          }
+        }
+      ));
+  }
+
+  countPatientConsultations(idPerson: number) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/countPatientConsultations/"+idPerson);
+  }
 }

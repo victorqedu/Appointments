@@ -13,7 +13,9 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
                   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
-                    <h2 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;">Creare cont</h2>
+                    <h2 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;" *ngIf="!this.accountService.getAccount().id">Creare cont</h2>
+                    <h2 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;" *ngIf="this.accountService.getAccount().id">Modificare cont</h2>
+
                     <h6 class="fw-normal mb-3 pb-1" style="letter-spacing: 1px;"><i>Câmpurile marcate cu * sunt obligatorii</i></h6>
                     <div class="row mb-3">
                       <div class="col">

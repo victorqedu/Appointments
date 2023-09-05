@@ -5,8 +5,7 @@
         <div class="col col-xl-10">
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
-              <div class="col-md-6 col-lg-5 d-none d-md-block align-items-center">
-
+              <div class="col-md-4 col-lg-5 d-none d-md-block align-items-center">
                 <table class="table" style="margin-top: 50px">
                   <thead>
                   <tr>
@@ -15,83 +14,92 @@
                   </thead>
                   <tbody>
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Data start</td>
+                    <td><b>Data start</b>
+                    </td>
                     <td>
-                      <div *ngIf="appointmentForm.get('appointmentSearchDateStart')!.valid">
-                        {{appointmentForm.get('appointmentSearchDateStart')!.value}}
-                      </div>
-                      <div *ngIf="!appointmentForm.get('appointmentSearchDateStart')!.valid">
-                        &nbsp;
-                      </div>
+                      <img src="assets/images/arrow.jpg" height="15"/>&nbsp;
+                      <ng-container *ngIf="appointmentForm.get('appointmentSearchDateStart')!.valid">
+                        {{appointmentForm.get('appointmentSearchDateStart')!.value | date: 'yyyy/MM/dd'}}
+                      </ng-container>
+                      <ng-container *ngIf="!appointmentForm.get('appointmentSearchDateStart')!.valid">
+
+                      </ng-container>
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">2</th>
-                    <td>Data stop</td>
+                    <td><b>Data stop</b>
+                    </td>
                     <td>
-                      <div *ngIf="appointmentForm.get('appointmentSearchDateStop')!.valid">
-                        {{appointmentForm.get('appointmentSearchDateStop')!.value}}
-                      </div>
-                      <div *ngIf="!appointmentForm.get('appointmentSearchDateStop')!.valid">
-                        &nbsp;
-                      </div>
+                      <img src="assets/images/arrow.jpg" height="15"/>&nbsp;
+                      <ng-container *ngIf="appointmentForm.get('appointmentSearchDateStop')!.valid">
+                        {{appointmentForm.get('appointmentSearchDateStop')!.value | date: 'yyyy/MM/dd'}}
+                      </ng-container>
+                      <ng-container *ngIf="!appointmentForm.get('appointmentSearchDateStop')!.valid">
+                        &nbsp
+                      </ng-container>
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">3</th>
-                    <td>Specialitatea</td>
+                    <td><b>Specialitate</b>
+                    </td>
                     <td>
-                      <div *ngIf="appointmentForm.get('speciality')!.valid">
+                      <img src="assets/images/arrow.jpg" height="15"/>&nbsp;
+                      <ng-container *ngIf="appointmentForm.get('speciality')!.valid">
                         {{specialityJSONFromText(appointmentForm.get('speciality')!.value!).name}}
-                      </div>
+                      </ng-container>
+                      <ng-container *ngIf="!appointmentForm.get('speciality')!.valid">
+
+                      </ng-container>
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">4</th>
-                    <td>Servicii</td>
+                    <td><b>Servicii</b>
+                    </td>
                     <td>
-                      <div *ngIf="appointmentForm.get('selectedServices')!.valid">
+
+                      <ng-container *ngIf="appointmentForm.get('selectedServices')!.valid">
                         <div *ngFor="let serviceCtrl of selectedServices.controls; let i = index">
                           <label>
-                            - {{serviceJSONFromText(i).name}}
+                            <img src="assets/images/arrow.jpg" height="15"/>&nbsp;  {{serviceJSONFromText(i).name}}
                           </label>
                         </div>
-                      </div>
-                      <div *ngIf="!appointmentForm.get('selectedServices')!.valid">
-                        &nbsp;
-                      </div>
+                      </ng-container>
+                      <ng-container *ngIf="!appointmentForm.get('selectedServices')!.valid">
+
+                      </ng-container>
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">5</th>
-                    <td>Medicul</td>
+                    <td><b>Medicul</b>
+                    </td>
                     <td>
-                      <div *ngIf="appointmentForm.get('physician')!.valid">
+                      <img src="assets/images/arrow.jpg" height="15"/>&nbsp;
+                      <ng-container *ngIf="appointmentForm.get('physician')!.valid">
                         {{physicianToJSON.name}} {{physicianToJSON.surname}}
-                      </div>
-                      <div *ngIf="!appointmentForm.get('physician')!.valid">
-                        &nbsp;
-                      </div>
+                      </ng-container>
+                      <ng-container *ngIf="!appointmentForm.get('physician')!.valid">
+
+                      </ng-container>
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row">6</th>
-                    <td>Data si ora</td>
+                    <td><b>Ora</b>
+                    </td>
                     <td>
-                      <div *ngIf="appointmentForm.get('appointmentHour')!.valid">
-                        {{appointmentForm.get('appointmentHour')!.value}}
-                      </div>
-                      <div *ngIf="!appointmentForm.get('appointmentHour')!.valid">
-                        &nbsp;
-                      </div>
+                      <img src="assets/images/arrow.jpg" height="15"/>&nbsp;
+                      <ng-container *ngIf="appointmentForm.get('appointmentHour')!.valid">
+                        {{appointmentForm.get('appointmentHour')!.value | date: 'yyyy/MM/dd HH:mm'}}
+                      </ng-container>
+                      <ng-container *ngIf="!appointmentForm.get('appointmentHour')!.valid">
+
+                      </ng-container>
                     </td>
                   </tr>
                 </table>
 
               </div>
-              <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                <div class="card-body p-4 p-lg-5 text-black">
+              <div class="col-md-8 col-lg-7 d-flex align-items-start">
+                <div class="card-body p-4 p-lg-5 text-black align-items-start" id="appointmentData">
                   <ng-container [formGroup]="appointmentForm">
                     <app-date-selector
                       (stepTwoRequiredByUser)="goToStep(2)"

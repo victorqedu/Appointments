@@ -68,7 +68,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           "Completati emailul si parola, corectati campurile greșite.",
           true,
           false,
-          false, false));
+          false,
+          false,
+          "",
+          null));
     }
   }
 

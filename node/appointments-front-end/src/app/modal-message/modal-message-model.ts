@@ -6,6 +6,8 @@ export class ModalMessage {
     public isFetching: boolean,
     public showCloseUpAndDown: boolean,
     public areYouSure: boolean,
+    public componentName: string,
+    public width: number | null,
   ) {}
 }
 

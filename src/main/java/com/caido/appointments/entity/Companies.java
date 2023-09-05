@@ -41,6 +41,29 @@ public class Companies implements Serializable {
     @Column(name = "local_urg_unit")
     private Integer localUrgUnit;
 
+    @Column(name = "fax")
+    private String fax;
+
+    @Column(name = "site")
+    private String site;
+
+    public String getFax() {
+        return fax;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+
     public Companies() {
     }
 

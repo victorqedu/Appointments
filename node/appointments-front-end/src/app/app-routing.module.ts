@@ -8,6 +8,9 @@ import {CustomErrorComponent} from "./custom-error/custom-error.component";
 import {LoginComponent} from "./login/login.component";
 import {SignupComponent} from "./signup/signup.component";
 import {AppointmentsComponent} from "./appointments/appointments.component";
+import {ConsultationHistoryComponent} from "./consultation-history/consultation-history.component";
+import {AppointmentsHistoryComponent} from "./appointments-history/appointments-history.component";
+import {ScrisoareMedicalaComponent} from "./scrisoare-medicala/scrisoare-medicala.component";
 
 /*const getContact: ResolveFn<any> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -29,6 +32,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'appointments', component: AppointmentsComponent },
+  { path: 'consultationHistory', component: ConsultationHistoryComponent },
+  { path: 'appointmentsHistory', component: AppointmentsHistoryComponent },
 ];
 
 @NgModule({

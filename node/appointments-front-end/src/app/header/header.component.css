@@ -49,3 +49,16 @@ a.navbar-brand:hover, a.nav-link:hover {
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
 }
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-primary);
+}
+
+.header1 {
+  font-size: 22px;
+  font-weight: 540;
+  background-image: linear-gradient(to left, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}

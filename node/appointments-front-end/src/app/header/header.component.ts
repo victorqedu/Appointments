@@ -11,12 +11,20 @@ import {ContactService} from "../contact/contact.service";
 })
 export class HeaderComponent {
   isNavbarContentVisible: boolean = false;
+  size:number = 575;
   constructor(public accountService:AccountService, public contactService:ContactService) {
     this.checkViewportSize();
   }
+
+  smallWidth():boolean {
+    return window.innerWidth < this.size;
+  }
+
   toggleNavbarContent() {
-    this.isNavbarContentVisible = !this.isNavbarContentVisible;
-    console.log("this.isNavbarContentVisible "+this.isNavbarContentVisible)
+    if (window.innerWidth < this.size) {
+      this.isNavbarContentVisible = !this.isNavbarContentVisible;
+      console.log("this.isNavbarContentVisible "+this.isNavbarContentVisible)
+    }
   }
 
   // Listen for changes in viewport size
@@ -27,7 +35,7 @@ export class HeaderComponent {
 
   // Function to check the viewport size and update isNavbarContentVisible
   checkViewportSize() {
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= this.size) {
       // Display the navigation content on larger screens
       this.isNavbarContentVisible = true;
     } else {

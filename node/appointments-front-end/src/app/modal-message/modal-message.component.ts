@@ -11,7 +11,7 @@ import {ModalMessageService} from "./modal-message-service";
 })
 
 export class ModalMessageComponent implements OnInit, OnDestroy {
-  modalMessage: ModalMessage = new ModalMessage('', '', false, false, false, false);
+  modalMessage: ModalMessage = new ModalMessage('', '', false, false, false, false, "", null);
   subscription!: Subscription;
 
   constructor(private modalMessageService: ModalMessageService, private dataStorageService: HttpService) {}

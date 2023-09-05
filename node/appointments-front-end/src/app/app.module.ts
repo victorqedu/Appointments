@@ -32,6 +32,9 @@ import { ServiceSelectorComponent } from './appointments/service-selector/servic
 import {ImageDisplayComponent} from "./image-display/image-display.component";
 import { PhysicianAppointmentsComponent } from './appointments/physician-appointments/physician-appointments.component';
 import {MatButtonModule} from "@angular/material/button";
+import { ConsultationHistoryComponent } from './consultation-history/consultation-history.component';
+import { AppointmentsHistoryComponent } from './appointments-history/appointments-history.component';
+import { ScrisoareMedicalaComponent } from './scrisoare-medicala/scrisoare-medicala.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import {MatButtonModule} from "@angular/material/button";
     ServiceSelectorComponent,
     ImageDisplayComponent,
     PhysicianAppointmentsComponent,
+    ConsultationHistoryComponent,
+    AppointmentsHistoryComponent,
+    ScrisoareMedicalaComponent,
   ],
   imports: [
     CommonModule,

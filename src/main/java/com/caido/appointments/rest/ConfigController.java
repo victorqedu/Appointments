@@ -36,6 +36,18 @@ public class ConfigController {
         return assembler.toModel(c);
     }
 
+    @GetMapping("/bamCodImagineDreapta")
+    EntityModel<Config> getBamCodImagineDreapta() {
+        Config c = repository.getBamCodImagineDreapta();
+        return assembler.toModel(c);
+    }
+
+    @GetMapping("/imagineInCursDeAcreditare")
+    EntityModel<Config> getImagineInCursDeAcreditare() {
+        Config c = repository.getImagineInCursDeAcreditare();
+        return assembler.toModel(c);
+    }
+
 }
 
 @Component
@@ -44,6 +56,9 @@ class ConfigModelAssembler implements RepresentationModelAssembler<Config, Entit
   public EntityModel<Config> toModel(Config c) {
     return EntityModel.of(c, 
         linkTo(methodOn(ConfigController.class).getTermsAndConditions()).withSelfRel(),
-        linkTo(methodOn(ConfigController.class).getPolicyOfConfidentiality()).withSelfRel());
+        linkTo(methodOn(ConfigController.class).getPolicyOfConfidentiality()).withSelfRel(),
+        linkTo(methodOn(ConfigController.class).getBamCodImagineDreapta()).withSelfRel(),
+        linkTo(methodOn(ConfigController.class).getImagineInCursDeAcreditare()).withSelfRel()
+    );
   }
 }

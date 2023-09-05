@@ -1,0 +1,134 @@
+<div class="row flex-grow-1 d-flex">
+  <div class="col-md-2">
+    <app-image-display [base64Image]="bamCodImagineDreapta" [width]="160" [height]="107"/>
+  </div>
+  <div class="col-md-8 text-center" *ngIf="contact.id==0">
+    <app-waiting-for-data></app-waiting-for-data>
+  </div>
+  <div class="col-md-8 text-center" *ngIf="contact.id!==0">
+    <div class="row">
+      <div class="col-md-12 text-center headerText">{{contact!.name}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center headerText">{{contact!.address}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center headerText">CUI: {{contact!.fiscalCode}};Telefon: {{contact!.phone}};Fax: {{contact!.fax}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center headerText">Email: {{contact!.mail}};Site: {{contact!.site}}</div>
+    </div>
+  </div>
+  <div class="col-md-2 alignRight">
+    <app-image-display [base64Image]="imagineInCursDeAcreditare" [width]="160" [height]="107"/>
+  </div>
+</div>
+<div class="row">
+  <p class="s1">Medic</p>
+  <p class="s1">Contract<span style=" color: #494949;">/</span>convenţie m.</p>
+  <p class="s4">Stimate(ă) coleg(ă),  vă informăm  că_născut(ă) la data de, CNP/cod unic de asigurare_, a fost consultat  în serviciul nostru la data denr. F. 0<span style=" color: #333;">./</span>nr. din Registrul de consultaţii.</p>
+  <p class="s4">Motivele prezentării:</p>
+  <p class="s4">Diagnosticul şi codul de diagnostic: Anamneza:</p>
+  <p class="s4">-factori  de risc</p>
+  <p class="s4">Examen clinic:</p>
+  <p class="s4">-general</p>
+  <p class="s4">-local</p>
+  <p class="s4">Examene de laborator:</p>
+  <p class="s6">Dat<span style=" color: #333;">a                      </span>Denumire  <span style=" color: #333;">a </span>naliză                     <span style=" color: #1C1C1C;">Ţesut                  Rezultat                       UM           </span>Interval biologic de <span style=" color: #1C1C1C;">referinţă</span>
+  </p>
+  <!--
+    <p>
+          <span>
+            <IMG width="342" height="26" src="SCRISOARE_MEDICALA_CLINICE 09/Image_002.png"/>
+          </span>
+    </p>
+    <p class="s4">Examene paraclinice:</p>
+    <p class="s6">Dat<span style=" color: #333;">a                           </span>Denumire  <span style=" color: #333;">a</span>naliză                                                                               Rezult<span style=" color: #333;">at</span>
+    </p>
+    <p>
+          <span>
+            <IMG width="751" height="28" src="SCRISOARE_MEDICALA_CLINICE 09/Image_003.png"/>
+          </span>
+    </p>
+    <p class="s4">Altele:</p>
+    <p class="s4">Tratament efectuat:</p>
+    <table border="1" cellspacing="0" style="border-collapse:collapse">
+      <tr>
+        <td>
+          <p class="s9">Dat<span style=" color: #333;">a</span>
+          </p>
+        </td>
+        <td>
+          <p class="s9">Diagnostic</p>
+        </td>
+        <td>
+          <p class="s11">Cod</p>
+        </td>
+        <td>
+          <p class="s9">Nume medic<span style=" color: #333;">a</span>ment</p>
+        </td>
+        <td>
+          <p class="s9">Subst<span style=" color: #333;">a </span>nţ<span style=" color: #333;">a </span>
+            <span style=" color: #1C1C1C;">activă</span>
+          </p>
+        </td>
+        <td>
+          <p class="s11">UM</p>
+        </td>
+        <td>
+          <p class="s11">Cantitate</p>
+        </td>
+        <td>
+          <p class="s9">Doza</p>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>
+          <p class="s9">medic<span style=" color: #333;">a</span>ment</p>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <p class="s11">prescrisa</p>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <p>
+          <span>
+            <IMG width="750" height="26" src="SCRISOARE_MEDICALA_CLINICE 09/Image_004.png"/>
+          </span>
+    </p>
+    <p class="s4">Alte informaţii referitoare la starea de sănătate a asiguratului: Tratament recomandat:</p>
+    <p class="s4">
+      <span style=" color: #1C1C1C;">Nota: Se va specifica </span>durata <span style=" color: #1C1C1C;">pentru care se poate prescrie de </span>medicul  <span style=" color: #1C1C1C;">din </span>ambulatoriu<span style=" color: #333;">, </span>inclu<span style=" color: #333;">s</span>iv  medicul  <span style=" color: #1C1C1C;">de </span>familie<span style=" color: #333;">,</span>
+    </p>
+    <p class="s4">fiecare  dintre medicamentele <span style=" color: #1C1C1C;">recomandate.</span>
+    </p>
+    <p class="s4">
+      <span style=" color: #1C1C1C;">Nerespectarea obligaţiei </span>medicului de <span style=" color: #333;">spec</span>ialitate din <span style=" color: #1C1C1C;">ambulatoriu!clinic </span>de <span style=" color: #333;">spec</span>ialitate <span style=" color: #333;">sa</span>u <span style=" color: #1C1C1C;">din </span>
+      <span style=" color: #333;">sp</span>ital <span style=" color: #1C1C1C;">de a </span>iniţia tratamentul <span style=" color: #1C1C1C;">prin prescrierea </span>primei <span style=" color: #1C1C1C;">reţete pentru </span>medicamente <span style=" color: #1C1C1C;">cu sau fără contribuţie personală,  astfel cum este prevăzut  în protocoalele </span>terapeutice<span style=" color: #333;">, </span>
+      <span style=" color: #1C1C1C;">precum  şi de a elibera  prescripţia </span>medicală <span class="s13">1 </span>bilete <span style=" color: #1C1C1C;">de </span>trimitere <span class="s14">1 </span>
+      <span style=" color: #1C1C1C;">concediu</span>
+    </p>
+    <p class="s15">Pa<span style=" color: #494949;">g</span>ina <span style=" color: #050505;">1 </span>din <span style=" color: #494949;">2</span>
+    </p>
+    <p>
+          <span>
+            <IMG width="756" height="5" src="SCRISOARE_MEDICALA_CLINICE 09/Image_005.png"/>
+          </span>
+      <br/>medical <span class="s16">1 </span>recomandări pentru îngrijiri la domiciliu <span class="s17">1 </span>prescripţii pentru dispozitive medicale în fiecare caz pentru<br/>care este necesar, se sancţionează potrivit contractului încheiat de furnizor cu casa de asigurări de sănătate. Valabilitatea scrisorii medicale începe de la data eliberării acesteia.<br/>Valabilitatea este în concordanţă cu protocolul terapeutic.<br/>În cazul în care medicul de specialitate nu consemnează o valabilitate pentru conduita terapeutică recomandată, valabilitatea scrisorii medicale încetează în momentul în care medicul de familie recomanda pacientului reevaluarea stării de sănătate.<br/>Indicaţie de revenire pentru internare:</p>
+    <p class="s18">O<span style=" color: #030303;">Da, revine pentru internare în termen de          .</span>
+    </p>
+    <p>0Nu, nu este necesară revenirea pentru ini  iii  ; .<br/>Se completează obligatoriu una din următoarele informaţii: OS-a eliberat prescripţie medicală:<br/>0Nu s-a eliberat prescripţie medicaiiCdeoar-ec-e&#45;&#45;nu afos(iiec-es-ar<br/>0Nu s-a eliberat prescripţie medicală<br/>Se completează obligatoriu una din următoarele informaţii: Os-a eliberat concediu medical la externare: Serie şi număr:<br/>0Nu s-a eliberat concediu medical la externare deoarece nu a-fosinecesar<br/>0Nu s-a eliberat concediu medical la externare<br/>Se completează obligatoriu una din cele două informaţii:<br/>
+      <span style=" color: #4F4F4F;">o</span>s-a eliberat recomandare pentru îngrijiri medicale la domiciliu<span style=" color: #383838;">/</span>paliative  la domiciliu<br/>
+      <span style=" color: #676767;">0</span>Nu s-a eliberat recomandare pentru îngrijiri medicale la domiciliu<span style=" color: #2A2A2A;">/</span>paliative  la domiciliu, deoarece nu a fost<br/>necesar<br/>Se completează obligatoriu una din cele două informaţii:<br/>os-a eliberat prescripţie medicală pentru dispozitive medicale în ambulatoriu<br/>0Nu <span style=" color: #2A2A2A;">s</span>-a eliberat prescripţie medicală pentru dispozitive medicale în ambulatoriu deoarece nu a fo<span style=" color: #2A2A2A;">s</span>t necesar<br/>Data</p>
+    <p class="s22">Medic</p>
+    <p>Semnătura <span style=" color: #181818;">şi </span>parafa medicului<br/>Calea de transmitere: Oprin asigurat <span style=" color: #2A2A2A;">O</span>prin poştă:<br/>*) Scri<span style=" color: #2A2A2A;">s</span>oarea medicală  <span style=" color: #2A2A2A;">s</span>e întocme<span style=" color: #2A2A2A;">ş</span>te în două exemplare,  din care un <span style=" color: #181818;">exemplar </span>rămâne  la medicul care a efectuat <span style=" color: #181818;">consultaţialserviciul </span>în ambulatoriu!de  <span style=" color: #2A2A2A;">s</span>pecialitate,  iar un <span style=" color: #181818;">exemplar </span>este transmis  medicului  de familie<span style=" color: #4F4F4F;">/</span>medicului de specialitate din ambulatoriu!de specialitate.<br/>Scrisoarea medicală sau biletul de ieşire din <span style=" color: #2A2A2A;">s</span>pital sunt documente tipizate care <span style=" color: #2A2A2A;">s</span>e întocmesc la data externării<span style=" color: #2A2A2A;">, </span>într­ un singur exemplar <span style=" color: #181818;">care este </span>transmis medicului de familie<span style=" color: #383838;">/</span>medicului  de specialitate din ambulatoriu!de specialitate<span style=" color: #2A2A2A;">, </span>direct, prin po<span style=" color: #2A2A2A;">ş</span>ta <span style=" color: #181818;">electronică </span>ori prin intermediul a<span style=" color: #2A2A2A;">s</span>iguratului.</p>
+    <p class="s25">
+      <span style=" color: #181818;">Pa</span>g<span style=" color: #2A2A2A;">ina </span>2 <span style=" color: #181818;">din </span>2</p>
+  -->
+  </div>

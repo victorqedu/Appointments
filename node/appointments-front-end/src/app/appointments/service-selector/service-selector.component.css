@@ -1,8 +1,8 @@
 .fixed-button {
   width: 180px;
-  padding-right: 10px; /* Reserve space for the checkmark icon */
-  padding-left: 10px; /* Reserve space for the checkmark icon */
-  height: 60px;
+  padding-right: 15px; /* Reserve space for the checkmark icon */
+  padding-left: 15px; /* Reserve space for the checkmark icon */
+  height: 100px;
   margin: 0px 5px 5px 5px;
 }
 
@@ -28,8 +28,8 @@ input {
 /* Custom class to add a checkmark icon */
 .checkmark-button {
   position: relative; /* Create a positioning context */
-  padding-right: 10px; /* Reserve space for the checkmark icon */
-  padding-left: 10px; /* Reserve space for the checkmark icon */
+  padding-right: 15px; /* Reserve space for the checkmark icon */
+  padding-left: 15px; /* Reserve space for the checkmark icon */
   overflow: hidden; /* Hide any overflow of the checkmark icon */
 }
 

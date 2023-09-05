@@ -36,7 +36,10 @@ public class Department {
     public void setAmbulatoriu(Integer ambulatoriu) {
         this.ambulatoriu = ambulatoriu;
     }
-    
+
+    public Department() {
+    }
+
     public Department(Integer id, String name, String code, Integer idSpeciality, Integer ambulatoriu) {
         this.id = id;
         this.name = name;

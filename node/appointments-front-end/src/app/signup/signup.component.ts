@@ -58,8 +58,8 @@ export class SignupComponent {
         && this.signupForm.get('name')!.valid
         && this.signupForm.get('surname')!.valid
         && this.signupForm.get('cnp')!.valid
-        && this.signupForm.get('birthDate')!.valid
-        && this.signupForm.get('sex')!.valid
+        && (this.signupForm.get('birthDate')!.valid || this.signupForm.get('birthDate')!.disabled)
+        && (this.signupForm.get('sex')!.valid || this.signupForm.get('sex')!.disabled)
         && this.signupForm.get('email')!.valid
         && this.signupForm.get('password')!.valid
         && this.signupForm.get('passwordCheck')!.valid) {
@@ -75,7 +75,7 @@ export class SignupComponent {
     console.warn(this.signupForm);
     if(this.checkAllFieldsAreValid()) {
       if(this.accountService.getAccount().id!=null) {
-        this.httpService.updateAccount(new Account(
+        let newAccount: Account = new Account(
           this.accountService.getAccount().id,
           this.signupForm.get('name')!.value,
           this.signupForm.get('surname')!.value,
@@ -85,8 +85,10 @@ export class SignupComponent {
           this.signupForm.get('email')!.value,
           this.signupForm.get('phone')!.value,
           this.signupForm.get('password')!.value
-        )).subscribe(response => {
+        );
+        this.httpService.updateAccount(newAccount).subscribe(response => {
           console.log(response);
+          this.accountService.setAccount(newAccount);
           this.modalMessageService.setModalMessage(
             new ModalMessage(
               "Cont modificat cu succes",
@@ -94,7 +96,9 @@ export class SignupComponent {
               true,
               false,
               false,
-              false));
+              false,
+              "",
+              null));
           this.modalMessageService.modalMessageAnswer.subscribe(answer => {
             this.router.navigate(['/firstPage']);
           });
@@ -119,7 +123,9 @@ export class SignupComponent {
               true,
               false,
               false,
-              false));
+              false,
+              "",
+              null));
           this.modalMessageService.modalMessageAnswer.subscribe(answer => {
             this.router.navigate(['/login']);
           });
@@ -133,7 +139,9 @@ export class SignupComponent {
           true,
           false,
           false,
-          false));
+          false,
+          "",
+          null));
     }
   }
 

@@ -2,16 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Appointment} from "../../models/appointment.model";
 import {AppointmentRequest} from "../../models/appointmentRequest.model";
 import {HttpService} from "../../services/http-service";
-import {Physician} from "../../models/physician.model";
 import {FormArray, FormGroup, FormGroupDirective} from "@angular/forms";
-import {Account} from "../../models/account.model";
-import {Speciality} from "../../models/speciality.model";
 import {AccountService} from "../../services/accountService";
 import {AppointmentTypes} from "../../models/appointmentsTypes.model";
 import {Service} from "../../models/service.model";
 import {ModalMessageService} from "../../modal-message/modal-message-service";
 import {ModalMessage} from "../../modal-message/modal-message-model";
-import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 
 @Component({
@@ -40,6 +36,7 @@ export class PhysicianAppointmentsComponent implements OnInit {
     this.form = this.rootFormGroup.control;
     this.isFetching = true;
     this.httpService.getPhysiciansAvailableAppointments(this.appointmentRequest).subscribe(availableAppointments => {
+      console.log("Start getPhysiciansAvailableAppointments");
       this.appointments = availableAppointments;
       this.calculateAllAvailableDays(this.appointments);
       this.isFetching = false;
@@ -116,7 +113,9 @@ export class PhysicianAppointmentsComponent implements OnInit {
                     true,
                     false,
                     false,
-                    false));
+                    false,
+                    "",
+                    null));
 
               }
             });
@@ -133,7 +132,9 @@ export class PhysicianAppointmentsComponent implements OnInit {
           true,
           false,
           false,
-          true));
+          true,
+          "",
+          null));
 
     }
   }

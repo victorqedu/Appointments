@@ -70,8 +70,13 @@ export class AccountService {
    * Get the current connected user
    */
   getAccount() {
-    console.log("AccountService.getAccount "+JSON.stringify(this.account)+ " accountDetails "+sessionStorage.getItem("accountDetails"));
+    //console.log("AccountService.getAccount "+JSON.stringify(this.account)+ " accountDetails "+sessionStorage.getItem("accountDetails"));
     return this.account;
+  }
+
+  setAccount(account: Account) {
+    this.account = account;
+    this.connectedChanged.next(this.account);
   }
 
   /**
@@ -99,7 +104,9 @@ export class AccountService {
         true,
         true,
         false,
-        false));
+        false,
+        "",
+        null));
     this.httpService.getTermsAndConditions().subscribe(termsAndConditions => {
       console.log(termsAndConditions);
       let tac: Config = termsAndConditions as Config;
@@ -110,7 +117,9 @@ export class AccountService {
           true,
           false,
           true,
-          false));
+          false,
+          "",
+          null));
     });
   }
 
@@ -126,7 +135,10 @@ export class AccountService {
         true,
         true,
         false,
-        false));
+        false,
+        "",
+        null));
+
     this.httpService.getPolicyOfConfidentiality().subscribe(poc => {
       console.log(poc);
       let pol: Config = poc as Config;
@@ -137,7 +149,9 @@ export class AccountService {
           true,
           false,
           true,
-          false));
+          false,
+          "",
+          null));
     });
   }
 
