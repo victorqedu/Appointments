@@ -81,7 +81,12 @@ public class Person implements Serializable {
    @Column(name = "online_password")
     private String onlinePassword;
     public String getOnlinePassword() {
-        return onlinePassword;
+        return null;
+    }
+
+    @JsonIgnore
+    public String getOnlinePasswordReal() {
+        return this.onlinePassword;
     }
 
     public void setOnlinePassword(String onlinePassword) {
@@ -213,7 +218,7 @@ public class Person implements Serializable {
     }
 
     public boolean check() {
-        if(empty(getOnlinePassword())) {
+        if(empty(getOnlinePasswordReal())) {
             throw new RuntimeException("Parola nu poate fi nula");
         }
         if(!empty(cnp) && !cnp.equals("0000000000000") && checkCNP(cnp)) {

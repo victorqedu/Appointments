@@ -98,7 +98,10 @@ export class SignupComponent {
               false,
               false,
               "",
-              null));
+              null,
+              null,
+              false,
+            ));
           this.modalMessageService.modalMessageAnswer.subscribe(answer => {
             this.router.navigate(['/firstPage']);
           });
@@ -125,7 +128,10 @@ export class SignupComponent {
               false,
               false,
               "",
-              null));
+              null,
+              null,
+              false,
+              ));
           this.modalMessageService.modalMessageAnswer.subscribe(answer => {
             this.router.navigate(['/login']);
           });
@@ -141,7 +147,10 @@ export class SignupComponent {
           false,
           false,
           "",
-          null));
+          null,
+          null,
+          false,
+        ));
     }
   }
 

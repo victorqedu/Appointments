@@ -1,12 +1,14 @@
 <div id="main" class="modal fade border border-black border-5" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" [ngStyle]="{'display': modalMessage.show ? 'block' : 'none', 'opacity': 1}">
   <div class="modal-dialog modal-dialog-centered modal-lg" style="width: {{modalMessage.width}}%; max-width: {{modalMessage.width}}%">
-    <div class="modal-content d-flex">
+    <div class="modal-content d-flex mt-5">
       <div class="modal-header flex-grow-1 d-flex">
-        <h2 class="modal-title" style="color: black" id="title1" *ngIf="!modalMessage.showCloseUpAndDown">{{modalMessage.title}}</h2>
-        <div class="row flex-grow-1 d-flex" id="fullSize" *ngIf="modalMessage.showCloseUpAndDown">
-          <div class="col-md-10 text-left"><h2 class="modal-title" style="color: black" id="title2">{{modalMessage.title}}</h2></div>
-          <div class="col-md-2 alignRight justify-content-end" id="closeUp">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)=openModal(false)>Închide</button>
+        <div class="row flex-grow-1 d-flex" id="fullSize">
+          <div class="col-md-2 text-center" id="closeUp">
+            <button type="button" class="btn btn-primary" (click)="printThisPage()" *ngIf="modalMessage.printButton">Tiparește</button>
+          </div>
+          <div class="col-md-8 text-center"><h2 class="modal-title" style="color: black" id="title2">{{modalMessage.title}}</h2></div>
+          <div class="col-md-2 alignRight text-center" id="closeUp">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)=openModal(false) *ngIf="modalMessage.showCloseUpAndDown">Închide</button>
           </div>
         </div>
       </div>
@@ -16,7 +18,7 @@
       <div class="modal-body" *ngIf="!modalMessage.isFetching">
         <span *ngIf="!modalMessage.componentName" style="color: black" [innerHTML]="modalMessage.description"></span>
         <ng-container *ngIf="modalMessage.componentName">
-          <app-scrisoare-medicala *ngIf="modalMessage.componentName==='ScrisoareMedicalaComponent'"></app-scrisoare-medicala>
+          <app-scrisoare-medicala [idScrisoareMedicala]="modalMessage!.componentParameter!" *ngIf="modalMessage.componentName==='ScrisoareMedicalaComponent'"></app-scrisoare-medicala>
         </ng-container>
       </div>
       <div class="modal-footer" *ngIf="!modalMessage.areYouSure">

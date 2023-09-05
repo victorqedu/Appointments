@@ -11,7 +11,7 @@ import {ModalMessageService} from "./modal-message-service";
 })
 
 export class ModalMessageComponent implements OnInit, OnDestroy {
-  modalMessage: ModalMessage = new ModalMessage('', '', false, false, false, false, "", null);
+  modalMessage: ModalMessage = new ModalMessage('', '', false, false, false, false, "", null, null, false,);
   subscription!: Subscription;
 
   constructor(private modalMessageService: ModalMessageService, private dataStorageService: HttpService) {}
@@ -26,6 +26,9 @@ export class ModalMessageComponent implements OnInit, OnDestroy {
     this.modalMessage.show = false;
   }
 
+  printThisPage() {
+    window.print();
+  }
   ngOnDestroy(): void {
     //console.log("start ngOnDestroy - unsubscribe");
     this.subscription.unsubscribe();

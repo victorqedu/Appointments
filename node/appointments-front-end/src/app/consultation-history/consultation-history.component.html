@@ -2,7 +2,7 @@
 
 <div class="container" *ngIf="this.accountService.getAccount().id==null" style="margin-top: 50px">
   <div class="row">
-    <div class="col-md-12 d-flex flex-grow-1 justify-content-center">
+    <div class="col-md-12 text-wrap mt-4 text-center">
       <h3> Trebuie să vă conectați pentru a accesa această secțiune</h3>
     </div>
   </div>
@@ -10,7 +10,7 @@
 
 <div class="container" *ngIf="this.accountService.getAccount().id!==null && (this.accountService.getAccount().cnp==null || this.accountService.getAccount().cnp==='0000000000000')">
   <div class="row">
-    <div class="col-md-12 d-flex flex-grow-1 justify-content-center" style="margin-top: 50px">
+    <div class="col-md-12 text-wrap mt-4 text-center">
       <h3>Trebuie să completați CNP-ul în secțiunea "Date cont" pentru a putea accesa istoricul</h3>
     </div>
   </div>
@@ -90,7 +90,7 @@
               <td>                {{consultation.speciality}}                                           </td>
               <td>
                 <div class="d-flex justify-content-center align-items-center h-100">
-                  <button class="btn btn-success btn-sm" *ngIf="consultation.idScrisoareMedicala" (click)="showSM()">Da</button>
+                  <button class="btn btn-success btn-sm" *ngIf="consultation.idScrisoareMedicala" (click)="showSM(consultation.idScrisoareMedicala)">Da</button>
                   <button class="btn btn-danger btn-sm disabled" *ngIf="!consultation.idScrisoareMedicala">Nu</button>
                 </div>
               </td>

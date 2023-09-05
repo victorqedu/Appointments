@@ -106,7 +106,10 @@ export class AccountService {
         false,
         false,
         "",
-        null));
+        null,
+        null,
+        false,
+        ));
     this.httpService.getTermsAndConditions().subscribe(termsAndConditions => {
       console.log(termsAndConditions);
       let tac: Config = termsAndConditions as Config;
@@ -119,7 +122,10 @@ export class AccountService {
           true,
           false,
           "",
-          null));
+          null,
+          null,
+          false,
+        ));
     });
   }
 
@@ -137,7 +143,10 @@ export class AccountService {
         false,
         false,
         "",
-        null));
+        null,
+        null,
+        false,
+        ));
 
     this.httpService.getPolicyOfConfidentiality().subscribe(poc => {
       console.log(poc);
@@ -151,7 +160,10 @@ export class AccountService {
           true,
           false,
           "",
-          null));
+          null,
+          null,
+          false,
+          ));
     });
   }
 

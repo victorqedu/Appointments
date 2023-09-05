@@ -31,7 +31,7 @@ public class CaidoAuthenticationProvider implements AuthenticationProvider  {
         String pwd = authentication.getCredentials().toString();
         System.out.println("Start authenticate username = "+username+" pwd "+pwd);
         Person person = personService.findByEmail(username);
-        if (passwordEncoder.matches(pwd, person.getOnlinePassword())) {
+        if (passwordEncoder.matches(pwd, person.getOnlinePasswordReal())) {
             System.out.println("Authenticated successfully");
             return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities());
         } else {

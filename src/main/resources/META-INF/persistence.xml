@@ -7,6 +7,8 @@
     <class>com.caido.appointments.entity.ScrisoareMedicala_1</class>
     <class>com.caido.appointments.entity.Icd10</class>
     <class>com.caido.appointments.entity.ScrisoareMedicalaMotivePrezentare</class>
+    <class>com.caido.appointments.entity.Contracts</class>
+    <class>com.caido.appointments.entity.OrgUnits</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.88.103:5432/hospital"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

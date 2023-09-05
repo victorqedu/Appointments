@@ -7,7 +7,9 @@ export class ModalMessage {
     public showCloseUpAndDown: boolean,
     public areYouSure: boolean,
     public componentName: string,
+    public componentParameter :number | null,
     public width: number | null,
+    public printButton: boolean,
   ) {}
 }
 

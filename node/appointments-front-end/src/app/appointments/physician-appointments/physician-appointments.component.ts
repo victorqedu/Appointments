@@ -115,7 +115,9 @@ export class PhysicianAppointmentsComponent implements OnInit {
                     false,
                     false,
                     "",
-                    null));
+                    null,
+                    null,
+                    false,));
 
               }
             });
@@ -134,7 +136,10 @@ export class PhysicianAppointmentsComponent implements OnInit {
           false,
           true,
           "",
-          null));
+          null,
+          null,
+          false,
+          ));
 
     }
   }

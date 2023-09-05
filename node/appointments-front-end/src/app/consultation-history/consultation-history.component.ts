@@ -88,7 +88,7 @@ export class ConsultationHistoryComponent implements OnInit {
     }
   }
 
-  showSM() {
+  showSM(idScrisoareMedicala: number) {
     this.modalMessageService.modalMessageAnswer.subscribe(answer => {
       this.modalMessageService.modalMessageAnswer.unsubscribe();
       this.modalMessageService.reinitializeModalMessageAnswerSubject();
@@ -96,12 +96,15 @@ export class ConsultationHistoryComponent implements OnInit {
     this.modalMessageService.setModalMessage(
       new ModalMessage(
         "Scrisoare medicala",
-        "<app-scrisoare-medicala></app-scrisoare-medicala>",
+        "",
         true,
         false,
         true,
         false,
         "ScrisoareMedicalaComponent",
-        99));
+        idScrisoareMedicala,
+        99,
+        true,
+        ));
   }
 }

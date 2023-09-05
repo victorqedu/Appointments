@@ -34,7 +34,7 @@ public class PersonService {
         if(personFoundByEmail!=null) {
             throw new RuntimeException("Contul cu emailul "+person.getAuthEmail()+" exista deja in baza de date, daca ati uitat parola accesati butonul 'Am uitat parola'");
         } else {
-            String hashPwd = passwordEncoder.encode(person.getOnlinePassword());
+            String hashPwd = passwordEncoder.encode(person.getOnlinePasswordReal());
             person.setOnlinePassword(hashPwd);
             System.out.println("createAccount for cnp "+person.getCnp());
             if(empty(person.getCnp())) {
@@ -48,7 +48,7 @@ public class PersonService {
                         throw new RuntimeException("Contul cu cnp-ul "+person.getCnp()+" exista deja in baza de date, daca ati uitat parola accesati butonul 'Am uitat parola'");
                     } else {
                         personFoundByCnp.setAuthEmail(person.getAuthEmail());
-                        personFoundByCnp.setOnlinePassword(person.getOnlinePassword());
+                        personFoundByCnp.setOnlinePassword(person.getOnlinePasswordReal());
                         person = personFoundByCnp;
                     }
                 }
@@ -66,7 +66,7 @@ public class PersonService {
                 throw new RuntimeException("Tentativa de spargere cont a fost identificata, datele au fost inregistrate");
                         //+ ", persoane cu id "+idUserConectat+" nu poate modifica datele persoanei cu id "+person.getId());
             } else {
-                String hashPwd = passwordEncoder.encode(person.getOnlinePassword());
+                String hashPwd = passwordEncoder.encode(person.getOnlinePasswordReal());
                 person.setOnlinePassword(hashPwd);
                 person.check();
                 if(empty(person.getCnp())) {

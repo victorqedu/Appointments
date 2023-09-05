@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
 
         if (p!=null){
             System.out.println("loadUserByUsername, found the account");
-            return new User(username, p.getOnlinePassword(), new ArrayList<>());
+            return new User(username, p.getOnlinePasswordReal(), new ArrayList<>());
         } else{
             System.out.println("loadUserByUsername, account is not in the DB: %username");
             throw new UsernameNotFoundException(String.format("Utilizatorul [%username] nu a fost gasit"));

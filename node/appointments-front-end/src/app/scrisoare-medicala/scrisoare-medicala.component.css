@@ -1,6 +1,27 @@
+.smFields {
+  font-weight: bold;
+}
 .headerText {
   font-weight: bold;
 }
 .alignRight {
   text-align: right;
+}
+p {
+  text-indent: 50px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.pSpace {
+  text-indent: 50px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.pSubparagraph {
+  text-indent: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 50px;
 }

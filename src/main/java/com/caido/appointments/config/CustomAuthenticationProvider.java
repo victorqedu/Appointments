@@ -42,7 +42,7 @@ public class CustomAuthenticationProvider extends AbstractUserDetailsAuthenticat
         
         Person person = personService.findByEmail(username);
         if (person != null) {
-            if (passwordEncoder.matches(pwd, person.getOnlinePassword())) {
+            if (passwordEncoder.matches(pwd, person.getOnlinePasswordReal())) {
                 System.out.println("additionalAuthenticationChecks: Authenticated successfully");
             } else {
                 System.out.println("additionalAuthenticationChecks: Invalid password");

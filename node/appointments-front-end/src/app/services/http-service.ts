@@ -157,4 +157,8 @@ export class HttpService {
   countPatientConsultations(idPerson: number) {
     return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/countPatientConsultations/"+idPerson);
   }
+
+  getScrisoareMedicala(idScrisoareMedicala: number) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/scrisoareMedicala/"+idScrisoareMedicala);
+  }
 }

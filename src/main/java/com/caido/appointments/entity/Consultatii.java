@@ -38,6 +38,18 @@ public class Consultatii {
     @JoinColumn(name = "id_clinicservice", referencedColumnName = "id")
     @ManyToOne(optional = false)    
     private Clinicservice idClinicservice;
+    
+    
+    @Column(name = "numar_registru", nullable=false)
+    private Integer numarRegistru;
+
+    public void setNumarRegistru(Integer numarRegistru) {
+        this.numarRegistru = numarRegistru;
+    }
+
+    public Integer getNumarRegistru() {
+        return numarRegistru;
+    }
 
     public Clinicservice getIdClinicservice() {
         return idClinicservice;
