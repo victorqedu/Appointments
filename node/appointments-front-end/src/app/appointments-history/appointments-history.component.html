@@ -1,1 +1,114 @@
-<p>appointments-history works!</p>
+<app-modal-message></app-modal-message>
+
+<div class="container" *ngIf="this.accountService.getAccount().id==null" style="margin-top: 50px">
+  <div class="row">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3> Trebuie să vă conectați pentru a accesa această secțiune</h3>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="this.accountService.getAccount().id!==null && (this.accountService.getAccount().cnp==null || this.accountService.getAccount().cnp==='0000000000000')">
+  <div class="row">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3>Trebuie să completați CNP-ul în secțiunea "Date cont" pentru a putea accesa istoricul</h3>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="margin-top: 50px;" *ngIf="this.accountService.getAccount().id!==null && this.accountService.getAccount().cnp!==null && this.accountService.getAccount().cnp!=='0000000000000'">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-footer py-4 d-flex justify-content-center align-items-center h-100" *ngIf="this.totalPages>1">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item">
+                <a class="page-link" tabindex="-1" (click)="setPage(1)">
+                  <i class="fas fa-angle-left"> <img src="assets/images/first.png"> </i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" tabindex="-1" (click)="previousPage()">
+                  <i class="fas fa-angle-left"> <img src="assets/images/previous.png"> </i>
+                </a>
+              </li>
+              <div *ngFor="let page of pages; let i = index">
+                <li class="page-item" [ngClass]="{'active': page===currentPage}"><a class="page-link" (click)="setPage(page)">{{page}}</a></li>
+              </div>
+
+              <li class="page-item">
+                <a class="page-link" (click)="nextPage()" >
+                  <i class="fas fa-angle-right"> <img src="assets/images/next.png"> </i>
+                </a>
+              </li>
+
+              <li class="page-item">
+                <a class="page-link" tabindex="-1" (click)="setPage(this.totalPages)">
+                  <i class="fas fa-angle-left"> <img src="assets/images/last.png"> </i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="card-header border-0">
+          <h3 class="mb-0">Istoric programări</h3>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Data și ora</th>
+              <th scope="col">Medic</th>
+              <th scope="col">Specialitate</th>
+              <th scope="col">
+                Efectuată
+              </th>
+              <th scope="col">Servicii programate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="isFetching">
+              <td colspan="5">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                  <app-waiting-for-data></app-waiting-for-data>
+                </div>
+              </td>
+            </tr>
+
+            <ng-container *ngIf="!isFetching">
+              <tr *ngFor="let appointment of appointments; let i = index">
+                <th scope="row">
+                  <div>{{ appointment.oraProgramare | date:'yyyy/MM/dd' }}</div>
+                  <div>{{ appointment.oraProgramare | date:'HH:mm' }}</div>
+                </th>
+                <td>
+                  <div>{{appointment.idPersonnel!.idperson!.name | uppercase}}</div>
+                  <div>{{appointment.idPersonnel!.idperson!.surname | uppercase}}</div>
+                </td>
+                <td>                {{appointment.idSpeciality!.name}}                                           </td>
+                <td>
+                  <div>
+                    <button class="btn btn-danger btn-sm disabled">Nu</button>
+                  </div>
+                </td>
+                <td>
+                  <ng-container *ngFor="let service of appointment.labTestsGroups; let j = index">
+                    <div class="row">
+                      <div class="col">
+                        - {{ service.name }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

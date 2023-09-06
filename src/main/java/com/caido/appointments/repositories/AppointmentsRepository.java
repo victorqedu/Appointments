@@ -1,10 +1,12 @@
 package com.caido.appointments.repositories;
 
 import com.caido.appointments.entity.Appointments;
+import com.caido.appointments.entity.DTO.AppointmentDTO;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Pageable;
 
 public interface AppointmentsRepository extends JpaRepository<Appointments, Integer> {
     /**
@@ -20,4 +22,46 @@ public interface AppointmentsRepository extends JpaRepository<Appointments, Inte
         + "join Person p on (p.id = a.idPerson.id) " 
         + "where a.idPhysicians.id = ?1 and a.idSpeciality.id = ?2 AND DATE(a.oraProgramare) >= ?3 AND DATE(a.oraProgramare) <= ?4")
     List<Appointments> getPhysicianAppointments(Integer idPhysician, Integer idSpeciality, LocalDate startIVS, LocalDate stopIVS);
+
+    /**
+     * 
+     * @param idPerson
+     * @param pageable
+     * @return - a list of appointments for the connected user with id = idPerson
+     */
+    @Query("SELECT a "
+//            + "NEW com.caido.appointments.entity.DTO.AppointmentDTO("
+//            + " a.id,"
+//            + " NEW com.caido.appointments.entity.DTO.SimplePhysicianDTO(p.id, p.stencilNo, p.idPersonnel.imagineAngajat, p.idPersonnel.idperson.name, p.idPersonnel.idperson.surname, pr.idSex, p.idPersonnel.id, d.id), "
+//            + " a.idSpeciality, "
+//            + " 1=1,"
+//            + " 1=1,"
+//            + " a.labTestsGroups, "
+//            + " a.oraProgramare"
+//        + ") "
+//            + " (SELECT lt FROM AppointmentsLabTestsGroups altg JOIN LabTestsGroups lt ON (lt.id = altg.idLabTestsGroups.id) WHERE altg.idAppointment.id = a.id) AS servicii, "
+//            + " (SELECT NEW com.caido.appointments.entity.LabTestsGroups(lt.id, lt.code, lt.name) FROM AppointmentsLabTestsGroups altg JOIN LabTestsGroups lt ON (lt.id = altg.idLabTestsGroups.id) WHERE altg.idAppointment.id = a.id) AS servicii, "
+//        + "NEW com.caido.appointments.entity.DTO.AppointmentDTO("
+//            + " a.id AS id,"
+//            + " NEW com.caido.appointments.entity.DTO.SimplePhysicianDTO(p.id, p.stencilNo, p.idPersonnel.imagineAngajat, p.idPersonnel.idperson.name, p.idPersonnel.idperson.surname, pr.idSex, p.idPersonnel.id, d.id) AS physician, "
+//            + " a.idSpeciality AS speciality, "
+//            + " false AS hasAssociatedConsultation,"
+//            + " false AS canceled,"
+//              + " (SELECT lt FROM AppointmentsLabTestsGroups altg JOIN LabTestsGroups lt ON (lt.id = altg.idLabTestsGroups.id) WHERE altg.idAppointment.id = a.id) AS servicii, "
+//            + " a.oraProgramare AS oraProgramare"
+//        + ") "
+        + "FROM Appointments a "
+        + "JOIN Physicians p ON (p.id = a.idPhysicians.id) "
+        + "JOIN Personnel pe ON (pe.id = p.idPersonnel.id) "
+        + "JOIN PersonnelDepartment pd ON (pd.idPersonnel = pe.id and pd.validFrom <= date(a.oraProgramare) AND (pd.validTo >= date(a.oraProgramare) OR pd.validTo IS NULL)) "
+        + "JOIN Department d ON (d.id = pd.idDepartment and d.idSpeciality = a.idSpeciality.id AND d.ambulatoriu = 1 ) "
+        + "JOIN Person pr ON (pr.id = pe.idperson.id) "
+        + "WHERE a.idPerson.id = ?1 "
+        + "ORDER BY a.oraProgramare")
+    List<Appointments> getConnectedUserAppointments(Integer idPerson, Pageable pageable);
+
+    @Query("SELECT count(a) "
+            + "FROM Appointments a "
+            + "WHERE a.idPerson.id = ?1")
+    Integer countConnectedUserAppointments(Integer idPerson);
 }

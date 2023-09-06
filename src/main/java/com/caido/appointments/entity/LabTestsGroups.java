@@ -49,6 +49,22 @@ public class LabTestsGroups implements Serializable {
     
     public LabTestsGroups() {
     }
+    public LabTestsGroups(Integer id, String code, String name) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+    }
+    
+    public LabTestsGroups(Integer id, String name, String code, Short visible, String name2, Short supergroup, Integer minuteEstimate, short canBeScheduledOnline) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.visible = visible;
+        this.name2 = name2;
+        this.supergroup = supergroup;
+        this.minuteEstimate = minuteEstimate;
+        this.canBeScheduledOnline = canBeScheduledOnline;
+    }
 
     public LabTestsGroups(Integer id) {
         this.id = id;

@@ -28,7 +28,7 @@
     <!--<div class="col-md-12 text-center" *ngFor="let p of physiciansSearched">-->
       <div class="card" style="border-radius: 1rem;">
         <div class="row">
-          <div class="col-md-1 text-center">
+          <div class="col-md-1 text-center mt-2">
             <app-image-display [base64Image]="p.imagineAngajat!" [width]="110" [height]="110" *ngIf="p.imagineAngajat" style="margin: 10px;"/>
             <img src="/assets/images/shedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===2"/>
             <img src="/assets/images/hedr.jpg" width="110" height="110" *ngIf="!p.imagineAngajat && p.idSex===1"/>
@@ -41,6 +41,7 @@
           <app-physician-appointments [appointmentRequest]="getAppointmentRequest(p)"/>
         </div>
       </div>
+      <p></p>
     </div>
 
   <form [formGroup]="form">

@@ -161,4 +161,22 @@ export class HttpService {
   getScrisoareMedicala(idScrisoareMedicala: number) {
     return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/scrisoareMedicala/"+idScrisoareMedicala);
   }
+
+  /**
+   * Get the appointments of the connected account
+   * @param limit
+   * @param offset
+   */
+  getPatientAppointmetns(limit: number, offset:number) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/appointments/"+limit+"/"+offset);
+  }
+
+  /**
+   * Count the appointments of the connected account
+   * @param limit
+   * @param offset
+   */
+  countConnectedUserAppointments() {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/countConnectedUserAppointments");
+  }
 }

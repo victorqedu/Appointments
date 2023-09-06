@@ -62,9 +62,16 @@ export class ConsultationHistoryComponent implements OnInit {
       shiftRight = this.totalPages-(this.currentPage+lr);
     }
     this.displayStartPage=this.currentPage-lr-shiftLeft+shiftRight;
+    if(this.displayStartPage<1) {
+      this.displayStartPage = 1;
+    }
     this.displayStopPage=this.currentPage+lr-shiftLeft+shiftRight;
-    this.pages = Array.from({ length: this.recPerPage }, (_, i) => i + this.displayStartPage);
-    console.log("pages:"+this.pages+" shiftLeft "+shiftLeft+" shiftRight "+shiftRight+" this.totalPages "+this.totalPages+" this.currentPage "+this.currentPage+" lr "+lr);
+    if(this.displayStopPage>this.totalPages) {
+      this.displayStopPage = this.totalPages;
+    }
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + this.displayStartPage);
+    console.log("pages:"+this.pages+" shiftLeft "+shiftLeft+" shiftRight "+shiftRight+" this.totalPages "+this.totalPages+" this.currentPage "+this.currentPage+" lr "+lr
+      +" this.displayStartPage "+this.displayStartPage+" this.displayStopPage "+this.displayStopPage);
   }
 
   nextPage() {

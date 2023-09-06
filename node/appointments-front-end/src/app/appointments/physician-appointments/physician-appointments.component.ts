@@ -9,6 +9,7 @@ import {Service} from "../../models/service.model";
 import {ModalMessageService} from "../../modal-message/modal-message-service";
 import {ModalMessage} from "../../modal-message/modal-message-model";
 import {Router} from "@angular/router";
+import {Personnel} from "../../models/personnel.model";
 
 @Component({
   selector: 'app-physician-appointments',
@@ -86,7 +87,9 @@ export class PhysicianAppointmentsComponent implements OnInit {
     });
     if(this.checkAllFieldsAreValid()) {
       let appointment = new Appointment(null, this.form.get('appointmentHour')?.value, null, null, null, new AppointmentTypes(1),
-      this.accountService.getAccount(), this.appointmentRequest.idPhysician.idPersonnel, this.appointmentRequest.idPhysician, this.appointmentRequest.idSpeciality,
+      this.accountService.getAccount(),
+        new Personnel(this.appointmentRequest.idPhysician.idPersonnel, null, null, null),
+        this.appointmentRequest.idPhysician, this.appointmentRequest.idSpeciality,
         labTestsGroups, this.appointmentRequest.idPhysician.idDepartment);
       //console.log(JSON.stringify(appointment));
       //console.log(appointment);

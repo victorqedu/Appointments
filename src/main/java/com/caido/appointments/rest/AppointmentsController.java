@@ -1,9 +1,9 @@
 package com.caido.appointments.rest;
 
-import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.entity.Appointments;
 import com.caido.appointments.entity.DTO.RequestAppointmentDTO;
 import com.caido.appointments.services.AppointmentsService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.caido.appointments.config.SecurityConstants;
+import com.caido.appointments.entity.DTO.AppointmentDTO;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api")
@@ -45,13 +47,25 @@ public class AppointmentsController {
         System.out.println("c "+c);
         return CollectionModel.of(c, linkTo(methodOn(AppointmentsController.class).calculateAppointments(request)).withSelfRel());
     }
-    @GetMapping("/appointments/{id}")
-    EntityModel<Appointments> getOne(@PathVariable Integer id) {
-        System.out.println("Start getOne");
-        Appointments c = appointmentsService.getAppointmentsRepository().findById(id).orElseThrow(() -> new RootExceptionHandler("Programarea cu id-ul "+id+" nu a fost gasita in baza de date"));
-        return assembler.toModel(c);
+    
+//    @GetMapping("/appointments/{id}")
+//    EntityModel<Appointments> getOne(@PathVariable Integer id) {
+//        System.out.println("Start getOne");
+//        Appointments c = appointmentsService.getAppointmentsRepository().findById(id).orElseThrow(() -> new RootExceptionHandler("Programarea cu id-ul "+id+" nu a fost gasita in baza de date"));
+//        return assembler.toModel(c);
+//    }
+
+    @GetMapping("/appointments/{limit}/{offset}")
+    List<Appointments>getConnectedUserAppointments(@PathVariable Integer limit, @PathVariable Integer offset, HttpServletRequest hsr) {
+        List<Appointments> appointlemntsList = appointmentsService.getConnectedUserAppointments(hsr.getHeader(SecurityConstants.JWT_HEADER), limit, offset);
+        return appointlemntsList;
     }
 
+    @GetMapping("/countConnectedUserAppointments")
+    Integer countConnectedUserAppointments(HttpServletRequest hsr){ 
+        return appointmentsService.countConnectedUserAppointments(hsr.getHeader(SecurityConstants.JWT_HEADER));
+    }
+    
     @PostMapping(value = "/saveAppointment", consumes = "application/json", produces = "application/json")
     EntityModel<Appointments> saveAppointment(@RequestBody Appointments appointment) {
         Appointments a = appointmentsService.saveAppointment(appointment);
@@ -65,7 +79,7 @@ class AppointmentsModelAssembler implements RepresentationModelAssembler<Appoint
   @Override
   public EntityModel<Appointments> toModel(Appointments c) {
     return EntityModel.of(c, 
-        linkTo(methodOn(AppointmentsController.class).getOne(c.getId())).withSelfRel(),
+        //linkTo(methodOn(AppointmentsController.class).getOne(c.getId())).withSelfRel(),
         linkTo(methodOn(AppointmentsController.class).calculateAppointments(null)).withSelfRel(),
         linkTo(methodOn(AppointmentsController.class).saveAppointment(null)).withSelfRel()
     );

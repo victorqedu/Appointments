@@ -32,11 +32,11 @@ public class ScrisoareMedicalaController {
     
     @GetMapping("/scrisoareMedicala/{id}")
     EntityModel<ScrisoareMedicalaDTO> get(@PathVariable Integer id, HttpServletRequest hsr) {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ScrisoareMedicalaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(ScrisoareMedicalaController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         ScrisoareMedicalaDTO c = service.get(id, hsr.getHeader(SecurityConstants.JWT_HEADER));
         if(c==null) {
             throw new RootExceptionHandler("Scrisoarea medicala cu id-ul "+id+" nu a fost gasita in baza de date");

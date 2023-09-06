@@ -35,8 +35,6 @@ public class AppointmentsTypes implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAppointmentsTypes")
-    private Collection<Appointments> appointmentsCollection;
 
     public AppointmentsTypes() {
     }
@@ -64,14 +62,6 @@ public class AppointmentsTypes implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Collection<Appointments> getAppointmentsCollection() {
-        return appointmentsCollection;
-    }
-
-    public void setAppointmentsCollection(Collection<Appointments> appointmentsCollection) {
-        this.appointmentsCollection = appointmentsCollection;
     }
 
     @Override

@@ -148,20 +148,6 @@ public class Personnel implements Serializable {
         this.idperson = idperson;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "personnel_department",
-               joinColumns = @JoinColumn(name = "id_personnel"),
-               inverseJoinColumns = @JoinColumn(name = "id_department"))
-    private Collection<Department> department;
-
-    public void setDepartment(Collection<Department> department) {
-        this.department = department;
-    }
-
-    public Collection<Department> getDepartment() {
-        return department;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
