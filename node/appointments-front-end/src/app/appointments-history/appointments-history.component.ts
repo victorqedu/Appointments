@@ -4,6 +4,7 @@ import {AccountService} from "../services/accountService";
 import {ModalMessageService} from "../modal-message/modal-message-service";
 import {Consultation} from "../models/consultation.model";
 import {Appointment} from "../models/appointment.model";
+import {ModalMessage} from "../modal-message/modal-message-model";
 
 @Component({
   selector: 'app-appointments-history',
@@ -90,5 +91,29 @@ export class AppointmentsHistoryComponent {
       this.currentPage = page;
       this.fetchData();
     }
+  }
+
+  cancelAppointment(idAppointment: number | null) {
+    this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+      this.modalMessageService.modalMessageAnswer.unsubscribe();
+      this.modalMessageService.reinitializeModalMessageAnswerSubject();
+      if(answer) {
+        this.httpService.cancelAppointment(idAppointment!).subscribe(() => {
+          this.fetchData();
+        });
+      }
+    });
+    this.modalMessageService.setModalMessage(
+      new ModalMessage(
+        "Confirmația anularea programării",
+        "",
+        true,
+        false,
+        false,
+        true,
+        "",
+        null,
+        null,
+        false,));
   }
 }

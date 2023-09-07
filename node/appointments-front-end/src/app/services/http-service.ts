@@ -179,4 +179,8 @@ export class HttpService {
   countConnectedUserAppointments() {
     return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/countConnectedUserAppointments");
   }
+
+  cancelAppointment(idAppointment: number) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/cancelAppointment/"+idAppointment);
+  }
 }

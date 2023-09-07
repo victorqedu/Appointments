@@ -4,6 +4,7 @@ import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,16 +13,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "appointments")
 public class Appointments implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +54,46 @@ public class Appointments implements Serializable {
         this.idDepartment = idDepartment;
     }
     
+    private Integer canceled;
+
+    public Integer getCanceled() {
+        if(canceled==null) {
+            canceled = 0;
+        }
+        return canceled;
+    }
+
+    public void setCanceled(Integer canceled) {
+        if(canceled==null) {
+            canceled = 0;
+        }
+        this.canceled = canceled;
+    }    
+    
+    @Transient
+    private Integer idFirstAssociatedConsulation;
+
+    public Integer getIdFirstAssociatedConsulation() {
+        return idFirstAssociatedConsulation;
+    }
+
+    public void setIdFirstAssociatedConsulation(Integer idFirstAssociatedConsulation) {
+        this.idFirstAssociatedConsulation = idFirstAssociatedConsulation;
+    }
+//    
+//    @PostLoad
+//    void fillIdFirstAssociatedConsulation() {
+//        String query = "SELECT c.id "
+//                + "FROM Consultatii c "
+//                + "WHERE c.idPerson.id = :idPerson and c.idSpecialities.id = :idSpeciality AND date(c.dataConsultatiei) = :oraProgramare and c.canceled = :canceled "
+//                + "LIMIT 1";
+//        this.idFirstAssociatedConsulation = entityManager.createQuery(query)
+//            .setParameter("idPerson", this.getIdPerson().getId())
+//            .setParameter("idSpeciality", this.getIdSpeciality().getId())
+//            .setParameter("dataConsultatiei", this.getOraProgramare())
+//            .setParameter("canceled", "0").getFirstResult();
+//    }
+
     @Basic(optional = false)
     @Column(name = "ora_programare")
     @Temporal(TemporalType.TIMESTAMP)
@@ -104,6 +147,9 @@ public class Appointments implements Serializable {
 //    @ManyToOne(optional = false)
 //    private LabTestsGroups idLabTestsGroups;
 
+//    public Appointments(EntityManager entityManager) {
+//        this.entityManager = entityManager;
+//    }
     public Appointments() {
     }
 

@@ -4,19 +4,23 @@ import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import static com.caido.appointments.Util.Functions.empty;
 import com.caido.appointments.Util.JWT;
 import com.caido.appointments.entity.Person;
+import com.caido.appointments.repositories.AppointmentsRepository;
 import com.caido.appointments.repositories.PersonRepository;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PersonService {
     PersonRepository personRepository;
+    AppointmentsService appointmentsService;
     private final PasswordEncoder passwordEncoder;
 
-    public PersonService(PersonRepository pr, PasswordEncoder passwordEncoder) {
+    public PersonService(PersonRepository pr, PasswordEncoder passwordEncoder, AppointmentsService appointmentsService) {
         this.personRepository = pr;
         this.passwordEncoder = passwordEncoder;
+        this.appointmentsService = appointmentsService;
     }
 
     public PersonRepository getPersonRepository() {
@@ -57,6 +61,7 @@ public class PersonService {
         }
     }
 
+    @Transactional
     public Person updateAccount(Person person, String jwtToken) {
         if(person.getId()==null) {
             throw new RuntimeException("La actualizarea conturilor trebuie sa mentionati id-ul contului actualizat");
@@ -66,6 +71,12 @@ public class PersonService {
                 throw new RuntimeException("Tentativa de spargere cont a fost identificata, datele au fost inregistrate");
                         //+ ", persoane cu id "+idUserConectat+" nu poate modifica datele persoanei cu id "+person.getId());
             } else {
+                Person personFoundByEmail = personRepository.findByEmail(person.getAuthEmail(), Integer.valueOf(idUserConectat));
+                System.out.println("personfoundByEmail "+personFoundByEmail+" search email is "+person.getAuthEmail());
+                if(personFoundByEmail!=null) {
+                    throw new RuntimeException("Contul cu emailul "+person.getAuthEmail()+" exista deja in baza de date, daca ati uitat parola accesati butonul 'Am uitat parola'");
+                }
+
                 String hashPwd = passwordEncoder.encode(person.getOnlinePasswordReal());
                 person.setOnlinePassword(hashPwd);
                 person.check();
@@ -78,8 +89,16 @@ public class PersonService {
                     if(pc!=null) { // a person with this cnp is already in the database, I'm reusing this id
                         if(pc.getAuthEmail()!=null) {
                             throw new RuntimeException("Ati incercat sa schimbati CNP-ul contului. Noul CNP are deja un cont online creat, va rugam sa folositi credentialele contului existent.");
-                        } else {
-                            person.setId(pc.getId());
+                        } else { // I found a person with that CNP in the database and this person has no online account
+                            pc.setAuthEmail(person.getAuthEmail());
+                            pc.setOnlinePassword(person.getOnlinePasswordReal());
+                            pc.setPhone(person.getPhone());
+                            person.setCnp("0000000000000");
+                            person.setOnlinePassword(null);
+                            person.setAuthEmail(null);
+                            personRepository.save(pc);
+                            appointmentsService.updateAppointments(pc.getId(), person.getId());
+                            //person.setId(pc.getId());
                         }
                     } else { // a person with this CNP is not in the database, I will add a new record
                         // nothing to do here for the moment

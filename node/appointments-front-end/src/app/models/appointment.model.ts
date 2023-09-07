@@ -18,7 +18,9 @@ export class Appointment {
     public idPhysicians: Physician | null,
     public idSpeciality: Speciality | null,
     public labTestsGroups: Service[] = [],
-    public idDepartment: number | null
+    public idDepartment: number | null,
+    public idFirstAssociatedConsulation: number | null,
+    public canceled: number | null,
   ) {}
 
 }

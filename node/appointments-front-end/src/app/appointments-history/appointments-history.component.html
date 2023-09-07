@@ -62,10 +62,10 @@
               <th scope="col">Data și ora</th>
               <th scope="col">Medic</th>
               <th scope="col">Specialitate</th>
-              <th scope="col">
-                Efectuată
-              </th>
               <th scope="col">Servicii programate</th>
+              <th scope="col">Efectuată</th>
+              <th scope="col">Anulată</th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -89,11 +89,6 @@
                 </td>
                 <td>                {{appointment.idSpeciality!.name}}                                           </td>
                 <td>
-                  <div>
-                    <button class="btn btn-danger btn-sm disabled">Nu</button>
-                  </div>
-                </td>
-                <td>
                   <ng-container *ngFor="let service of appointment.labTestsGroups; let j = index">
                     <div class="row">
                       <div class="col">
@@ -101,6 +96,23 @@
                       </div>
                     </div>
                   </ng-container>
+                </td>
+                <td>
+                  <div>
+                    <button class="btn btn-danger btn-sm disabled" *ngIf="!appointment.idFirstAssociatedConsulation">Nu</button>
+                    <button class="btn btn-success btn-sm disabled" *ngIf="appointment.idFirstAssociatedConsulation">Da</button>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <button class="btn btn-success btn-sm disabled" *ngIf="appointment.canceled===0">Nu</button>
+                    <button class="btn btn-danger btn-sm disabled" *ngIf="appointment.canceled===1">Da</button>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <button class="btn btn-danger btn-sm" *ngIf="appointment.canceled===0" (click)="cancelAppointment(appointment.id)">Anuleaza</button>
+                  </div>
                 </td>
               </tr>
             </ng-container>

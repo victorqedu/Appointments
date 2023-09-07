@@ -44,7 +44,11 @@ export class GenericHttpInterceptor implements HttpInterceptor {
             errorSmall = error.error.message;
             console.log("GenericHttpInterceptor.intercept error has message "+errorSmall);
           }
-          errorSmall = errorSmall.split("[java.lang.RuntimeException:")[0];
+          //errorSmall = errorSmall.split("[java.lang.RuntimeException:")[0];
+          if(errorSmall.includes("check_overlapping_appointments_gist")) {
+            errorSmall = "Programarea de la aceasta ora a fost deja rezervata de alt utilizator, vă rugăm să selectați altă oră.";
+          }
+          errorSmall = errorSmall.split("[")[0];
           console.log("GenericHttpInterceptor.intercept errsmall "+errorSmall);
         }
         if(error.status===401 && errorSmall==="") {

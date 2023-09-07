@@ -8,6 +8,7 @@ import {AccountService} from "../services/accountService";
 import {ModalMessage} from "../modal-message/modal-message-model";
 import {ModalMessageService} from "../modal-message/modal-message-service";
 import {Router} from "@angular/router";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-signup',
@@ -72,9 +73,12 @@ export class SignupComponent {
    * Send the data to the backend
    */
   onSubmit() {
+    console.log("Start submit!!!!!!!!!!!!!!!!!!!!!!!!!!");
     console.warn(this.signupForm);
     if(this.checkAllFieldsAreValid()) {
+      console.log("All fields ave valid");
       if(this.accountService.getAccount().id!=null) {
+        console.warn("updating account");
         let newAccount: Account = new Account(
           this.accountService.getAccount().id,
           this.signupForm.get('name')!.value,
@@ -103,10 +107,13 @@ export class SignupComponent {
               false,
             ));
           this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+            this.modalMessageService.modalMessageAnswer.unsubscribe();
+            this.modalMessageService.reinitializeModalMessageAnswerSubject();
             this.router.navigate(['/firstPage']);
           });
         });
       } else {
+        console.warn("inserting account");
         this.httpService.storeSignup(new Account(
           null,
           this.signupForm.get('name')!.value,
@@ -122,7 +129,7 @@ export class SignupComponent {
           this.modalMessageService.setModalMessage(
             new ModalMessage(
               "Cont creat cu succes",
-              "Accesați seciunea de login pentru a vă conecta.",
+              "Accesați secțiunea de login pentru a vă conecta.",
               true,
               false,
               false,
@@ -133,6 +140,8 @@ export class SignupComponent {
               false,
               ));
           this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+            this.modalMessageService.modalMessageAnswer.unsubscribe();
+            this.modalMessageService.reinitializeModalMessageAnswerSubject();
             this.router.navigate(['/login']);
           });
         });

@@ -1,5 +1,6 @@
 package com.caido.appointments.services;
 
+import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.Util.LocalDateTimeInterval;
 import com.caido.appointments.entity.Appointments;
 import com.caido.appointments.entity.AppointmentsTypes;
@@ -25,19 +26,23 @@ import java.util.List;
 import java.util.Locale;
 import org.springframework.stereotype.Service;
 import com.caido.appointments.Util.JWT;
-import com.caido.appointments.entity.DTO.AppointmentDTO;
+import jakarta.persistence.EntityManager;
+import java.util.Objects;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 public class AppointmentsService {
+    private final EntityManager entityManager;
     AppointmentsRepository appointmentsRepository;
     PhysiciansWorkingScheduleRepository physiciansWorkingScheduleRepository;
     LabTestsGroupsRepository labTestsGroupsRepository;
     AppointmentsTypes at = new AppointmentsTypes();
     
-    public AppointmentsService(AppointmentsRepository ar, PhysiciansWorkingScheduleRepository pwsr, LabTestsGroupsRepository ltgr) {
+    public AppointmentsService(AppointmentsRepository ar, PhysiciansWorkingScheduleRepository pwsr, LabTestsGroupsRepository ltgr, EntityManager entityManager) {
+        this.entityManager = entityManager;
         this.appointmentsRepository = ar;
         this.physiciansWorkingScheduleRepository = pwsr;
         this.labTestsGroupsRepository = ltgr;
@@ -47,8 +52,48 @@ public class AppointmentsService {
     public AppointmentsRepository getAppointmentsRepository() {
         return appointmentsRepository;
     }
+
+    public void updateAppointments(Integer newIdPerson, Integer oldIdPerson) {
+        entityManager.createQuery("UPDATE Appointments SET idPerson.id = :newIdPerson WHERE idPerson.id = :oldIdPerson")
+            .setParameter("newIdPerson", newIdPerson)
+            .setParameter("oldIdPerson", oldIdPerson)
+            .executeUpdate();
+    }
     
-    public Appointments saveAppointment(Appointments appointment) {
+    @Transactional
+    public void cancelAppointment(Integer idAppointment, String jwtToken) {
+        String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
+        Integer idUserConectatInt = Integer.valueOf(idUserConectat);
+        Appointments appointmentS = appointmentsRepository.findById(idAppointment).orElseThrow(() -> new RootExceptionHandler("Programarea cu id-ul "+idAppointment+" nu se gaseste in baza de date"));
+        if(!Objects.equals(idUserConectatInt, appointmentS.getIdPerson().getId())) {
+            throw new RootExceptionHandler("Programare nu vă aparține, nu aveți drepturi suficiente pentru a anula această consultație");
+        } 
+        if(appointmentS.getOraProgramare().isBefore(LocalDateTime.now())) {
+            throw new RootExceptionHandler("Nu puteti anula programări care sunt în trecut");
+        }
+        entityManager.createQuery("UPDATE Appointments SET canceled = :canceled WHERE id = :id")
+            .setParameter("canceled", "1")
+            .setParameter("id", appointmentS.getId())
+            .executeUpdate();
+    }
+    
+//    public int fillgetdFirstAssociatedConsulation(Appointments a) {
+//        String query = "SELECT c.id "
+//                + "FROM Consultatii c "
+//                + "WHERE c.idPerson.id = :idPerson and c.idSpecialities.id = :idSpeciality AND date(c.dataConsultatiei) = :oraProgramare and c.canceled = :canceled "
+//                + "LIMIT 1";
+//        return entityManager.createQuery(query)
+//            .setParameter("idPerson", a.getIdPerson().getId())
+//            .setParameter("idSpeciality", a.getIdSpeciality().getId())
+//            .setParameter("dataConsultatiei", a.getOraProgramare())
+//            .setParameter("canceled", "0").getFirstResult();
+//    }
+    public Appointments saveAppointment(Appointments appointment, String jwtToken) {
+        String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
+        Integer idUserConectatInt = Integer.valueOf(idUserConectat);
+        if(!Objects.equals(idUserConectatInt, appointment.getIdPerson().getId())) {
+            throw new RootExceptionHandler("Puteti salva programari numai pentru persona asociata cu contul conectat");
+        }
         // 1. Check required fields 
         if(appointment.getIdAppointmentsTypes()==null) {
             // the type of the appointment is a field I no longer use, the types are deducted from the list of services(lab_tests_groups) if necessary
@@ -90,8 +135,20 @@ public class AppointmentsService {
 
     public List<Appointments> getConnectedUserAppointments (String jwtToken, Integer limit, Integer offset) {
         String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
-        Pageable pageable = PageRequest.of(offset, limit);
-        return appointmentsRepository.getConnectedUserAppointments(Integer.valueOf(idUserConectat), pageable);
+        Pageable pageable = PageRequest.of(offset/limit, limit);
+        
+        List<Object[]> results = appointmentsRepository.getConnectedUserAppointments(Integer.valueOf(idUserConectat), pageable);
+        List<Appointments> appointmentsList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Appointments appointment = (Appointments) result[0];
+            Integer idFirstAssociatedConsulation = (Integer) result[1];
+            appointment.setIdFirstAssociatedConsulation(idFirstAssociatedConsulation);
+            appointmentsList.add(appointment);
+        }
+
+        return appointmentsList;        
+        //return appointmentsRepository.getConnectedUserAppointments(Integer.valueOf(idUserConectat), pageable);
     }
     
     public Integer countConnectedUserAppointments(String jwtToken) {

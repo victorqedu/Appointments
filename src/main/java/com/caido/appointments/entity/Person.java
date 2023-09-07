@@ -113,7 +113,12 @@ public class Person implements Serializable {
         if(checkEmail(authEmail)) {
             this.authEmail = authEmail;
         } else {
-            throw new RuntimeException("Email invalid "+authEmail);
+            if(this.onlinePassword==null || this.onlinePassword.equals("")) {
+                // I need to be able to set null in email when I update the olc person without a valid cnp to a new person with a valid cnp, email cant be twice in the database so it needs to be nullified
+                this.authEmail = authEmail;
+            } else {
+                throw new RuntimeException("Email invalid "+authEmail);
+            }
         }
     }
 

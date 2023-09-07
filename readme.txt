@@ -38,4 +38,5 @@ Ca sa porneasca solutia de programari au nevoie de:
 - creare si configurare servicii care se pot programa online. exemplu: consultatie, interpretare analiza, ..., campurile completate ar trebui sa fie: cod, denumire si numar de minute necesare
 - asociere servcii cu specialitati (dupa selectarea unei specialitati online aplicatia va oferi la pasul urmator numai serviciile asociate cu acea specialitate)
 - configurare termeni de utilizare si politica de confidentialitate(am pus valori implicite generate de ChatGPT dar poate vor sa modifice ceva)
+- acces la un server de mail care va trimite mesaje catre utilizatorii site-ului de programari pentru situatia in care utilizatorul isi uita parola si pentru confirmarea contului
 Astia sunt pasi pe care ei trebuie sa-i faca inainte de a publica solutia, tot ceea ce inseamna configurare se face in Caido, programarea online comunica cu Caido.

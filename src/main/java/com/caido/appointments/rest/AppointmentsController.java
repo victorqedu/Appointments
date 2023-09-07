@@ -55,8 +55,13 @@ public class AppointmentsController {
 //        return assembler.toModel(c);
 //    }
 
+    @GetMapping("/cancelAppointment/{idAppointment}")
+    void cancelAppointment(@PathVariable Integer idAppointment, HttpServletRequest hsr) {
+        appointmentsService.cancelAppointment(idAppointment, hsr.getHeader(SecurityConstants.JWT_HEADER));
+    }
+
     @GetMapping("/appointments/{limit}/{offset}")
-    List<Appointments>getConnectedUserAppointments(@PathVariable Integer limit, @PathVariable Integer offset, HttpServletRequest hsr) {
+    List<Appointments> getConnectedUserAppointments(@PathVariable Integer limit, @PathVariable Integer offset, HttpServletRequest hsr) {
         List<Appointments> appointlemntsList = appointmentsService.getConnectedUserAppointments(hsr.getHeader(SecurityConstants.JWT_HEADER), limit, offset);
         return appointlemntsList;
     }
@@ -67,8 +72,8 @@ public class AppointmentsController {
     }
     
     @PostMapping(value = "/saveAppointment", consumes = "application/json", produces = "application/json")
-    EntityModel<Appointments> saveAppointment(@RequestBody Appointments appointment) {
-        Appointments a = appointmentsService.saveAppointment(appointment);
+    EntityModel<Appointments> saveAppointment(@RequestBody Appointments appointment, HttpServletRequest hsr) {
+        Appointments a = appointmentsService.saveAppointment(appointment, hsr.getHeader(SecurityConstants.JWT_HEADER));
         return assembler.toModel(a);
     }
 }
@@ -81,7 +86,7 @@ class AppointmentsModelAssembler implements RepresentationModelAssembler<Appoint
     return EntityModel.of(c, 
         //linkTo(methodOn(AppointmentsController.class).getOne(c.getId())).withSelfRel(),
         linkTo(methodOn(AppointmentsController.class).calculateAppointments(null)).withSelfRel(),
-        linkTo(methodOn(AppointmentsController.class).saveAppointment(null)).withSelfRel()
+        linkTo(methodOn(AppointmentsController.class).saveAppointment(null, null)).withSelfRel()
     );
   }
 }

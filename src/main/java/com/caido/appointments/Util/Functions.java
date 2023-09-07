@@ -11,6 +11,9 @@ public class Functions {
     }    
 
     public static boolean checkEmail(String emailAddress) {
+        if(emailAddress==null) {
+            return false;
+        }
         return Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
             .matcher(emailAddress)
             .matches();
