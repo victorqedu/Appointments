@@ -17,6 +17,8 @@ import {Config} from "../models/config";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  loading: boolean = false;
+  loadingSubscription!: Subscription;
   subscription!: Subscription;
   account!:Account;
   loginForm = new FormGroup({
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   onSubmit() {
     console.warn(this.loginForm);
+    console.warn("[1] Loading is now "+this.loading);
     if(this.checkAllFieldsAreValid()) {
       console.log("All fields are valid");
       this.accountService.login(new Account(
@@ -58,8 +61,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           null,
           this.loginForm.get('email')!.value,
           null,
-          this.loginForm.get('password')!.value)
+          this.loginForm.get('password')!.value, null, null, null)
       );
+      console.warn("[2] Loading is now "+this.loading);
     } else {
       console.log("Some error");
       this.modalMessageService.setModalMessage(
@@ -74,21 +78,29 @@ export class LoginComponent implements OnInit, OnDestroy {
           null,
           null,
           false,));
+      this.loading = false;
+      console.warn("[3] Loading is now "+this.loading);
     }
   }
 
   ngOnInit(): void {
-    console.log("ContactComponent.ngOnInit");
+    console.log("LoginComponent.ngOnInit");
     this.subscription = this.accountService.connectedChanged.subscribe(
       (account: Account) => {
         this.account = account;
       }
     );
+    this.loadingSubscription = this.accountService.loginChangedSubject.subscribe(loading => {
+      this.loading = loading;
+      console.log("Loafing subject is now "+loading)
+    })
     this.account = this.accountService.getAccount();
   }
 
   ngOnDestroy(): void {
+    console.log("LoginComponent.ngOnDestroy");
     this.subscription.unsubscribe();
+    this.loadingSubscription.unsubscribe();
   }
 
 }

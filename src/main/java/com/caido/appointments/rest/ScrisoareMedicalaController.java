@@ -31,7 +31,7 @@ public class ScrisoareMedicalaController {
     }
     
     @GetMapping("/scrisoareMedicala/{id}")
-    EntityModel<ScrisoareMedicalaDTO> get(@PathVariable Integer id, HttpServletRequest hsr) {
+    EntityModel<ScrisoareMedicalaDTO> get(@PathVariable Integer id, HttpServletRequest hsr) throws Exception  {
 //        try {
 //            Thread.sleep(3000);
 //        } catch (InterruptedException ex) {
@@ -50,7 +50,12 @@ public class ScrisoareMedicalaController {
 class ScrisoareMedicalaModelAssembler implements RepresentationModelAssembler<ScrisoareMedicalaDTO, EntityModel<ScrisoareMedicalaDTO>> {
   @Override
   public EntityModel<ScrisoareMedicalaDTO> toModel(ScrisoareMedicalaDTO c) {
-    return EntityModel.of(c, 
-        linkTo(methodOn(ScrisoareMedicalaController.class).get(c.getId(), null)).withSelfRel());
+      try {
+          return EntityModel.of(c,
+                  linkTo(methodOn(ScrisoareMedicalaController.class).get(c.getId(), null)).withSelfRel());
+      } catch (Exception ex) {
+          Logger.getLogger(ScrisoareMedicalaModelAssembler.class.getName()).log(Level.SEVERE, null, ex);
+          return null;
+      }
   }
 }

@@ -57,6 +57,15 @@ export class HttpService {
       );
   }
 
+  reSendEmailConfirmEmail(account: Account) {
+    return this.http
+      .post(
+        this.serverProtocol+"://"+this.serverHost+":"+this.serverPort+"/"+this.serverPrefix+"/reSendEmailConfirmEmail",
+        account
+      );
+  }
+
+
   updateAccount(account: Account) {
     return this.http
       .put(
@@ -183,4 +192,14 @@ export class HttpService {
   cancelAppointment(idAppointment: number) {
     return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/cancelAppointment/"+idAppointment);
   }
+
+  confirmEmail(jwtToken: String) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/confirmEmail/"+jwtToken);
+  }
+
+  findById(idPerson: number) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/findById/"+idPerson);
+  }
+
+
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../services/accountService";
 import {FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {appointmentsDatesValidator, CustomValidator, passwordValidator} from "../customValidators/customValidator";
@@ -6,13 +6,15 @@ import {Service} from "../models/service.model";
 import {Physician} from "../models/physician.model";
 import {CommonFunctions} from "../commonFunctions/commonFunctions";
 import {Speciality} from "../models/speciality.model";
+import {HttpService} from "../services/http-service";
+import {Account} from "../models/account.model";
 
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.css']
 })
-export class AppointmentsComponent {
+export class AppointmentsComponent implements OnInit {
   /**
    * The current step of the appointment, there are 4 steps:
    * 1. Selection of the date of the desired appointment
@@ -32,7 +34,7 @@ export class AppointmentsComponent {
     }, { validators: appointmentsDatesValidator }
   );
 
-  constructor(public accountService: AccountService) {}
+  constructor(public accountService: AccountService, public httpService: HttpService) {}
 
   get selectedServices(): FormArray {
     return this.appointmentForm.get('selectedServices') as FormArray;
@@ -54,6 +56,16 @@ export class AppointmentsComponent {
 
   goToStep(step: number) {
       this.currentStep = step;
+  }
+
+  ngOnInit(): void {
+    console.log("appomntment ng oninit");
+    if(this.accountService.isConnected()) {
+      this.httpService.findById(this.accountService!.getAccount()!.id!).subscribe( account => {
+        let a = account as Account;
+        this.accountService.getAccount().authEmailConfirmed = a.authEmailConfirmed;
+      });
+    }
   }
 }
 

@@ -19,7 +19,7 @@ public class ConsultatiiService {
         return consultatiiRepository;
     }
     
-    public List<ConsultatiiDTO> getPatientConsultations(Person idPerson, Integer recordsPerPage, Integer pageNumber, String jwtToken) {
+    public List<ConsultatiiDTO> getPatientConsultations(Person idPerson, Integer recordsPerPage, Integer pageNumber, String jwtToken)  throws Exception  {
         String idUserConectat = JWT.getClaimByNameFromToken(jwtToken, "id");
         if(!idUserConectat.equals(idPerson.getId().toString())) {
             throw new RuntimeException("Tentativa de extragere date a fost identificata.");
@@ -30,7 +30,7 @@ public class ConsultatiiService {
         }
     }
     
-    public Integer countPatientConsultations(Person idPerson, String jwtToken) {
+    public Integer countPatientConsultations(Person idPerson, String jwtToken) throws Exception  {
         String idUserConectat = JWT.getClaimByNameFromToken(jwtToken, "id");
         if(!idUserConectat.equals(idPerson.getId().toString())) {
             throw new RuntimeException("Tentativa de extragere date a fost identificata.");

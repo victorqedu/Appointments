@@ -1,12 +1,12 @@
 package com.caido.appointments.rest;
 
-import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.entity.DTO.SimplePhysicianDTO;
-import com.caido.appointments.entity.Physicians;
 import com.caido.appointments.entity.Specialities;
 import com.caido.appointments.repositories.PhysiciansRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
@@ -32,6 +32,11 @@ public class PhysiciansController {
     }
     @GetMapping("/physicians/{idSpeciality}/{date}")
     CollectionModel<EntityModel<SimplePhysicianDTO>> getAllByDateAndSpeciality(@PathVariable("idSpeciality") Integer idSpeciality, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(SpecialitiesLabTestsGroupsController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         Specialities s = new Specialities();
         s.setId(idSpeciality);
         List<EntityModel<SimplePhysicianDTO>> c = repository.getAllByDateAndSpeciality(idSpeciality, date).stream() 

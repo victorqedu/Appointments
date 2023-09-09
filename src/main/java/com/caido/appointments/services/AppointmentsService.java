@@ -61,7 +61,7 @@ public class AppointmentsService {
     }
     
     @Transactional
-    public void cancelAppointment(Integer idAppointment, String jwtToken) {
+    public void cancelAppointment(Integer idAppointment, String jwtToken) throws Exception  {
         String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
         Integer idUserConectatInt = Integer.valueOf(idUserConectat);
         Appointments appointmentS = appointmentsRepository.findById(idAppointment).orElseThrow(() -> new RootExceptionHandler("Programarea cu id-ul "+idAppointment+" nu se gaseste in baza de date"));
@@ -88,7 +88,7 @@ public class AppointmentsService {
 //            .setParameter("dataConsultatiei", a.getOraProgramare())
 //            .setParameter("canceled", "0").getFirstResult();
 //    }
-    public Appointments saveAppointment(Appointments appointment, String jwtToken) {
+    public Appointments saveAppointment(Appointments appointment, String jwtToken) throws Exception  {
         String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
         Integer idUserConectatInt = Integer.valueOf(idUserConectat);
         if(!Objects.equals(idUserConectatInt, appointment.getIdPerson().getId())) {
@@ -133,7 +133,7 @@ public class AppointmentsService {
         return appointmentsRepository.save(appointment);
     }
 
-    public List<Appointments> getConnectedUserAppointments (String jwtToken, Integer limit, Integer offset) {
+    public List<Appointments> getConnectedUserAppointments (String jwtToken, Integer limit, Integer offset) throws Exception  {
         String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
         Pageable pageable = PageRequest.of(offset/limit, limit);
         
@@ -151,7 +151,7 @@ public class AppointmentsService {
         //return appointmentsRepository.getConnectedUserAppointments(Integer.valueOf(idUserConectat), pageable);
     }
     
-    public Integer countConnectedUserAppointments(String jwtToken) {
+    public Integer countConnectedUserAppointments(String jwtToken) throws Exception  {
         Integer idUserConectat = Integer.valueOf(JWT.getClaimByNameFromToken(jwtToken, "id"));
         return appointmentsRepository.countConnectedUserAppointments(idUserConectat);        
     }

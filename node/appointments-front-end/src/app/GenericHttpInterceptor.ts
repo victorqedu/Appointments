@@ -18,6 +18,7 @@ export class GenericHttpInterceptor implements HttpInterceptor {
     console.log("GenericHttpInterceptor.intercept");
     let httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
     if(sessionStorage.getItem('accountDetails')) {
+      console.log("account details is "+sessionStorage.getItem('accountDetails'));
       this.account = JSON.parse(sessionStorage.getItem('accountDetails')!);
     }
     if(this.account && this.account.authEmail && this.account.onlinePassword) {

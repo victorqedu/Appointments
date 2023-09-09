@@ -1,0 +1,36 @@
+<div class="container"  *ngIf="isConfirming" style="margin-top: 50px">
+  <div class="row">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3>
+        <div class="spinner-border m-5" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </h3>
+    </div>
+  </div>
+</div>
+
+
+<div class="container"  *ngIf="!isConfirming" style="margin-top: 50px">
+  <div class="row" *ngIf="confirmed">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3>
+        <p>Email confirmat cu succes</p>
+      </h3>
+    </div>
+  </div>
+  <div class="row" *ngIf="!confirmed">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3>
+        <p>Email nu este confirmat, daca ati primit eroare de token expirat trebuie sa resolicitati transmiterea mailului de confirmare.</p>
+        <p>Emailul de confirmare a fost trimis către căsuța poștală {{accountService.getAccount().authEmail}} odată cu înregistrarea contului.</p>
+        <p>Linkul din emailul de confirmare trebuie accesat în maxim 20 de minute de la data transmiterii.</p>
+        <p>Puteți solicita retransmiterea emailului de confirmare prin click pe acest buton.</p>
+        <p>
+          <app-resend-confirmation-email></app-resend-confirmation-email>
+        </p>
+      </h3>
+    </div>
+  </div>
+</div>
+

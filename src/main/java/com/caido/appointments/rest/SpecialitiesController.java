@@ -4,6 +4,8 @@ import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.entity.Specialities;
 import com.caido.appointments.repositories.SpecialitiesRepository;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -29,6 +31,11 @@ public class SpecialitiesController {
 
     @GetMapping("/specialities")
     CollectionModel<EntityModel<Specialities>> getAll() {
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(SpecialitiesController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         List<EntityModel<Specialities>> c = repository.findAll().stream() 
             .map(assembler::toModel) 
             .collect(Collectors.toList());

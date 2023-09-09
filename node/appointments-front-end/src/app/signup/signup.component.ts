@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {CustomValidator, passwordValidator} from "../customValidators/customValidator";
 import {CommonFunctions} from "../commonFunctions/commonFunctions";
@@ -16,6 +16,8 @@ import {Subject} from "rxjs";
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
+  loading: boolean = false;
+
   signupForm = new FormGroup({
       name : new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z -]{1,}$")]),
       surname : new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z -]{1,}$")]),
@@ -88,32 +90,43 @@ export class SignupComponent {
           Number(this.signupForm.get('sex')!.value),
           this.signupForm.get('email')!.value,
           this.signupForm.get('phone')!.value,
-          this.signupForm.get('password')!.value
+          this.signupForm.get('password')!.value,
+          null,
+          null,
+          null
         );
-        this.httpService.updateAccount(newAccount).subscribe(response => {
-          console.log(response);
-          this.accountService.setAccount(newAccount);
-          this.modalMessageService.setModalMessage(
-            new ModalMessage(
-              "Cont modificat cu succes",
-              "Cont modificat cu succes",
-              true,
-              false,
-              false,
-              false,
-              "",
-              null,
-              null,
-              false,
-            ));
-          this.modalMessageService.modalMessageAnswer.subscribe(answer => {
-            this.modalMessageService.modalMessageAnswer.unsubscribe();
-            this.modalMessageService.reinitializeModalMessageAnswerSubject();
-            this.router.navigate(['/firstPage']);
-          });
+        this.loading = true;
+        this.httpService.updateAccount(newAccount).subscribe({
+          next: response => {
+            console.log(response);
+            newAccount.onlinePassword = null;
+            this.accountService.setAccount(newAccount);
+            this.modalMessageService.setModalMessage(
+              new ModalMessage(
+                "Cont modificat cu succes",
+                "Cont modificat cu succes",
+                true,
+                false,
+                false,
+                false,
+                "",
+                null,
+                null,
+                false,
+              ));
+            this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+              this.modalMessageService.modalMessageAnswer.unsubscribe();
+              this.modalMessageService.reinitializeModalMessageAnswerSubject();
+              this.router.navigate(['/firstPage']);
+            });
+          },
+          complete: () => {
+            this.loading = false;
+          }
         });
       } else {
         console.warn("inserting account");
+        this.loading = true;
         this.httpService.storeSignup(new Account(
           null,
           this.signupForm.get('name')!.value,
@@ -123,28 +136,39 @@ export class SignupComponent {
           Number(this.signupForm.get('sex')!.value),
           this.signupForm.get('email')!.value,
           this.signupForm.get('phone')!.value,
-          this.signupForm.get('password')!.value
-        )).subscribe(response => {
-          console.log(response);
-          this.modalMessageService.setModalMessage(
-            new ModalMessage(
-              "Cont creat cu succes",
-              "Accesați secțiunea de login pentru a vă conecta.",
-              true,
-              false,
-              false,
-              false,
-              "",
-              null,
-              null,
-              false,
-              ));
-          this.modalMessageService.modalMessageAnswer.subscribe(answer => {
-            this.modalMessageService.modalMessageAnswer.unsubscribe();
-            this.modalMessageService.reinitializeModalMessageAnswerSubject();
-            this.router.navigate(['/login']);
-          });
-        });
+          this.signupForm.get('password')!.value,
+          null,
+          null,
+          null
+        )).subscribe(
+          {
+            next: response => {
+              console.log(response);
+              this.modalMessageService.setModalMessage(
+                new ModalMessage(
+                  "Cont creat cu succes",
+                  "Accesați secțiunea de login pentru a vă conecta si accesati casuta postala "+this.signupForm.get('email')!.value+" " +
+                  "pentru a confirma ca sunteti proprietarul casutei postale declarate.",
+                  true,
+                  false,
+                  false,
+                  false,
+                  "",
+                  null,
+                  null,
+                  false,
+                ));
+              this.modalMessageService.modalMessageAnswer.subscribe(answer => {
+                this.modalMessageService.modalMessageAnswer.unsubscribe();
+                this.modalMessageService.reinitializeModalMessageAnswerSubject();
+                this.router.navigate(['/login']);
+              });
+            },
+            complete: () => {
+              this.loading = false;
+            }
+          }
+          );
       }
     } else {
       this.modalMessageService.setModalMessage(
@@ -189,5 +213,4 @@ export class SignupComponent {
       this.signupForm!.get("sex")!.enable();
     }
   }
-
 }

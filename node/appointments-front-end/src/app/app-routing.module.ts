@@ -11,6 +11,7 @@ import {AppointmentsComponent} from "./appointments/appointments.component";
 import {ConsultationHistoryComponent} from "./consultation-history/consultation-history.component";
 import {AppointmentsHistoryComponent} from "./appointments-history/appointments-history.component";
 import {ScrisoareMedicalaComponent} from "./scrisoare-medicala/scrisoare-medicala.component";
+import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
 
 /*const getContact: ResolveFn<any> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'appointments', component: AppointmentsComponent },
   { path: 'consultationHistory', component: ConsultationHistoryComponent },
   { path: 'appointmentsHistory', component: AppointmentsHistoryComponent },
+  { path: 'confirmEmail/:jwtToken', component: ConfirmEmailComponent },
 ];
 
 @NgModule({

@@ -12,7 +12,7 @@ public class ScrisoareMedicalaService {
         this.scrisoareMedicalaRepository = cr;
     }
 
-    public ScrisoareMedicalaDTO get(Integer idScrisoareMedicala, String jwtToken) {
+    public ScrisoareMedicalaDTO get(Integer idScrisoareMedicala, String jwtToken) throws Exception  {
         String idUserConectat = com.caido.appointments.Util.JWT.getClaimByNameFromToken(jwtToken, "id");
         Integer smPersonID = scrisoareMedicalaRepository.getPersonId(idScrisoareMedicala);
         if(!idUserConectat.equals(smPersonID+"")) {

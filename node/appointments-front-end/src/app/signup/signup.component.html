@@ -124,8 +124,10 @@
                     </div>
 
                     <div class="pt-1 mb-4">
-                      <button class="btn btn-dark btn-lg btn-block" type="submit" *ngIf="!this.accountService.getAccount().id">Creare cont</button>
-                      <button class="btn btn-dark btn-lg btn-block" type="submit" *ngIf="this.accountService.getAccount().id">Modificare cont</button>
+                      <app-submit-button [buttonText]="'Creare cont'" [CSSClasses]="'btn btn-dark btn-lg btn-block'" [loading]="loading" *ngIf="!this.accountService.getAccount().id"></app-submit-button>
+                      <app-submit-button [buttonText]="'Modificare cont'" [CSSClasses]="'btn btn-dark btn-lg btn-block'" [loading]="loading" *ngIf="this.accountService.getAccount().id"></app-submit-button>
+                      <!--<button class="btn btn-dark btn-lg btn-block" type="submit" *ngIf="!this.accountService.getAccount().id">Creare cont</button>
+                      <button class="btn btn-dark btn-lg btn-block" type="submit" *ngIf="this.accountService.getAccount().id">Modificare cont</button>-->
                     </div>
                     <a class="small text-muted" (click)="accountService.showTermsAndConditions()">Termeni utilizare</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a class="small text-muted" (click)="accountService.showPolicyOfConfidentiality()">Politica de confidențialitate</a>

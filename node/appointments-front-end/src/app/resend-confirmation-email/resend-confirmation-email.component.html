@@ -1,0 +1,14 @@
+<button class="btn btn-primary" (click)="reSendEmailConfirmEmail()" [ngClass]="{'disabled':sendingEmail}"  *ngIf="!emailWasSend">
+  <ng-container>Retransmite email &nbsp;</ng-container>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="sendingEmail"></span>
+  <span class="visually-hidden" *ngIf="sendingEmail">Retransmite email</span>
+</button>
+<div class="container" *ngIf="emailWasSend" style="margin-top: 50px">
+  <div class="row">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3>
+        <p>Email retransmis cu succes, verificati casuta postala {{accountService.getAccount().authEmail}} in maxim 20 de minute si accesati linkul din mesaj. </p>
+      </h3>
+    </div>
+  </div>
+</div>

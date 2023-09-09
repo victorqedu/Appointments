@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.caido.appointments.config.SecurityConstants;
 import com.caido.appointments.entity.DTO.AppointmentDTO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -56,23 +58,23 @@ public class AppointmentsController {
 //    }
 
     @GetMapping("/cancelAppointment/{idAppointment}")
-    void cancelAppointment(@PathVariable Integer idAppointment, HttpServletRequest hsr) {
+    void cancelAppointment(@PathVariable Integer idAppointment, HttpServletRequest hsr) throws Exception  {
         appointmentsService.cancelAppointment(idAppointment, hsr.getHeader(SecurityConstants.JWT_HEADER));
     }
 
     @GetMapping("/appointments/{limit}/{offset}")
-    List<Appointments> getConnectedUserAppointments(@PathVariable Integer limit, @PathVariable Integer offset, HttpServletRequest hsr) {
+    List<Appointments> getConnectedUserAppointments(@PathVariable Integer limit, @PathVariable Integer offset, HttpServletRequest hsr) throws Exception  {
         List<Appointments> appointlemntsList = appointmentsService.getConnectedUserAppointments(hsr.getHeader(SecurityConstants.JWT_HEADER), limit, offset);
         return appointlemntsList;
     }
 
     @GetMapping("/countConnectedUserAppointments")
-    Integer countConnectedUserAppointments(HttpServletRequest hsr){ 
+    Integer countConnectedUserAppointments(HttpServletRequest hsr) throws Exception { 
         return appointmentsService.countConnectedUserAppointments(hsr.getHeader(SecurityConstants.JWT_HEADER));
     }
     
     @PostMapping(value = "/saveAppointment", consumes = "application/json", produces = "application/json")
-    EntityModel<Appointments> saveAppointment(@RequestBody Appointments appointment, HttpServletRequest hsr) {
+    EntityModel<Appointments> saveAppointment(@RequestBody Appointments appointment, HttpServletRequest hsr) throws Exception  {
         Appointments a = appointmentsService.saveAppointment(appointment, hsr.getHeader(SecurityConstants.JWT_HEADER));
         return assembler.toModel(a);
     }
@@ -83,10 +85,15 @@ class AppointmentsModelAssembler implements RepresentationModelAssembler<Appoint
     
   @Override
   public EntityModel<Appointments> toModel(Appointments c) {
-    return EntityModel.of(c, 
-        //linkTo(methodOn(AppointmentsController.class).getOne(c.getId())).withSelfRel(),
-        linkTo(methodOn(AppointmentsController.class).calculateAppointments(null)).withSelfRel(),
-        linkTo(methodOn(AppointmentsController.class).saveAppointment(null, null)).withSelfRel()
-    );
+      try {
+          return EntityModel.of(c,
+                  //linkTo(methodOn(AppointmentsController.class).getOne(c.getId())).withSelfRel(),
+                  linkTo(methodOn(AppointmentsController.class).calculateAppointments(null)).withSelfRel(),
+                  linkTo(methodOn(AppointmentsController.class).saveAppointment(null, null)).withSelfRel()
+          );
+      } catch (Exception ex) {
+          Logger.getLogger(AppointmentsModelAssembler.class.getName()).log(Level.SEVERE, null, ex);
+          return null;
+      }
   }
 }

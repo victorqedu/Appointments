@@ -18,12 +18,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JWTTokenValidatorFilter  extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         String jwt = request.getHeader(SecurityConstants.JWT_HEADER);
         System.out.println("JWTTokenValidatorFilter is "+jwt);
         if (null != jwt && !jwt.startsWith("Basic")) {
@@ -45,6 +48,12 @@ public class JWTTokenValidatorFilter  extends OncePerRequestFilter {
             } catch (Exception e) {
                 throw new BadCredentialsException("Invalid Token received!");
             }
+        } else if(null != jwt && jwt.startsWith("Basic")) {
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(JWTTokenValidatorFilter.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
         filterChain.doFilter(request, response);
     }

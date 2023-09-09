@@ -1,0 +1,4 @@
+<button type="submit" class="{{CSSClasses}}" [disabled]="loading">
+  <ng-container>{{buttonText}}</ng-container>
+  <span class="spinner-border spinner-border-sm ms-3" role="status" aria-hidden="true" *ngIf="loading"></span>
+</button>

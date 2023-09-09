@@ -8,5 +8,9 @@ export class Account {
     public idSex: number | null,
     public authEmail: string | null,
     public phone: string | null,
-    public onlinePassword: string | null) {}
+    public onlinePassword: string | null,
+    public authEmailConfirmed: number | null,
+    public authEmailConfirmedLink: string | null,
+    public authPasswordResetLink: string | null,
+    ) {}
 }

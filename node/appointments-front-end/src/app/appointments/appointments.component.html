@@ -1,4 +1,18 @@
-<div class="bg_stetoscope" *ngIf="accountService.isConnected()" >
+<div class="container"*ngIf="accountService.isConnected() && accountService.getAccount().authEmailConfirmed!==1" style="margin-top: 50px">
+  <div class="row">
+    <div class="col-md-12 text-wrap mt-4 text-center">
+      <h3>
+        <p>Confirmați emailul de conectare înainte de prima programare.</p>
+        <p>Emailul de confirmare a fost trimis către căsuța poștală {{accountService.getAccount().authEmail}} odată cu înregistrarea contului.</p>
+        <p>Linkul din emailul de confirmare trebuie accesat în maxim 20 de minute de la data transmiterii.</p>
+        <p>Puteți solicita retransmiterea emailului de confirmare prin click pe acest buton.</p>
+        <p><app-resend-confirmation-email></app-resend-confirmation-email></p>
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div class="bg_stetoscope" *ngIf="accountService.isConnected() && accountService.getAccount().authEmailConfirmed===1" >
   <section>
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">

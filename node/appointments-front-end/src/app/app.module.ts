@@ -35,6 +35,9 @@ import {MatButtonModule} from "@angular/material/button";
 import { ConsultationHistoryComponent } from './consultation-history/consultation-history.component';
 import { AppointmentsHistoryComponent } from './appointments-history/appointments-history.component';
 import { ScrisoareMedicalaComponent } from './scrisoare-medicala/scrisoare-medicala.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { ResendConfirmationEmailComponent } from './resend-confirmation-email/resend-confirmation-email.component';
+import { SubmitButtonComponent } from './submit-button/submit-button.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { ScrisoareMedicalaComponent } from './scrisoare-medicala/scrisoare-medic
     ConsultationHistoryComponent,
     AppointmentsHistoryComponent,
     ScrisoareMedicalaComponent,
+    ConfirmEmailComponent,
+    ResendConfirmationEmailComponent,
+    SubmitButtonComponent,
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
-import {Subject} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {Account} from "../models/account.model";
 import {HttpService} from "./http-service";
 import {Config} from "../models/config";
@@ -9,6 +9,9 @@ import {ModalMessageService} from "../modal-message/modal-message-service";
 
 @Injectable()
 export class AccountService {
+  private loading: boolean = false;
+  loginChangedSubject = new Subject<boolean>();
+
   private account!:Account;
   connectedChanged = new Subject<Account>();
 
@@ -27,7 +30,7 @@ export class AccountService {
       this.account = JSON.parse(accountDetails) as Account;
       this.connectedChanged.next(this.account);
     } else {
-      this.account = new Account(null, null, null, null, null, null, null, null, null);
+      this.account = new Account(null, null, null, null, null, null, null, null, null, null, null, null);
       this.connectedChanged.next(this.account);
     }
   }
@@ -39,29 +42,36 @@ export class AccountService {
     console.log("start disconnect");
     sessionStorage.removeItem("accountDetails");
     sessionStorage.removeItem("Authorization");
-    this.account = new Account(null, null, null, null, null, null, null, null, null);
+    this.account = new Account(null, null, null, null, null, null, null, null, null, null, null, null);
     this.connectedChanged.next(this.account);
-    this.router.navigate(['/firstPage']);
+    this.router.navigate(['/login']);
   }
 
   /**
    * Login with the account specified in the parameters
    * @param account
    */
-  login(account: Account) {
-    this.httpService.login(account).subscribe(response => {
-      console.log("Login response ");
-      console.log(response);
-      if(response.status===200) {
-        sessionStorage.setItem("Authorization",response.headers.get('Authorization')!);
-        sessionStorage.setItem("accountDetails",JSON.stringify(response.body!));
+  login(account: Account):Subscription {
+    this.loading = true;
+    this.loginChangedSubject.next(this.loading);
+    return this.httpService.login(account).subscribe({
+      next: response => {
+        console.log("Login response ");
+        console.log(response);
+        if(response.status===200) {
+          sessionStorage.setItem("Authorization",response.headers.get('Authorization')!);
+          sessionStorage.setItem("accountDetails",JSON.stringify(response.body!));
 
-        console.log(response.body);
-        this.account = response.body as Account;
-        this.connectedChanged.next(this.account);
-        console.log("Account name "+this.account.name);
-
-        this.router.navigate(['/firstPage']);
+          console.log(response.body);
+          this.account = response.body as Account;
+          this.connectedChanged.next(this.account);
+          console.log("Account name "+this.account.name);
+          this.router.navigate(['/firstPage']);
+        }
+      } ,
+      complete: () =>{
+        this.loading = false;
+        this.loginChangedSubject.next(this.loading);
       }
     });
   }
@@ -75,7 +85,10 @@ export class AccountService {
   }
 
   setAccount(account: Account) {
+    console.log("setAccount");
+    console.log(account);
     this.account = account;
+    sessionStorage.setItem("accountDetails",JSON.stringify(account));
     this.connectedChanged.next(this.account);
   }
 

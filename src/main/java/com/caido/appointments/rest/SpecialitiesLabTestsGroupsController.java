@@ -4,6 +4,8 @@ import com.caido.appointments.entity.LabTestsGroups;
 import com.caido.appointments.entity.SpecialitiesLabTestsGroups;
 import com.caido.appointments.repositories.SpecialitiesLabTestsGroupsRepository;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -29,6 +31,11 @@ public class SpecialitiesLabTestsGroupsController {
     
     @GetMapping("/specialitiesLabTestsGroups/{idSpeciality}")
     CollectionModel<EntityModel<LabTestsGroups>> findLabTestsGroupsBySpeciality(@PathVariable Integer idSpeciality) {
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(SpecialitiesLabTestsGroupsController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         List<EntityModel<LabTestsGroups>> c = repository.findLabTestsGroupsBySpeciality(idSpeciality).stream() 
             .map(assembler::toModel) 
             .collect(Collectors.toList());

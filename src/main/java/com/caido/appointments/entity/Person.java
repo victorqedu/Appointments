@@ -241,4 +241,44 @@ public class Person implements Serializable {
         }
         return true;
     }
+    @Column(name = "auth_email_confirmed")
+    private Integer authEmailConfirmed;
+    
+    @Column(name = "auth_email_confirmed_link")
+    private String authEmailConfirmedLink;
+    
+    @Column(name = "auth_password_reset_link")
+    private String authPasswordResetLink;
+
+    public Integer getAuthEmailConfirmed() {
+        if(authEmailConfirmed==null) {
+            authEmailConfirmed = 0;
+        }
+        return authEmailConfirmed;
+    }
+
+    public String getAuthEmailConfirmedLink() {
+        return authEmailConfirmedLink;
+    }
+
+    public String getAuthPasswordResetLink() {
+        return authPasswordResetLink;
+    }
+
+    public void setAuthEmailConfirmed(Integer authEmailConfirmed) {
+        if(authEmailConfirmed==null) {
+            authEmailConfirmed = 0;
+        }
+        this.authEmailConfirmed = authEmailConfirmed;
+    }
+
+    public void setAuthEmailConfirmedLink(String authEmailConfirmedLink) {
+        this.authEmailConfirmedLink = authEmailConfirmedLink;
+    }
+
+    public void setAuthPasswordResetLink(String authPasswordResetLink) {
+        this.authPasswordResetLink = authPasswordResetLink;
+    }
+
+
 }

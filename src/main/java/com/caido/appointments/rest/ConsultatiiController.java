@@ -7,6 +7,8 @@ import com.caido.appointments.entity.Person;
 import com.caido.appointments.services.ConsultatiiService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -33,7 +35,7 @@ public class ConsultatiiController {
     CollectionModel<EntityModel<ConsultatiiDTO>> getPatientConsultations(
             @PathVariable("idPerson") Person idPerson, 
             @PathVariable("recordsPerPage") Integer recordsPerPage,
-            @PathVariable("pageNumber") Integer pageNumber, HttpServletRequest hsr) {
+            @PathVariable("pageNumber") Integer pageNumber, HttpServletRequest hsr) throws Exception  {
         List<EntityModel<ConsultatiiDTO>> c = service.getPatientConsultations(idPerson, recordsPerPage, pageNumber, hsr.getHeader(SecurityConstants.JWT_HEADER)).stream() 
             .map(assembler::toModel) 
             .collect(Collectors.toList());
@@ -42,7 +44,7 @@ public class ConsultatiiController {
     }
     
     @GetMapping("/countPatientConsultations/{idPerson}")
-    Integer countPatientConsultations(@PathVariable("idPerson") Person idPerson, HttpServletRequest hsr){ 
+    Integer countPatientConsultations(@PathVariable("idPerson") Person idPerson, HttpServletRequest hsr) throws Exception { 
         return service.countPatientConsultations(idPerson, hsr.getHeader(SecurityConstants.JWT_HEADER));
     }
 }
@@ -51,8 +53,13 @@ public class ConsultatiiController {
 class ConsultatiiModelAssembler implements RepresentationModelAssembler<ConsultatiiDTO, EntityModel<ConsultatiiDTO>> {
   @Override
   public EntityModel<ConsultatiiDTO> toModel(ConsultatiiDTO c) {
-    return EntityModel.of(c, 
-        linkTo(methodOn(ConsultatiiController.class).getPatientConsultations(null, null, null, null)).withSelfRel()
-    );
+      try {
+          return EntityModel.of(c,
+                  linkTo(methodOn(ConsultatiiController.class).getPatientConsultations(null, null, null, null)).withSelfRel()
+          );
+      } catch (Exception ex) {
+          Logger.getLogger(ConsultatiiModelAssembler.class.getName()).log(Level.SEVERE, null, ex);
+          return null;
+      }
   }
 }
