@@ -48,6 +48,7 @@ public class ConfigController {
         return assembler.toModel(c);
     }
 
+
 }
 
 @Component

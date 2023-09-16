@@ -12,6 +12,8 @@ import {ConsultationHistoryComponent} from "./consultation-history/consultation-
 import {AppointmentsHistoryComponent} from "./appointments-history/appointments-history.component";
 import {ScrisoareMedicalaComponent} from "./scrisoare-medicala/scrisoare-medicala.component";
 import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
+import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
+import {ResetPasswordComponent} from "./reset-password/reset-password.component";
 
 /*const getContact: ResolveFn<any> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -36,6 +38,10 @@ const routes: Routes = [
   { path: 'consultationHistory', component: ConsultationHistoryComponent },
   { path: 'appointmentsHistory', component: AppointmentsHistoryComponent },
   { path: 'confirmEmail/:jwtToken', component: ConfirmEmailComponent },
+  { path: 'forgotPassword', component: ForgotPasswordComponent },
+  { path: 'resetPassword/:jwtToken', component: ResetPasswordComponent },
+
+
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@ import com.caido.appointments.Util.JWT;
 import com.caido.appointments.Util.MailService;
 import com.caido.appointments.config.SecurityConstants;
 import com.caido.appointments.entity.Config;
+import com.caido.appointments.entity.Custom.ResetPassword;
 import com.caido.appointments.entity.Person;
 import com.caido.appointments.repositories.ConfigRepository;
 import com.caido.appointments.repositories.PersonRepository;
@@ -141,7 +142,7 @@ public class PersonService {
                 .replace("<PRENUME>", person.getSurname())
                 .replace("<LINK>", link);
         System.out.println("Continutul este acum "+continut);
-        mailService.send(configRepository.getMailProgramariOnlineFrom().getValoare(), person.getAuthEmail(), subiect, continut);        
+        mailService.send(configRepository.getMailProgramariOnlineFrom().getValoare(), person.getAuthEmail(), subiect, continut);
         return person;
     }
 
@@ -197,7 +198,7 @@ public class PersonService {
                     throw new RuntimeException("CNP-ul nu poate fi schimbat");
                 }
                 System.out.println("Persoana de salvat "+person);
-                return personRepository.save(person);                
+                return personRepository.save(person);
             }
         }
     }
@@ -212,5 +213,58 @@ public class PersonService {
             throw new RuntimeException("Tentativa de extragere date cu carcater personal a fost identificata, datele au fost inregistrate");
         }
         return personRepository.findById(id);
+    }
+
+    public boolean sendMailPasswordReset(String email) throws Exception {
+        Person personFoundByEmail = personRepository.findByEmail(email);
+        if(personFoundByEmail==null) {
+           throw new RuntimeException("Contul cu emailul "+email+" nu exista in baza de date"); 
+        }
+        SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+        String jwt = Jwts.builder().setIssuer(SecurityConstants.JWT_SUBJECT).setSubject("JWT Token")
+                .claim("username", personFoundByEmail.getAuthEmail())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + 1000*60*20))
+                .signWith(key).compact();
+        personFoundByEmail.setAuthPasswordResetLink(jwt);
+        personRepository.save(personFoundByEmail);
+
+        String link = configRepository.getMailProgramariOnlineFrontend().getValoare()+"/resetPassword/"+personFoundByEmail.getAuthPasswordResetLink();
+        System.out.println("LInk pass reset is "+link);
+
+        Config c;
+        c = configRepository.getMailProgramariOnlineSubiectResetareParola();
+        String subiect= c.getValoare();
+        c = configRepository.getMailProgramariOnlineContinutResetareParola();
+        String continut = c.getValoare()
+                .replace("\n", "")
+                .replace("\r", "")
+                .replace("<NUME>", personFoundByEmail.getName())
+                .replace("<PRENUME>", personFoundByEmail.getSurname())
+                .replace("<LINK>", link);
+        System.out.println("Continutul este acum "+continut);
+        mailService.send(configRepository.getMailProgramariOnlineFrom().getValoare(), email, subiect, continut);
+        return true;
+    }
+
+    public boolean resetPassword(ResetPassword rp) throws Exception {
+        String jwtToken = rp.getJwtToken();
+        String password = rp.getPassword();
+        Person personFoundByEmail = personRepository.findByAuthPasswordResetLink(jwtToken);
+        if(personFoundByEmail==null) {
+           throw new RuntimeException("Link de resetare invalid"); 
+        }
+        String exp = JWT.getClaimByNameFromToken(jwtToken, "exp");
+        Integer expInt = Integer.valueOf(exp);
+        long nowTimestamp = System.currentTimeMillis() / 1000;
+        System.out.println("expInt is "+expInt+" timestamp "+nowTimestamp);
+        if(nowTimestamp>expInt) {
+            throw new RuntimeException("Linkul de resetare parola a expirat, solicitati alt link de resetare parola, parola poate fi resetata in maxim 20 de minute de la data solicitarii");
+        }
+        System.out.println("Encoding password "+password);
+        String hashPwd = passwordEncoder.encode(password);
+        personFoundByEmail.setOnlinePassword(hashPwd);
+        this.personRepository.save(personFoundByEmail);
+        return true;
     }
 }

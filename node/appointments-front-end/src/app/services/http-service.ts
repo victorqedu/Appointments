@@ -7,6 +7,7 @@ import {Account} from "../models/account.model";
 import {Speciality} from "../models/speciality.model";
 import {AppointmentRequest} from "../models/appointmentRequest.model";
 import {Appointment} from "../models/appointment.model";
+import {ResetPassword} from "../models/resetPassword.model";
 
 /**
  * In this class I have many observers and I will not use any error handling, this will happen in a single common place, in the GenericHttpInterceptors
@@ -201,5 +202,12 @@ export class HttpService {
     return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/findById/"+idPerson);
   }
 
+  sendMailWithPasswordResetLink(email: string) {
+    return this.http.get<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/sendMailWithPasswordResetLink/"+email);
+  }
+
+  resetPassword(rp: ResetPassword) {
+    return this.http.post<any>(this.serverProtocol + "://" + this.serverHost + ":" + this.serverPort + "/" + this.serverPrefix + "/resetPassword", rp);
+  }
 
 }

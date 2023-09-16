@@ -53,7 +53,16 @@ public class SecurityConfig {
                     }))
                 .authorizeHttpRequests(
                     (requests)->requests
-                        .requestMatchers("/api/localcompany", "/api/register", "/api/login", "/api/termsAndConditions", "/api/policyOfConfidentiality", "/api/confirmEmail/*").permitAll()
+                        .requestMatchers(
+                                "/api/localcompany", 
+                                "/api/register", 
+                                "/api/login", 
+                                "/api/termsAndConditions", 
+                                "/api/policyOfConfidentiality",
+                                "/api/confirmEmail/*",
+                                "/api/sendMailWithPasswordResetLink/*",
+                                "/api/resetPassword"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 

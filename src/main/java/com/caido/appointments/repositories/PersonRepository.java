@@ -20,4 +20,7 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     @Query("SELECT p FROM Person p WHERE p.authEmailConfirmedLink = ?1")
     public Person findByauthEmailConfirmedLink(String authEmailConfirmedLink);
+
+    @Query("SELECT p FROM Person p WHERE p.authPasswordResetLink = ?1")
+    public Person findByAuthPasswordResetLink(String authPasswordResetLink);
 }

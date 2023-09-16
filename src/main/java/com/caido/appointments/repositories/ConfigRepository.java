@@ -72,6 +72,13 @@ public interface ConfigRepository extends JpaRepository<Specialities, Integer> {
             + "WHERE c.nume = 'PROGRAMARI_ONLINE_FRONTEND' ")
     Config getMailProgramariOnlineFrontend(); 
     
-    
-    
+    @Query("SELECT c "
+            + "FROM Config c "
+            + "WHERE c.nume = 'MAIL_PROGRAMARI_ONLINE_SUBIECT_RESETARE_PAROLA' ")
+    Config getMailProgramariOnlineSubiectResetareParola(); 
+
+    @Query("SELECT c "
+            + "FROM Config c "
+            + "WHERE c.nume = 'MAIL_PROGRAMARI_ONLINE_CONTINUT_RESETARE_PAROLA' ")
+    Config getMailProgramariOnlineContinutResetareParola(); 
 }

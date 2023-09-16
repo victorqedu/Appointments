@@ -38,6 +38,8 @@ import { ScrisoareMedicalaComponent } from './scrisoare-medicala/scrisoare-medic
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ResendConfirmationEmailComponent } from './resend-confirmation-email/resend-confirmation-email.component';
 import { SubmitButtonComponent } from './submit-button/submit-button.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { SubmitButtonComponent } from './submit-button/submit-button.component';
     ConfirmEmailComponent,
     ResendConfirmationEmailComponent,
     SubmitButtonComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,

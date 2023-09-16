@@ -24,10 +24,10 @@ export class ConfirmEmailComponent implements OnInit {
           if(this.accountService.isConnected()) {
             this.accountService.setAccount(account);
           }
+          this.confirmed = true;
         },
         complete: () => {
           this.isConfirming = false;
-          this.confirmed = true;
         }
       }
       );

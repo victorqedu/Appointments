@@ -2,8 +2,8 @@ package com.caido.appointments.rest;
 
 import com.caido.appointments.Util.Exceptions.RootExceptionHandler;
 import com.caido.appointments.Util.JWT;
-import com.caido.appointments.Util.MailService;
 import com.caido.appointments.config.SecurityConstants;
+import com.caido.appointments.entity.Custom.ResetPassword;
 import com.caido.appointments.entity.Person;
 import com.caido.appointments.services.PersonService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -86,6 +86,16 @@ public class PersonController {
         return assembler.toModel(p);        
     }
 
+    @GetMapping(value = "/sendMailWithPasswordResetLink/{email}", consumes = "*/*", produces = "application/json")
+    public boolean sendMailPasswordReset(@PathVariable("email") String email) throws Exception {
+        return personService.sendMailPasswordReset(email);
+    }
+    
+    @PostMapping(value = "/resetPassword", consumes = "*/*", produces = "application/json")
+    public boolean resetPassword(@RequestBody ResetPassword rp) throws Exception {
+        return personService.resetPassword(rp);
+    }
+    
 }
 
 @Component
