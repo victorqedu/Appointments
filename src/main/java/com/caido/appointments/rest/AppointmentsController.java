@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.caido.appointments.config.SecurityConstants;
-import com.caido.appointments.entity.DTO.AppointmentDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
